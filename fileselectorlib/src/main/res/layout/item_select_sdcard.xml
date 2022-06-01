@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_bottom_line_gray"
+    android:textAppearance="?android:attr/textAppearanceSmallPopupMenu"
+    android:id="@+id/tv_item_select_sdcard"
+    android:gravity="center"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    />

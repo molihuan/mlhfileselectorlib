@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/Themecolors_orange"
+        >
+        <ImageView
+            android:id="@+id/btn_back_toolbar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_title_bar_back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            >
+            <TextView
+                android:id="@+id/main_title_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="21dp"
+                android:textColor="@color/white"
+                />
+            <TextView
+                android:id="@+id/subtitle_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/main_title_toolbar"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/btn_choose_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="选择"
+            android:layout_marginRight="15dp"
+            />
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

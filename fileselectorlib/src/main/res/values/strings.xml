@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name" translatable="false">zly</string>
+    <string name="folder_desc" translatable="false">文件:%1$s&#160;&#160;|&#160;&#160;文件夹:%2$s</string>
+    <string name="file_desc" translatable="false">%1$s&#160;&#160;|&#160;&#160;%2$s</string>
+    <string name="selected_file_count" translatable="false">选中(%1$s/%2$s)</string>
+</resources>

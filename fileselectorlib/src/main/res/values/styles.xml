@@ -1,0 +1,23 @@
+<resources>
+
+    <style name="ActionBar">
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:background">?attr/colorPrimary</item>-->
+<!--        <item name="ab_bottomLineHeight">0dp</item>-->
+<!--        <item name="ab_statusBarColor">@color/transparent</item>-->
+<!--        <item name="ab_titleBarHeight">48dp</item>-->
+    </style>
+    <style name="ActionBar.Common">
+<!--        <item name="abc_titleTextColor">@color/white</item>-->
+<!--        <item name="abc_titleTextSize">18dp</item>-->
+<!--        <item name="abc_leftIconColor">@color/white</item>-->
+<!--        <item name="abc_leftIconPadding">13dp</item>-->
+<!--        <item name="abc_leftIconMarginLeft">3dp</item>-->
+<!--        <item name="abc_leftTextColor">@color/white</item>-->
+<!--        <item name="abc_rightIconColor">@color/white</item>-->
+<!--        <item name="abc_rightIconPadding">13dp</item>-->
+<!--        <item name="abc_rightIconMarginRight">3dp</item>-->
+<!--        <item name="abc_rightTextColor">@color/white</item>-->
+    </style>
+</resources>

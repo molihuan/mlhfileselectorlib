@@ -1,0 +1,4 @@
+include ':fileselectorlib2'
+include ':fileselectorlib'
+include ':app'
+rootProject.name = "demo01"
