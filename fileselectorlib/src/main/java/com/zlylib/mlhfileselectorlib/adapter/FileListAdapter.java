@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.zlylib.mlhfileselectorlib.R;
-import com.zlylib.mlhfileselectorlib.bean.EssFile;
+import com.zlylib.mlhfileselectorlib.bean.FileBean;
 import com.zlylib.mlhfileselectorlib.utils.FileSizeUtil;
 import com.zlylib.mlhfileselectorlib.utils.FileUtils;
 
@@ -26,7 +26,7 @@ import java.util.List;
  * Created by zhangliyang on 2020/6/20.
  */
 
-public class FileListAdapter extends BaseQuickAdapter<EssFile, BaseViewHolder> {
+public class FileListAdapter extends BaseQuickAdapter<FileBean, BaseViewHolder> {
 
     private onLoadFileCountListener loadFileCountListener;
 
@@ -42,12 +42,12 @@ public class FileListAdapter extends BaseQuickAdapter<EssFile, BaseViewHolder> {
         this.loadFileCountListener = loadFileCountListener;
     }
 
-    public FileListAdapter(@Nullable List<EssFile> data) {
+    public FileListAdapter(@Nullable List<FileBean> data) {
         super(R.layout.item_file_list, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, EssFile item) {
+    protected void convert(BaseViewHolder helper, FileBean item) {
         TextView textView = helper.getView(R.id.tv_item_file_list_desc);
         AppCompatCheckBox checkBox = helper.getView(R.id.checkbox_item_file_list);
         if (item.isDirectory()) {

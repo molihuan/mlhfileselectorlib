@@ -2,9 +2,9 @@ package com.zlylib.mlhfileselectorlib.core;
 
 import android.os.AsyncTask;
 
-import com.zlylib.mlhfileselectorlib.bean.EssFile;
+import com.zlylib.mlhfileselectorlib.bean.FileBean;
 import com.zlylib.mlhfileselectorlib.bean.EssFileFilter;
-import com.zlylib.mlhfileselectorlib.bean.EssFileListCallBack;
+import com.zlylib.mlhfileselectorlib.interfaces.FileListCallBack;
 import com.zlylib.mlhfileselectorlib.utils.FileUtils;
 
 import java.io.File;
@@ -18,16 +18,16 @@ import java.util.List;
  * Created by zhangliyang on 2018/3/5.
  */
 
-public class EssFileListTask extends AsyncTask<Void,Void,List<EssFile>> {
+public class FileListTask extends AsyncTask<Void,Void,List<FileBean>> {
 
-    private List<EssFile> mSelectedFileList;
+    private List<FileBean> mSelectedFileList;
     private String queryPath;
     private String[] types;
     private int mSortType;
-    private EssFileListCallBack callBack;
+    private FileListCallBack callBack;
     private Boolean isSelectFolder = false;
 
-    public EssFileListTask(List<EssFile> mSelectedFileList, String queryPath, String[] types, int mSortType, Boolean isSelectFolder, EssFileListCallBack fileCallBack) {
+    public FileListTask(List<FileBean> mSelectedFileList, String queryPath, String[] types, int mSortType, Boolean isSelectFolder, FileListCallBack fileCallBack) {
         this.mSelectedFileList = mSelectedFileList;
         this.queryPath = queryPath;
         this.types = types;
@@ -37,7 +37,7 @@ public class EssFileListTask extends AsyncTask<Void,Void,List<EssFile>> {
     }
 
     @Override
-    protected List<EssFile> doInBackground(Void... voids) {
+    protected List<FileBean> doInBackground(Void... voids) {
         File file = new File(queryPath);
         File[] files = file.listFiles(new EssFileFilter(types));
         if(files == null){
@@ -65,8 +65,8 @@ public class EssFileListTask extends AsyncTask<Void,Void,List<EssFile>> {
             Collections.sort(fileList,new FileUtils.SortByExtension());
             Collections.reverse(fileList);
         }
-        List<EssFile> tempFileList = EssFile.getEssFileList(fileList,isSelectFolder);
-        for (EssFile selectedFile :
+        List<FileBean> tempFileList = FileBean.getEssFileList(fileList,isSelectFolder);
+        for (FileBean selectedFile :
                 mSelectedFileList) {
             for (int i = 0; i < tempFileList.size(); i++) {
                 if (selectedFile.getAbsolutePath().equals(tempFileList.get(i).getAbsolutePath())) {
@@ -84,9 +84,9 @@ public class EssFileListTask extends AsyncTask<Void,Void,List<EssFile>> {
     }
 
     @Override
-    protected void onPostExecute(List<EssFile> essFileList) {
+    protected void onPostExecute(List<FileBean> fileBeanList) {
         if(callBack!=null){
-            callBack.onFindFileList(queryPath,essFileList);
+            callBack.onFindFileList(queryPath, fileBeanList);
         }
     }
 }

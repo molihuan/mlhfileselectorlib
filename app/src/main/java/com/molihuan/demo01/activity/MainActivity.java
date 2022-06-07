@@ -8,11 +8,9 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.molihuan.demo01.R;
-import com.molihuan.demo01.utils.PermissionsTools;
 import com.z.fileselectorlib.FileSelectorSettings;
 import com.z.fileselectorlib.Objects.BasicParams;
 import com.z.fileselectorlib.Objects.FileInfo;
@@ -20,8 +18,12 @@ import com.zlylib.mlhfileselectorlib.FileSelector;
 import com.zlylib.mlhfileselectorlib.utils.Const;
 
 import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * SelectCreator
+ * Created by zhangliyang on 2020/6/20.
+ * Updata by molihuan on 2022/6/7
+ */
+public class MainActivity extends Activity implements View.OnClickListener {
     private Button btn_openFileChoose1;
     private Button btn_openFileChoose2;
     private Button btn_openFileChoose3;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PermissionsTools.generalPermissionsOfStorage(this);
+        //PermissionsTools.generalPermissionsOfStorage(this);
         //PermissionsTools.getAllNeedPermissions(this,getContentResolver());
         getComponent();
         setListener();
@@ -101,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          *  设置 onlyShowFolder() 只显示文件夹 后 默认设置了onlySelectFolder（）
          *  设置 onlySelectFolder() 只能选择文件夹 后 默认设置了isSingle（）
          *  设置 isSingle() 只能选择一个 后 再设置了setMaxCount（） 不生效
-         *
          */
         FileSelector.from(this)
                 //.onlyShowFolder()  //只显示文件夹
@@ -115,6 +116,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //.setSortType(FileSelector.BY_EXTENSION_DESC) //设置类型排序
                 .requestCode(100) //设置返回码
                 .setTargetPath("/storage/emulated/0/") //设置默认目录
+                //.setToolbar(new EmptyFragment())
+//                .setMoreOPtions(new String[]{"选择","删除"},
+//                        new boolean[]{true,false},
+//                        new SelectOptions.IToolbarOptionsListener() {
+//                            @Override
+//                            public void onOptionClick(Context context, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
+//                                ToastUtils.make().show("选择"+currentPath);
+//                            }
+//                        },
+//                        new SelectOptions.IToolbarOptionsListener() {
+//                            @Override
+//                            public void onOptionClick(Context context, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
+//                                ToastUtils.make().show("删除"+currentPath);
+//                            }
+//                        }
+//                )
+//                .setFileItemDispose(new SelectOptions.IOnFileItemListener() {
+//                    @Override
+//                    public void onFileItemClick(Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
+//                        ToastUtils.make().show("点击"+fileAbsolutePath);
+//                    }
+//
+//                    @Override
+//                    public void onLongFileItemClick(Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
+//                        ToastUtils.make().show("长按"+fileAbsolutePath);
+//                    }
+//                })
                 .start();
     }
 

@@ -49,6 +49,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation project(path: ':fileselectorlib')
     implementation project(path: ':fileselectorlib2')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 
 }

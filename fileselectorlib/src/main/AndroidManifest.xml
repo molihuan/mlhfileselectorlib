@@ -1,13 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.zlylib.mlhfileselectorlib">
     <!-- 外部存储的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 安卓11额外权限 -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <application>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
-        <activity android:name="com.zlylib.mlhfileselectorlib.ui.FileSelectorActivity" />
+    <application
+        android:preserveLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true"
+        >
+
+        <activity android:name="com.zlylib.mlhfileselectorlib.activity.FileSelectorActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.ess.file.provider"

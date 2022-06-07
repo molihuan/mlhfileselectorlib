@@ -21,7 +21,7 @@ import java.util.Set;
  * Created by zhangliyang on 2018/2/5.
  */
 
-public class EssFile implements Parcelable {
+public class FileBean implements Parcelable {
 
     public static final int CAPTURE = 0;
     public static final int MEDIA = 1;
@@ -41,7 +41,7 @@ public class EssFile implements Parcelable {
 
     private int itemType = MEDIA;
 
-    protected EssFile(Parcel in) {
+    protected FileBean(Parcel in) {
         mFilePath = in.readString();
         mimeType = in.readString();
         childFolderCount = in.readString();
@@ -56,15 +56,15 @@ public class EssFile implements Parcelable {
         isVisible = in.readByte() != 0;
     }
 
-    public static final Creator<EssFile> CREATOR = new Creator<EssFile>() {
+    public static final Creator<FileBean> CREATOR = new Creator<FileBean>() {
         @Override
-        public EssFile createFromParcel(Parcel in) {
-            return new EssFile(in);
+        public FileBean createFromParcel(Parcel in) {
+            return new FileBean(in);
         }
 
         @Override
-        public EssFile[] newArray(int size) {
-            return new EssFile[size];
+        public FileBean[] newArray(int size) {
+            return new FileBean[size];
         }
     };
 
@@ -84,7 +84,7 @@ public class EssFile implements Parcelable {
         isVisible = visible;
     }
 
-    public EssFile(String path) {
+    public FileBean(String path) {
         mFilePath = path;
         File file = new File(mFilePath);
         if (file.exists()) {
@@ -96,7 +96,7 @@ public class EssFile implements Parcelable {
         mimeType = FileUtils.getMimeType(mFilePath);
     }
 
-    public EssFile(File file) {
+    public FileBean(File file) {
         mFilePath = file.getAbsolutePath();
         if (file.exists()) {
             isExits = true;
@@ -106,7 +106,7 @@ public class EssFile implements Parcelable {
         mimeType = FileUtils.getMimeType(file.getAbsolutePath());
     }
 
-    public EssFile(long id, String mimeType) {
+    public FileBean(long id, String mimeType) {
         this.mimeType = mimeType;
         Uri contentUri;
         if (isImage()) {
@@ -178,35 +178,35 @@ public class EssFile implements Parcelable {
         return mFilePath;
     }
 
-    public static List<EssFile> getEssFileList(List<File> files,boolean isSelectFolder) {
-        List<EssFile> essFileList = new ArrayList<>();
+    public static List<FileBean> getEssFileList(List<File> files, boolean isSelectFolder) {
+        List<FileBean> fileBeanList = new ArrayList<>();
         for (File file :files) {
             if(isSelectFolder){
                 if(isFolder(file)){//只添加文件夹
-                    essFileList.add(new EssFile(file));
+                    fileBeanList.add(new FileBean(file));
                 }
             }else{
-                essFileList.add(new EssFile(file));
+                fileBeanList.add(new FileBean(file));
             }
 
         }
-        return essFileList;
+        return fileBeanList;
     }
 
-    public static ArrayList<EssFile> getEssFileList(Context context, Set<EssFile> essFileSet) {
-        ArrayList<EssFile> essFileArrayList = new ArrayList<>();
-        for (EssFile ess_file :
-                essFileSet) {
+    public static ArrayList<FileBean> getEssFileList(Context context, Set<FileBean> fileBeanSet) {
+        ArrayList<FileBean> fileBeanArrayList = new ArrayList<>();
+        for (FileBean ess_file :
+                fileBeanSet) {
             ess_file.mFilePath = PathUtils.getPath(context, ess_file.uri);
-            essFileArrayList.add(ess_file);
+            fileBeanArrayList.add(ess_file);
         }
-        return essFileArrayList;
+        return fileBeanArrayList;
     }
 
-    public static ArrayList<String> getFilePathList(ArrayList<EssFile> essFileArrayList){
+    public static ArrayList<String> getFilePathList(ArrayList<FileBean> fileBeanArrayList){
         ArrayList<String> resultList = new ArrayList<>();
-        for (EssFile essFile:essFileArrayList) {
-            resultList.add(essFile.getAbsolutePath());
+        for (FileBean fileBean : fileBeanArrayList) {
+            resultList.add(fileBean.getAbsolutePath());
         }
         return resultList;
     }
@@ -281,11 +281,11 @@ public class EssFile implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof EssFile)) {
+        if (!(obj instanceof FileBean)) {
             return false;
         }
 
-        EssFile other = (EssFile) obj;
+        FileBean other = (FileBean) obj;
         if (uri == null) {
             return mFilePath.equalsIgnoreCase(other.getAbsolutePath());
         } else {

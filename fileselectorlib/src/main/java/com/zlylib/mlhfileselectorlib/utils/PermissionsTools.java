@@ -1,4 +1,4 @@
-package com.molihuan.demo01.utils;
+package com.zlylib.mlhfileselectorlib.utils;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -10,15 +10,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 
-import androidx.annotation.NonNull;
-
-import com.blankj.utilcode.util.ToastUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
-import com.molihuan.demo01.R;
-import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
-import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 
 import java.util.Iterator;
 import java.util.List;
@@ -28,33 +22,34 @@ public class PermissionsTools {
 
     public static void getAllNeedPermissions(Activity context, ContentResolver contentResolver){
         generalPermissionsOfStorage(context);//普通存储访问权限
+        specialPermissionsOfStorage(context);//特殊存储访问权限
         getAndroidDataPermissionDialog(context,contentResolver);
-
-        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager())) {
-            //表明已经有这个权限了
-        } else {
-
-            new MaterialDialog.Builder(context)
-                    .iconRes(R.drawable.xui_ic_default_tip_btn)
-                    .title("提示")
-                    .content("需要所有文件访问权限(用于创建文件和文件夹)")
-                    .positiveText("爷给")
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            specialPermissionsOfStorage(context);//特殊存储访问权限
-
-                        }
-                    })
-                    .negativeText("就不给")
-                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            ToastUtils.make().show("不给所有文件访问权限软件无法运行");
-                        }
-                    })
-                    .show();
-        }
+//
+//        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager())) {
+//            //表明已经有这个权限了
+//        } else {
+//
+//            new MaterialDialog.Builder(context)
+//                    .iconRes(R.drawable.xui_ic_default_tip_btn)
+//                    .title("提示")
+//                    .content("需要所有文件访问权限(用于创建文件和文件夹)")
+//                    .positiveText("爷给")
+//                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                        @Override
+//                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                            specialPermissionsOfStorage(context);//特殊存储访问权限
+//                            getAndroidDataPermissionDialog(context,contentResolver);
+//                        }
+//                    })
+//                    .negativeText("就不给")
+//                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+//                        @Override
+//                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                            ToastUtils.make().show("不给所有文件访问权限软件无法运行");
+//                        }
+//                    })
+//                    .show();
+//        }
 
 
 
@@ -78,26 +73,27 @@ public class PermissionsTools {
                         break;
                     }
                 } else {
+                    getAndroidDataPermission(activity,contentResolver);//沙盒存储访问权限
 
-                    new MaterialDialog.Builder(activity)
-                            .iconRes(R.drawable.xui_ic_default_tip_btn)
-                            .title("提示")
-                            .content("需要Android/data访问权限(用于读取B站缓存文件)")
-                            .positiveText("爷给")
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    getAndroidDataPermission(activity,contentResolver);//沙盒存储访问权限
-                                }
-                            })
-                            .negativeText("就不给")
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    ToastUtils.make().show("不给Android/data访问权限软件无法运行");
-                                }
-                            })
-                            .show();
+//                    new MaterialDialog.Builder(activity)
+//                            .iconRes(R.drawable.xui_ic_default_tip_btn)
+//                            .title("提示")
+//                            .content("需要Android/data访问权限(用于读取B站缓存文件)")
+//                            .positiveText("爷给")
+//                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                                @Override
+//                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                                    getAndroidDataPermission(activity,contentResolver);//沙盒存储访问权限
+//                                }
+//                            })
+//                            .negativeText("就不给")
+//                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+//                                @Override
+//                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                                    ToastUtils.make().show("不给Android/data访问权限软件无法运行");
+//                                }
+//                            })
+//                            .show();
 
 
                     break;
@@ -130,22 +126,22 @@ public class PermissionsTools {
                     @Override
                     public void onGranted(List<String> permissions, boolean all) {
                         if (all) {
-                            ToastUtils.make().show("基本读取权限获取成功");
+                            //ToastUtils.make().show("基本读取权限获取成功");
                             if (!isAndroid11()){
                                 //((MainActivity)context).refreshMainShowListView();
                             }
                         } else {
-                            ToastUtils.make().show("获取部分权限成功，但部分权限未正常授予");
+                            //ToastUtils.make().show("获取部分权限成功，但部分权限未正常授予");
                         }
                     }
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.make().show("被永久拒绝授权，请手动授予读取权限");
+                            //ToastUtils.make().show("被永久拒绝授权，请手动授予读取权限");
                             // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            XXPermissions.startPermissionActivity(context, permissions);
+                            //XXPermissions.startPermissionActivity(context, permissions);
                         } else {
-                            ToastUtils.make().show("获取读取权限失败");
+                            //ToastUtils.make().show("获取读取权限失败");
                         }
                     }
                 });
@@ -173,22 +169,22 @@ public class PermissionsTools {
                         @Override
                         public void onGranted(List<String> permissions, boolean all) {
                             if (all) {
-                                ToastUtils.make().show("所以文件访问权限获取成功");
+                                //ToastUtils.make().show("所以文件访问权限获取成功");
                                 if (isAndroid11()){
                                     //PathTools.initCreateDir();//初始化创建temp目录
                                 }
                             } else {
-                                ToastUtils.make().show("获取部分权限成功，但部分权限未正常授予");
+                                //ToastUtils.make().show("获取部分权限成功，但部分权限未正常授予");
                             }
                         }
                         @Override
                         public void onDenied(List<String> permissions, boolean never) {
                             if (never) {
-                                ToastUtils.make().show("被永久拒绝授权，请手动授予读取权限");
+                                //ToastUtils.make().show("被永久拒绝授权，请手动授予读取权限");
                                 // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(context, permissions);
+                                //XXPermissions.startPermissionActivity(context, permissions);
                             } else {
-                                ToastUtils.make().show("获取读取权限失败");
+                                //ToastUtils.make().show("获取读取权限失败");
                             }
                         }
                     });

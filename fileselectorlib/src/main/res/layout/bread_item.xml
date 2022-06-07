@@ -7,15 +7,15 @@
     android:background="@android:color/transparent"
     >
 
-    <Button
+    <TextView
         android:id="@+id/btn_bread"
         android:minWidth="36dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:text="11111"
-        android:textColor="@color/Grey700" />
+        android:textColor="#000000" />
 
     <ImageButton
         android:id="@+id/imb_bread"

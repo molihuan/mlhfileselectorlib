@@ -2,8 +2,8 @@ package com.zlylib.mlhfileselectorlib.core;
 
 import android.os.AsyncTask;
 
-import com.zlylib.mlhfileselectorlib.bean.EssFile;
-import com.zlylib.mlhfileselectorlib.bean.EssFileCountCallBack;
+import com.zlylib.mlhfileselectorlib.bean.FileBean;
+import com.zlylib.mlhfileselectorlib.interfaces.FileCountCallBack;
 import com.zlylib.mlhfileselectorlib.bean.EssFileFilter;
 
 import java.io.File;
@@ -15,17 +15,17 @@ import java.util.List;
  * Created by zhangliyang on 2020/6/20.
  */
 
-public class EssFileCountTask extends AsyncTask<Void,Void,Void>{
+public class FileCountTask extends AsyncTask<Void,Void,Void>{
 
     private int position;
     private String queryPath;
     private String[] types;
-    private EssFileCountCallBack countCallBack;
+    private FileCountCallBack countCallBack;
     private int childFileCount = 0;
     private int childFolderCount = 0;
     private Boolean isSelectFolder = false;
 
-    public EssFileCountTask(int position, String queryPath, String[] types, Boolean isSelectFolder, EssFileCountCallBack countCallBack) {
+    public FileCountTask(int position, String queryPath, String[] types, Boolean isSelectFolder, FileCountCallBack countCallBack) {
         this.position = position;
         this.queryPath = queryPath;
         this.types = types;
@@ -40,10 +40,10 @@ public class EssFileCountTask extends AsyncTask<Void,Void,Void>{
         if(files == null){
             return null;
         }
-        List<EssFile> fileList = EssFile.getEssFileList(Arrays.asList(files),isSelectFolder);
-        for (EssFile essFile :
+        List<FileBean> fileList = FileBean.getEssFileList(Arrays.asList(files),isSelectFolder);
+        for (FileBean fileBean :
                 fileList) {
-            if(essFile.isDirectory()){
+            if(fileBean.isDirectory()){
                 childFolderCount++;
             }else {
                 childFileCount++;

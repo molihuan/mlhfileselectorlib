@@ -1,12 +1,16 @@
 package com.zlylib.mlhfileselectorlib;
 
+import android.app.Activity;
 import android.content.Context;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import java.lang.ref.WeakReference;
-
+/**
+ * SelectCreator
+ * Created by zhangliyang on 2020/6/20.
+ *
+ */
 public class FileSelector {
 
     public static final int BY_NAME_ASC = 0;
@@ -20,7 +24,8 @@ public class FileSelector {
     private final WeakReference<Context> mContext;
     private final WeakReference<Fragment> mFragment;
 
-    private FileSelector(AppCompatActivity activity) {
+
+    private FileSelector(Activity activity) {
         this(activity,null);
     }
 
@@ -33,7 +38,8 @@ public class FileSelector {
         this.mFragment = new WeakReference<>(mFragment);
     }
 
-    public static SelectCreator from(AppCompatActivity activity){
+
+    public static SelectCreator from(Activity activity){
         return new FileSelector(activity).initFile();
     }
 

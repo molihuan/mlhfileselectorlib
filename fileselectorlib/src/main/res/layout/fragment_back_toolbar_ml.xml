@@ -13,7 +13,7 @@
             android:id="@+id/btn_back_toolbar"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_title_bar_back"
+            android:src="@drawable/ic_toolbar_back"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             />
@@ -27,7 +27,7 @@
                 android:id="@+id/main_title_toolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
+                android:text="mlh"
                 android:textSize="21dp"
                 android:textColor="@color/white"
                 />
@@ -43,17 +43,17 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/btn_choose_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColor="@color/white"
+        <ImageView
+            android:id="@+id/imgv_options_toolbar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="选择"
+            android:src="@drawable/ic_toolbar_options"
             android:layout_marginRight="15dp"
             />
+
+
 
     </RelativeLayout>
 
