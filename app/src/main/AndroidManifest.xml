@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".MyApp"
-        android:preserveLegacyExternalStorage="true"
+        android:preserveLegacyExternalStorage="false"
         android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

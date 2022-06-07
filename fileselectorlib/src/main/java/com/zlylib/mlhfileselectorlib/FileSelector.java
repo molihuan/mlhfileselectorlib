@@ -20,6 +20,7 @@ public class FileSelector {
     public static final int BY_SIZE_ASC = 4;
     public static final int BY_SIZE_DESC = 5;
     public static final int BY_EXTENSION_ASC = 6;
+    public static final int BY_EXTENSION_DESC = 7;
 
     private final WeakReference<Context> mContext;
     private final WeakReference<Fragment> mFragment;

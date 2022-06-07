@@ -87,7 +87,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 
 ##### SelectCreator
 
-| 方法                                                         | 注释                                                         | 备注 |
+| methods                                                      | annotation                                                   | note |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ---- |
 | setMoreOPtions(String[] optionsName , boolean [] optionsNeedCallBack ,SelectOptions.IToolbarOptionsListener ...onOptionClicks) | Set more options for the Toolbar and listen (overloaded)     |      |
 | setFileItemDispose(SelectOptions.IOnFileItemListener onFileItem) | Set FileItem click/long click callback                       |      |

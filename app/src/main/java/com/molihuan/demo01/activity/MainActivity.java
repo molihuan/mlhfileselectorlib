@@ -1,6 +1,7 @@
 package com.molihuan.demo01.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +12,14 @@ import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.molihuan.demo01.R;
+import com.molihuan.demo01.fragments.EmptyFragment;
 import com.z.fileselectorlib.FileSelectorSettings;
 import com.z.fileselectorlib.Objects.BasicParams;
 import com.z.fileselectorlib.Objects.FileInfo;
 import com.zlylib.mlhfileselectorlib.FileSelector;
+import com.zlylib.mlhfileselectorlib.SelectOptions;
+import com.zlylib.mlhfileselectorlib.adapter.FileListAdapter;
+import com.zlylib.mlhfileselectorlib.bean.FileBean;
 import com.zlylib.mlhfileselectorlib.utils.Const;
 
 import java.util.ArrayList;
@@ -105,44 +110,45 @@ public class MainActivity extends Activity implements View.OnClickListener {
          *  设置 isSingle() 只能选择一个 后 再设置了setMaxCount（） 不生效
          */
         FileSelector.from(this)
-                //.onlyShowFolder()  //只显示文件夹
-                //.onlySelectFolder()  //只能选择文件夹
-                //.isSingle() // 只能选择一个
+                .onlyShowFolder()  //只显示文件夹
+                .onlySelectFolder()  //只能选择文件夹
+                .isSingle() // 只能选择一个
                 .setMaxCount(5) //设置最大选择数
-                //.setFileTypes("png", "doc","apk", "mp3", "gif", "txt", "mp4", "zip", "pdf") //设置文件类型
+                .setFileTypes("png", "doc","apk", "mp3", "gif", "txt", "mp4", "zip", "pdf") //设置文件类型
                 .setSortType(FileSelector.BY_NAME_ASC) //设置名字排序
-                //.setSortType(FileSelector.BY_TIME_ASC) //设置时间排序
-                //.setSortType(FileSelector.BY_SIZE_DESC) //设置大小排序
-                //.setSortType(FileSelector.BY_EXTENSION_DESC) //设置类型排序
+                .setSortType(FileSelector.BY_TIME_ASC) //设置时间排序
+                .setSortType(FileSelector.BY_SIZE_DESC) //设置大小排序
                 .requestCode(100) //设置返回码
                 .setTargetPath("/storage/emulated/0/") //设置默认目录
-                //.setToolbar(new EmptyFragment())
-//                .setMoreOPtions(new String[]{"选择","删除"},
-//                        new boolean[]{true,false},
-//                        new SelectOptions.IToolbarOptionsListener() {
-//                            @Override
-//                            public void onOptionClick(Context context, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
-//                                ToastUtils.make().show("选择"+currentPath);
-//                            }
-//                        },
-//                        new SelectOptions.IToolbarOptionsListener() {
-//                            @Override
-//                            public void onOptionClick(Context context, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
-//                                ToastUtils.make().show("删除"+currentPath);
-//                            }
-//                        }
-//                )
-//                .setFileItemDispose(new SelectOptions.IOnFileItemListener() {
-//                    @Override
-//                    public void onFileItemClick(Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
-//                        ToastUtils.make().show("点击"+fileAbsolutePath);
-//                    }
-//
-//                    @Override
-//                    public void onLongFileItemClick(Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
-//                        ToastUtils.make().show("长按"+fileAbsolutePath);
-//                    }
-//                })
+                .setToolbar(new EmptyFragment())//自定义Toolbar建议继承库中的BaseFragment
+                //自定义Toolbar更多按钮以及监听事件
+                .setMoreOPtions(new String[]{"选择","删除"},
+                        new boolean[]{true,false},
+                        new SelectOptions.IToolbarOptionsListener() {
+                            @Override
+                            public void onOptionClick(Context context, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
+                                ToastUtils.make().show("选择"+currentPath);
+                            }
+                        },
+                        new SelectOptions.IToolbarOptionsListener() {
+                            @Override
+                            public void onOptionClick(Context context, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
+                                ToastUtils.make().show("删除"+currentPath);
+                            }
+                        }
+                )
+                //item点击/长按回调
+                .setFileItemDispose(new SelectOptions.IOnFileItemListener() {
+                    @Override
+                    public void onFileItemClick(Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
+                        ToastUtils.make().show("点击"+fileAbsolutePath);
+                    }
+
+                    @Override
+                    public void onLongFileItemClick(Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter) {
+                        ToastUtils.make().show("长按"+fileAbsolutePath);
+                    }
+                })
                 .start();
     }
 

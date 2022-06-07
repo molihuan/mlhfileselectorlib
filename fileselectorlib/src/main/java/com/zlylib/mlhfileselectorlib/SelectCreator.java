@@ -130,7 +130,7 @@ public final class SelectCreator {
     }
 
     /**
-     * 设置只选择文件夹
+     * 设置只显示文件夹
      * @return
      */
     public SelectCreator onlyShowFolder() {
@@ -199,7 +199,7 @@ public final class SelectCreator {
     }
 
     /**
-     * 设置返回码
+     * 设置请求码
      * @param requestCode
      * @return
      */
