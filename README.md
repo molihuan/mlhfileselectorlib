@@ -29,17 +29,19 @@ allprojects {
     repositories {
         ...
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 ```
 
 - ##### 如果你的 Gradle 配置是 `7.0 及以上`，则需要在 `settings.gradle` 文件中加入
 
-```
+```java
 dependencyResolutionManagement {
     repositories {
     	...
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 ```
@@ -58,13 +60,25 @@ dependencies {
 }
 ```
 
-#### 第3步：基本Java用法示范:
+#### 第3步：基本用法示范:
 
 ```java
 //如果没有权限会自动申请权限
 PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)//跳转Activity方式
-                .requestCode(10011)//请求码
-    			.start();//开始构建
+    .requestCode(10011)//请求码
+    //toolbar选项
+    .setMoreOPtions(new String[]{"选择"},
+                    new boolean[]{true},//选择后结束掉Activity结果会给到onActivityResult()
+                    new SelectOptions.onToolbarOptionsListener() {
+                        @Override
+                        public void onOptionClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter, List<FileBean> callBackFileBeanList) {
+                            //for (String callBackDatum : callBackData) {
+                            //Mtools.toast(getBaseContext(),callBackDatum);//也可一在这里拿到选择的结果
+                            //}
+                        }
+                    }
+                   )
+    .start();//开始构建
 ```
 
 #### 第4步：获取返回的数据(也可以在点击回调中获取数据):

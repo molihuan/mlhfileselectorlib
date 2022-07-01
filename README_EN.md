@@ -29,6 +29,7 @@ allprojects {
     repositories {
         ...
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 ```
@@ -40,6 +41,7 @@ dependencyResolutionManagement {
     repositories {
     	...
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 ```
@@ -65,8 +67,20 @@ dependencies {
 //如果没有权限会自动申请权限
 // If there is no permission, the system automatically applies for permission
 PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)//跳转Activity方式
-                .requestCode(10011)//requestCode
-    			.start();//Begin to build
+    .requestCode(10011)//requestCode
+    //toolbar选项
+    .setMoreOPtions(new String[]{"选择"},
+                    new boolean[]{true},//选择后结束掉Activity结果会给到onActivityResult()
+                    new SelectOptions.onToolbarOptionsListener() {
+                        @Override
+                        public void onOptionClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter, List<FileBean> callBackFileBeanList) {
+                            //for (String callBackDatum : callBackData) {
+                            //Mtools.toast(getBaseContext(),callBackDatum);//也可一在这里拿到选择的结果
+                            //}
+                        }
+                    }
+                   )
+    .start();//Begin to build
 ```
 
 #### Step 4: Get the returned data (you can also get the data in the clickback):
