@@ -1,18 +1,24 @@
 package com.zlylib.mlhfileselectorlib;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.view.View;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.zlylib.mlhfileselectorlib.activity.FileSelectorActivity;
 import com.zlylib.mlhfileselectorlib.adapter.FileListAdapter;
 import com.zlylib.mlhfileselectorlib.bean.FileBean;
+import com.zlylib.mlhfileselectorlib.fragment.MoreChooseFragment;
 import com.zlylib.mlhfileselectorlib.fragment.ToolbarFragment;
 import com.zlylib.mlhfileselectorlib.utils.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * SelectOptions
@@ -30,22 +36,70 @@ public class SelectOptions {
     public static boolean isSingle = false;//是否是单选
     public int maxCount = 10;//最多选的个数
     public Fragment toolbarFragment=null;//ToolbarFragment
+    public Fragment moreChooseFragment=null;//MoreChooseFragment
     private boolean onlyShowFolder = false;//只显示文件夹
     private boolean needMoreOptions = false;//是否需要选项
+    private boolean needMoreChoose = false;//是否需要选项
     private boolean onlySelectFolder = false;//只选择文件夹
     public boolean onlyShowImages = false;//只显示图片
     public boolean onlyShowVideos = false;//只显示视频
     private String[] optionsName;
+    private String[] MoreChooseItemName;
     private boolean[] optionsNeedCallBack;
+    private boolean[] moreChooseItemNeedCallBack;
     private IToolbarOptionsListener[] onOptionClicks;
+    private IMoreChooseItemsListener[] onItemClicks;
     private IOnFileItemListener onFileItem;
     public int request_code;//返回码
-    public String targetPath = defaultTargetPath;//设置默认目录
+    public String targetPath;//设置默认目录
+    public String toolbarTitle;//默认Title
+    private Context context;
 
-    private int titleBg = 0;//标题背景颜色
-    private int titleColor = 0;//标题文字颜色
-    private int titleLiftColor = 0;//标题左边颜色
-    private int titleRightColor = 0;//标题右边颜色
+    private int toolbarColor;//标题背景颜色
+    private int titleColor;//标题文字颜色
+    private int OneOptionColor;//一个选项颜色
+    private int OneOptionSize;//一个选项大小
+
+    public int getOneOptionColor() {
+        return OneOptionColor;
+    }
+
+    public void setOneOptionColor(int oneOptionColor) {
+        OneOptionColor = oneOptionColor;
+    }
+
+    public int getOneOptionSize() {
+        return OneOptionSize;
+    }
+
+    public void setOneOptionSize(int oneOptionSize) {
+        OneOptionSize = oneOptionSize;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * 设置标题
+     * @return
+     */
+    public String getToolbarTitle() {
+        return toolbarTitle;
+    }
+
+    public void setToolbarTitle(String toolbarTitle) {
+        this.toolbarTitle = toolbarTitle;
+    }
+
+    /**
+     * FileItem监听器
+     * @return
+     */
 
     public IOnFileItemListener getOnFileItem() {
         return onFileItem;
@@ -55,8 +109,10 @@ public class SelectOptions {
         this.onFileItem = onFileItem;
     }
 
+
+
     /**
-     * 是否需要回调
+     * option是否需要回调
      * @return
      */
     public boolean[] getOptionsNeedCallBack() {
@@ -65,6 +121,17 @@ public class SelectOptions {
 
     public void setOptionsNeedCallBack(boolean[] optionsNeedCallBack) {
         this.optionsNeedCallBack = optionsNeedCallBack;
+    }
+    /**
+     * 多选是否需要回调
+     * @return
+     */
+    public boolean[] getMoreChooseItemNeedCallBack() {
+        return moreChooseItemNeedCallBack;
+    }
+
+    public void setMoreChooseItemNeedCallBack(boolean[] moreChooseItemNeedCallBack) {
+        this.moreChooseItemNeedCallBack = moreChooseItemNeedCallBack;
     }
 
     /**
@@ -78,6 +145,17 @@ public class SelectOptions {
     public void setNeedMoreOptions(boolean needMoreOptions) {
         this.needMoreOptions = needMoreOptions;
     }
+    /**
+     * 是否需要多选
+     * @return
+     */
+    public boolean isNeedMoreChoose() {
+        return needMoreChoose;
+    }
+
+    public void setNeedMoreChoose(boolean needMoreChoose) {
+        this.needMoreChoose = needMoreChoose;
+    }
 
     /**
      * 多个选项的名称
@@ -89,6 +167,17 @@ public class SelectOptions {
 
     public void setOptionsName(String[] optionsName) {
         this.optionsName = optionsName;
+    }
+    /**
+     * 多选item的名称
+     * @return
+     */
+    public String[] getMoreChooseItemName() {
+        return MoreChooseItemName;
+    }
+
+    public void setMoreChooseItemName(String[] MoreChooseItemName) {
+        this.MoreChooseItemName = MoreChooseItemName;
     }
 
     /**
@@ -102,6 +191,17 @@ public class SelectOptions {
     public void setOnOptionClicks(IToolbarOptionsListener[] onOptionClicks) {
         this.onOptionClicks = onOptionClicks;
     }
+    /**
+     * 多选item选项回调监听
+     * @return
+     */
+    public IMoreChooseItemsListener[] getOnItemClicks() {
+        return onItemClicks;
+    }
+
+    public void setOnItemClicks(IMoreChooseItemsListener[] onItemClicks) {
+        this.onItemClicks = onItemClicks;
+    }
 
     /**
      * 获取自定义ToolbarFragment
@@ -109,14 +209,39 @@ public class SelectOptions {
      */
     public Fragment getToolbarFragment() {
         if (toolbarFragment==null) {
-            return new ToolbarFragment("请选择路径");
+            return new ToolbarFragment(toolbarTitle)
+                        .setToolbarColor(toolbarColor)
+                        .setMainTitleColor(titleColor)
+                        .setTextRColor(OneOptionColor)
+                        .setTextRSize(OneOptionSize)
+                    ;
         }
         return toolbarFragment;
     }
 
+
+
+
     public void setToolbarFragment(Fragment toolbarFragment) {
         this.toolbarFragment = toolbarFragment;
     }
+    /**
+     * 获取自定义MoreChooseFragment
+     * @return
+     */
+    public Fragment getMoreChooseFragment() {
+        if (moreChooseFragment ==null) {
+            return (new MoreChooseFragment(Arrays.asList(MoreChooseItemName)));
+        }
+        return moreChooseFragment;
+    }
+
+    public void setMoreChooseFragment(Fragment moreChooseFragment) {
+        this.moreChooseFragment = moreChooseFragment;
+    }
+
+
+
 
     /**
      * 文件类型
@@ -183,12 +308,12 @@ public class SelectOptions {
      * 标题相关
      * @return
      */
-    public int getTitleBg() {
-        return titleBg;
+    public int getToolbarColor() {
+        return toolbarColor;
     }
 
-    public void setTitleBg(int titleBg) {
-        this.titleBg = titleBg;
+    public void setToolbarColor(int titleBg) {
+        this.toolbarColor = titleBg;
     }
 
     public int getTitleColor() {
@@ -199,22 +324,6 @@ public class SelectOptions {
         this.titleColor = titleColor;
     }
 
-    public int getTitleLiftColor() {
-        return titleLiftColor;
-    }
-
-    public void setTitleLiftColor(int titleLiftColor) {
-        this.titleLiftColor = titleLiftColor;
-    }
-
-    public int getTitleRightColor() {
-        return titleRightColor;
-    }
-
-    public void setTitleRightColor(int titleRightColor) {
-        this.titleRightColor = titleRightColor;
-    }
-
     /**
      * 获取一个实例
      * @return
@@ -223,8 +332,9 @@ public class SelectOptions {
         return InstanceHolder.INSTANCE;
     }
 
-    public static SelectOptions getCleanInstance() {
+    public static SelectOptions getCleanInstance(Context context) {
         SelectOptions options = getInstance();
+        options.setContext(context);
         options.reset();
         return options;
     }
@@ -237,15 +347,23 @@ public class SelectOptions {
         onlyShowFolder = false;
         onlySelectFolder = false;
         targetPath = defaultTargetPath;
-        titleBg = 0;//标题背景颜色
-        titleColor = 0;//标题文字颜色
-        titleLiftColor = 0;//标题左边颜色
-        titleRightColor = 0;//标题右边颜色
-
+        toolbarColor =ContextCompat.getColor(context,R.color.Themecolors_orange);//标题背景颜色
+        titleColor = Color.WHITE ;;//标题文字颜色
+        toolbarFragment=null;//ToolbarFragment
+        needMoreOptions = false;//是否需要选项
+        onlyShowImages = false;//只显示图片
+        onlyShowVideos = false;//只显示视频
+        optionsName=null;
+        optionsNeedCallBack=null;
+        onOptionClicks=null;
+        onFileItem=null;
+        toolbarTitle = "请选择路径";//默认Title
+        OneOptionColor=Color.WHITE;//一个选项颜色
+        OneOptionSize=18;//一个选项大小
     }
 
     /**
-     *回调接口
+     *更多选项回调接口
      */
     public interface IToolbarOptionsListener {
         /**
@@ -257,7 +375,22 @@ public class SelectOptions {
          * @param selectedFilePathList 选择的文件路径列表
          * @param adapter 文件列表适配器
          */
-        void onOptionClick(Context context, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter);
+        void onOptionClick(View view,Context context, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter);
+    }
+    /**
+     *多选回调接口
+     */
+    public interface IMoreChooseItemsListener {
+        /**
+         *@param view 点击的控件
+         * @param activity
+         * @param position 选择的option
+         * @param currentPath 当前路径
+         * @param selectedFileList 选择的文件列表
+         * @param selectedFilePathList 选择的文件路径列表
+         * @param adapter 文件列表适配器
+         */
+        void onItemsClick(View view, FileSelectorActivity activity, int position, String currentPath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter);
     }
     public interface IOnFileItemListener {
         /**
@@ -269,8 +402,8 @@ public class SelectOptions {
          * @param selectedFilePathList 选择的文件路径列表
          * @param adapter 文件列表适配器
          */
-        void onFileItemClick(Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter);
-        void onLongFileItemClick(Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter);
+        void onFileItemClick(View view,Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter);
+        void onLongFileItemClick(View view,Context context, int position, String fileAbsolutePath, ArrayList<FileBean> selectedFileList, ArrayList<String> selectedFilePathList, FileListAdapter adapter);
     }
 
     private static final class InstanceHolder {

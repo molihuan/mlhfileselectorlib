@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relal_more_choose_item"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    android:gravity="center"
+    android:background="@android:color/transparent"
+    >
+    <TextView
+        android:id="@+id/btn_more_choose_item"
+        android:minWidth="36dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="111"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:paddingHorizontal="15dp"
+        />
+</RelativeLayout>

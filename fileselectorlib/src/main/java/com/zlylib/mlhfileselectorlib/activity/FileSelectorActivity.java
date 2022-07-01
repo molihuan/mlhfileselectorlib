@@ -35,7 +35,6 @@ import com.zlylib.mlhfileselectorlib.bean.BreadModel;
 import com.zlylib.mlhfileselectorlib.bean.FileBean;
 import com.zlylib.mlhfileselectorlib.core.FileCountTask;
 import com.zlylib.mlhfileselectorlib.core.FileListTask;
-import com.zlylib.mlhfileselectorlib.fragment.MoreChooseFragment;
 import com.zlylib.mlhfileselectorlib.fragment.ToolbarFragment;
 import com.zlylib.mlhfileselectorlib.interfaces.FileCountCallBack;
 import com.zlylib.mlhfileselectorlib.interfaces.FileListCallBack;
@@ -183,7 +182,7 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
     public void moreChooseShowHide(boolean isShow) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();//开启事务
         if (moreChooseFragment==null){
-            moreChooseFragment = new MoreChooseFragment();//实例化fragment
+            moreChooseFragment = SelectOptions.getInstance().getMoreChooseFragment();//实例化fragment
         }
         moreChooseFragment = FragmentTools.fragmentShowHide(fragmentTransaction,R.id.show_hide_morechoose,moreChooseFragment,isShow);
     }
@@ -235,7 +234,7 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
      */
     private void showToolbarOptionsPopupWindow() {
 
-        if (SelectOptions.getInstance().getOptionsName()==null)return;
+        if (SelectOptions.getInstance().getOptionsName()==null||SelectOptions.getInstance().getOptionsName().length==1)return;
 
         if (mToolbarOptionsWindow != null) {
             mToolbarOptionsWindow.showAtLocation(linl_path_statusbar, Gravity.RIGHT|Gravity.TOP,0,0);
@@ -255,11 +254,11 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
             public void onItemClick(BaseQuickAdapter adapterIn, View view, int position) {
                 mToolbarOptionsWindow.dismiss();
                 //回调
-                SelectOptions.getInstance().getOnOptionClicks()[position].onOptionClick(FileSelectorActivity.this,position,mCurFolder,mSelectedFileList,mSelectedPathData,mAdapter);
+                SelectOptions.getInstance().getOnOptionClicks()[position].onOptionClick(view,FileSelectorActivity.this,position,mCurFolder,mSelectedFileList,mSelectedPathData,mAdapter);
                 if (SelectOptions.getInstance().getOptionsNeedCallBack()[position]) {
                     mSelectedPathData.clear();//清理数据列表
                     mSelectedPathData.add(mCurFolder);//添加当前路径
-                    callBackPaths();
+                    callBackPaths(mSelectedPathData);
                 }
 
             }
@@ -336,14 +335,14 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
 
                 if (SelectOptions.getInstance().getOnFileItem()!=null) {
                     //点击回调
-                    SelectOptions.getInstance().getOnFileItem().onFileItemClick(FileSelectorActivity.this,position,item.getAbsolutePath(),mSelectedFileList,mSelectedPathData,mAdapter);
+                    SelectOptions.getInstance().getOnFileItem().onFileItemClick(view,FileSelectorActivity.this,position,item.getAbsolutePath(),mSelectedFileList,mSelectedPathData,mAdapter);
                 }
 
                 //选中某文件----单选
                 if (SelectOptions.isSingle&&SelectOptions.getInstance().getOnFileItem()!=null) {
                     mSelectedPathData.clear();//清理数据列表
                     mSelectedPathData.add(item.getAbsolutePath());//添加当前路径
-                    callBackPaths();
+                    callBackPaths(mSelectedPathData);
                     return;
                 }
 
@@ -365,7 +364,7 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
                     mSelectedList.add(item.getAbsolutePath());
                 }
 
-                mAdapter.getData().get(position).setChecked(!mAdapter.getData().get(position).isChecked());
+                //mAdapter.getData().get(position).setChecked(!mAdapter.getData().get(position).isChecked());
                 // mAdapter.notifyItemChanged(position, "");
                 mAdapter.notifyDataSetChanged();
             }
@@ -387,7 +386,7 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
             if (item.isFile()){
                 if (SelectOptions.getInstance().getOnFileItem()!=null) {
                     //长按点击回调
-                    SelectOptions.getInstance().getOnFileItem().onLongFileItemClick(FileSelectorActivity.this,position,item.getAbsolutePath(),mSelectedFileList,mSelectedPathData,mAdapter);
+                    SelectOptions.getInstance().getOnFileItem().onLongFileItemClick(view,FileSelectorActivity.this,position,item.getAbsolutePath(),mSelectedFileList,mSelectedPathData,mAdapter);
                 }
             }
 
@@ -540,6 +539,7 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
 
 
 
+
     @Override
     public Object invokeFuncAiF(int functionCode) {
 
@@ -547,9 +547,9 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
 
 
 
-        if (functionCode == R.id.btn_both_noboth) {
+        if (functionCode == 66666) {
 
-        }else if (functionCode == R.id.btn_more_ok){
+        }else if (functionCode == 00013){
             if (!SelectOptions.isSingle){
                 mSelectedPathData.clear();//清理数据列表
                 List<FileBean> data = mAdapter.getData();
@@ -559,7 +559,7 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
                     }
                 }
             }
-            callBackPaths();
+            callBackPaths(mSelectedPathData);
         }else if (functionCode==R.id.btn_back_toolbar){
             onBackPressed();//返回按钮
         }else if (functionCode==R.id.imgv_options_toolbar){//选择按钮
@@ -573,6 +573,14 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
             setAllCheckBoxData(true);
         }else if (functionCode==00012){//取消
             setAllCheckBoxData(false);
+        }else if (functionCode==40000){
+            return getmCurFolder();
+        } else if (functionCode==40001){
+            return getmSelectedFileList();
+        } else if (functionCode==40002){
+            return getmSelectedPathData();
+        } else if (functionCode==40003){
+            return getmAdapter();
         }
 
         return null;
@@ -582,17 +590,16 @@ public class FileSelectorActivity extends AppCompatActivity implements OnItemCli
      * 销毁选择器
      * 返回路径
      */
-    private void callBackPaths() {
+    public void callBackPaths(ArrayList<String> callBackPathData) {
         //没有数据
-        if (mSelectedPathData==null||mSelectedPathData.isEmpty()) {
+        if (callBackPathData==null||callBackPathData.isEmpty()) {
             Toast.makeText(FileSelectorActivity.this,"你还没有选择呢！",Toast.LENGTH_LONG).show();
             return;
         }
         //不为空
         Intent result = new Intent();
-        result.putStringArrayListExtra(Const.EXTRA_RESULT_SELECTION, mSelectedPathData);
+        result.putStringArrayListExtra(Const.EXTRA_RESULT_SELECTION, callBackPathData);
         setResult(RESULT_OK, result);//设置返回原界面的结果
-
         finish();
     }
 

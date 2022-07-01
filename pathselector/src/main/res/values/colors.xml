@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="orange_mlh">#FF7F50</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="mlh_Grey50">#FAFAFA</color>
+    <color name="mlh_Grey100">#F5F5F5</color>
+    <color name="mlh_Grey200">#EEEEEE</color>
+    <color name="mlh_Grey300">#E0E0E0</color>
+    <color name="mlh_Grey400">#bdbdbd</color>
+    <color name="mlh_Grey500">#9e9e9e</color>
+    <color name="mlh_Grey600">#757575</color>
+    <color name="mlh_Grey700">#616161</color>
+    <color name="mlh_Grey800">#3D3D3D</color>
+    <color name="mlh_Grey900">#212121</color>
+    <color name="mlh_black">#000000</color>
+    <color name="mlh_titlebg">#6200EE</color>
+</resources>

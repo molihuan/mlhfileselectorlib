@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <LinearLayout
+        android:id="@+id/linl_main_layout_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@id/frameLayout_morechoose_area"
+        android:layout_alignParentTop="true">
+
+        <FrameLayout
+            android:id="@+id/frameLayout_toolbar_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <LinearLayout
+            android:id="@+id/linl_path_statusbar"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/mlh_Grey200"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imb_select_sdcard"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:rotation="90"
+                android:src="@mipmap/ic_tabbar_partition"
+                android:tint="@color/mlh_Grey500"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_tabbar_files_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_files_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/frameLayout_morechoose_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

@@ -12,6 +12,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.zlylib.mlhfileselectorlib.activity.FileSelectorActivity;
 import com.zlylib.mlhfileselectorlib.interfaces.IActivityAndFragment;
 
 /**
@@ -25,10 +26,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public int mFragmentViewId;//Fragment布局资源id
     public View mFragmentView;//FragmentView
     public Activity mActivity;//依附的activity
+    public FileSelectorActivity mFileSelectorActivity;//依附的activity
     public IActivityAndFragment mIActivityAndFragment;//定义activity与fragment通信接口
 
 
     public BaseFragment(@LayoutRes int fragmentViewId) {//Fragment布局资源id
+        Log.e("","BaseFragment构造方法运行了");
         mFragmentViewId=fragmentViewId;
     }
 
@@ -52,10 +55,18 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         return mFragmentView;
     }
 
+    /**
+     * 子类的数据初始化必须在此方法下，否则可能出现空指针异常
+     * @param view
+     */
     public abstract void initData(View view);
 
     public abstract void setListeners(View view);
 
+    /**
+     * 获取
+     * @param view
+     */
     public abstract void getComponents(View view);
 
     @Override
@@ -71,6 +82,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         super.onAttach(context);
         if (mActivity==null){
             mActivity= getActivity();
+        }
+
+        if (mFileSelectorActivity==null&&getActivity() instanceof FileSelectorActivity){
+            mFileSelectorActivity= (FileSelectorActivity) getActivity();
         }
 
         try {

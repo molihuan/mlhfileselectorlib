@@ -19,8 +19,10 @@ public final class SelectCreator {
     private  FileSelector filePicker;
     private  SelectOptions selectOptions;
 
+
+
     public SelectCreator(FileSelector filePicker ) {
-        selectOptions = SelectOptions.getCleanInstance();
+        selectOptions = SelectOptions.getCleanInstance(filePicker.getActivity());
         this.filePicker = filePicker;
     }
 
@@ -53,6 +55,28 @@ public final class SelectCreator {
         return this;
     }
 
+    public SelectCreator setMoreChooseItems(String[] ItemsName ,SelectOptions.IMoreChooseItemsListener ...onItemClicks){
+        return setMoreChooseItems(ItemsName,new boolean [ItemsName.length],onItemClicks);
+    }
+    /**
+     * 设置一些MoreChooseItems选项
+     * @param ItemsName
+     * @param onItemClicks
+     * @return
+     */
+    public SelectCreator setMoreChooseItems(String[] ItemsName , boolean [] moreChooseItemNeedCallBack ,SelectOptions.IMoreChooseItemsListener ...onItemClicks){
+        if (ItemsName.length!=onItemClicks.length){
+            throw new IllegalArgumentException("选项名和点击响应必须一一对应");
+        }
+        else {
+            selectOptions.setNeedMoreChoose(true);
+            selectOptions.setMoreChooseItemName(ItemsName);
+            selectOptions.setMoreChooseItemNeedCallBack(moreChooseItemNeedCallBack);
+            selectOptions.setOnItemClicks(onItemClicks);
+        }
+        return this;
+    }
+
     /**
      * FileItem点击/长按回调
      * @param onFileItem
@@ -62,6 +86,8 @@ public final class SelectCreator {
         selectOptions.setOnFileItem(onFileItem);
         return this;
     }
+
+
 
     /**
      * 设置最大选择数量
@@ -148,47 +174,43 @@ public final class SelectCreator {
         return this;
     }
 
+
     /**
-     * 设置标题背景
-     * @param color
+     * 标题相关选项
+     * @param toolbarTitle
      * @return
      */
-    public SelectCreator setTilteBg(int color) {
-        selectOptions.setTitleBg(color);
+    public SelectCreator setToolbarTitle(String toolbarTitle){
+        selectOptions.setToolbarTitle(toolbarTitle);
         return this;
     }
 
-    /**
-     * 设置标题字体颜色
-     * @param color
-     * @return
-     */
+    public SelectCreator setTilteBg(int color) {
+        selectOptions.setToolbarColor(color);
+        return this;
+    }
+
     public SelectCreator setTitleColor(int color) {
         selectOptions.setTitleColor(color);
         return this;
     }
-
-    /**
-     * 设置
-     * @param color
-     * @return
-     */
-    public SelectCreator setTitleLiftColor(int color) {
-        selectOptions.setTitleLiftColor(color);
+    public SelectCreator setOneOptionColor(int color) {
+        selectOptions.setOneOptionColor(color);
         return this;
     }
 
-    /**
-     *
-     * @param color
-     * @return
-     */
-    public SelectCreator setTitleRightColor(int color) {
-        selectOptions.setTitleRightColor(color);
+    public SelectCreator setOneOptionSize(int size) {
+        selectOptions.setOneOptionSize(size);
         return this;
     }
 
-   public SelectCreator onlyShowImages() {
+
+
+
+
+
+
+    public SelectCreator onlyShowImages() {
         selectOptions.onlyShowImages = true;
         return this;
     }
@@ -207,6 +229,7 @@ public final class SelectCreator {
         selectOptions.request_code = requestCode;
         return this;
     }
+
 
     /**
      * 开始打开文件选择器

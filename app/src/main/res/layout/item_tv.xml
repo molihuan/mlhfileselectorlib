@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relal_custom_toolbar"
+    android:layout_width="wrap_content"
+    android:layout_height="?actionBarSize"
+    android:gravity="center"
+    android:background="@android:color/transparent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv1"
+            android:minWidth="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="按钮1"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
+            />
+        <TextView
+            android:id="@+id/tv2"
+            android:minWidth="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="按钮2"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

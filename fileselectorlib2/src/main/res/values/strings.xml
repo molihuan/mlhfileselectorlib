@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">FileSelector</string>
-    <string name="tips">请选择文件</string>
-    <string name="selectNum">选择(%1$d/%2$d）</string>
-    <string name="confirm">确定</string>
-    <string name="cancel">取消</string>
-    <string name="navi_path">mypath</string>
-</resources>

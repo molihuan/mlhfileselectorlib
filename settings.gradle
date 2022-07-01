@@ -1,4 +1,4 @@
-include ':fileselectorlib2'
+include ':pathselector'
 include ':fileselectorlib'
 include ':app'
 rootProject.name = "demo01"

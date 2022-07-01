@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.molihuan.demo01">
+    package="com.molihuan.pathselectdemo">
     <!-- 外部存储的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 安卓11额外权限 -->
@@ -15,8 +15,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name=".MyApp"
-        android:preserveLegacyExternalStorage="false"
+        android:name="com.molihuan.pathselectdemo.MyApp"
+        android:preserveLegacyExternalStorage="true"
         android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,7 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Demo01">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name="com.molihuan.pathselectdemo.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -13,7 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/fileselectorlib" />
-            <option value="$PROJECT_DIR$/fileselectorlib2" />
+            <option value="$PROJECT_DIR$/pathselector" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
