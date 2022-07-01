@@ -88,7 +88,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 
 ## demo演示：
 
-![pathSelectorDemo1](.\MarkDownAssets\pathSelectorDemo1.gif)
+![pathSelectorDemo1](https://github.com/molihuan/mlhfileselectorlib/blob/master/MarkDownAssets/pathSelectorDemo1.gif)
 
 ## 二、更多设置
 
