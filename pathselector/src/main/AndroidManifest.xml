@@ -7,7 +7,10 @@
     <!-- 安卓11额外权限 -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
-    <application>
+    <application
+        android:preserveLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true">
+
         <activity android:name=".activities.PathSelectActivity"></activity>
     </application>
 

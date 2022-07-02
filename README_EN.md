@@ -1,6 +1,6 @@
 # mlhfileselectorlib
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22) ![API](https://img.shields.io/badge/API-19%2B-green) ![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen) [![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981) [![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22) ![API](https://img.shields.io/badge/API-19%2B-green) ![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen) [![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981) [![博客园: molihuan (shields.io)](https://img.shields.io/badge/博客园-molihuan-brightgreen)](https://www.cnblogs.com/molihuan/) [![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
 
 Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 12, support Android/data directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11
 
@@ -12,11 +12,15 @@ Provide file or path selection, automatically apply for storage permission, supp
 
 #### Welcome to Star and Issues!
 
+#### Project Address:
 
+#### [Github](https://github.com/molihuan/mlhfileselectorlib)
+
+#### [Gitee](https://gitee.com/molihuan/mlhfileselectorlib)
 
 ## 语言(Language)
 
-### [中文](./README.md) | [English](./README_EN.md)
+### [Chinese](./README.md) | **[English](./README_EN.md)**
 
 ## 一、how to use
 
@@ -70,12 +74,12 @@ PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)//跳转Activity�
     .requestCode(10011)//requestCode
     //toolbar选项
     .setMoreOPtions(new String[]{"选择"},
-                    new boolean[]{true},//选择后结束掉Activity结果会给到onActivityResult()
+                    new boolean[]{true},//And then you end the Activity and the result will be onActivityResult()
                     new SelectOptions.onToolbarOptionsListener() {
                         @Override
                         public void onOptionClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter, List<FileBean> callBackFileBeanList) {
                             //for (String callBackDatum : callBackData) {
-                            //Mtools.toast(getBaseContext(),callBackDatum);//也可一在这里拿到选择的结果
+                            //Mtools.toast(getBaseContext(),callBackDatum);// You can also get the result of the selection here
                             //}
                         }
                     }
@@ -104,6 +108,10 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 
 ## The demo presentation:
 
+### System version：Android 11 
+
+#### Link：[Experience the App](https://github.com/molihuan/mlhfileselectorlib/releases/)
+
 ![pathSelectorDemo1.gif](https://s2.loli.net/2022/07/02/5Stnm1vHlQdFZ24.gif)
 
 ## 二、More Settings
@@ -111,7 +119,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 #### 1、Activity& All Settings mode:
 
 ```java
-//Constants.BUILD_ACTIVITY为ACTIVITY模式
+//Constants.BUILD_ACTIVITY is an ACTIVITY mode
 PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)
     .requestCode(10011)//requestCode
     .setRootPath("/storage/emulated/0")//Set the root directory (note no/at the end)
@@ -172,7 +180,7 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_FRAG
     .frameLayoutID(R.id.fragment_select_show_area)//The ID of the loading location,FrameLayout
     .requestCode(10011)//requestCode
     .showToolBarFragment(false)//是否显示ToolbarFragment
-    //设置多选item和其回调
+    //Set the multi-select item and its callback
     .setMoreChooseItems(
     new String[]{"全选", "删除"},
     (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
@@ -182,15 +190,15 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_FRAG
         Mtools.toast(getBaseContext(),"点击了删除"+callBackData.get(0));
     }
 )
-    .start();//开始构建
+    .start();//Start building
 ```
 
-##### onBackPressed()中
+##### onBackPressed()
 
 ```java
 @Override
 public void onBackPressed() {
-    //让PathSelectFragment先处理返回按钮点击事件
+    //Let the PathSelectFragment handle the return button click event first
     if (mPathSelectFragment!=null&&mPathSelectFragment.onBackPressed()){
         return;
     }
@@ -201,12 +209,12 @@ public void onBackPressed() {
 #### 3、 Dialog mode:
 
 ```java
-//获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
+//Get the return button click event in the PathSelectFragment instance onBackPressed
 mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_DIALOG)
-    .frameLayoutID(R.id.fragment_select_show_area)//加载位置FrameLayout的ID
-    .requestCode(10011)//请求码
-    .showToolBarFragment(true)//是否显示ToolbarFragment
-    //设置toolbarFragment更多选项item和其回调
+    .frameLayoutID(R.id.fragment_select_show_area)//ID of the load location FrameLayout
+    .requestCode(10011)//requestCode
+    .showToolBarFragment(true)//Whether to display ToolbarFragment
+    //Set the toolbarFragment option item and its callback
     .setMoreOPtions(
     new String[]{"选择"},
     new boolean[]{true},
@@ -214,16 +222,16 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_DIAL
         Mtools.toast(getBaseContext(),"点击了选择"+currentPath);
     }
 )
-    .start();//开始构建
+    .start();//Start building
 ```
 
 #### 4、Custom toolbars:
 
 ```java
-//获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
+//Get the return button click event in the PathSelectFragment instance onBackPressed
 mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)
-    .requestCode(10011)//请求码
-    .showToolBarFragment(true)//是否显示ToolbarFragment 如果自定义必须为true 默认为true
+    .requestCode(10011)//requestCode
+    .showToolBarFragment(true)//Whether to display ToolbarFragment If custom must be true The default is true
     .setToolbarFragment(new CustomToolbarFragment())
     .setToolbarViewClickers(
     new SelectOptions.onToolbarListener() {
@@ -233,7 +241,7 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTI
         }
     }
 )
-    .start();//开始构建
+    .start();//Start building
 ```
 
 
@@ -250,7 +258,7 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTI
 | setMaxCount(int maxCount)                                    | Set the maximum number of selections              | Default to -1 means unlimited                                |
 | setShowFileTypes(String... fileTypes)                        | Set the display file type                         |                                                              |
 | setSelectFileTypes(String... fileTypes)                      | Set select file type                              |                                                              |
-| setSortType(int sortType)                                    | 设置排序规则                                      |                                                              |
+| setSortType(int sortType)                                    | Setting collation rules                           |                                                              |
 | isSingle()                                                   | Setting collation rules                           |                                                              |
 | showToolBarFragment(boolean var)                             | Sets whether ToolBarFragment is displayed         |                                                              |
 | setMoreOPtions(String[] optionsName ,SelectOptions.onToolbarOptionsListener ...optionListeners) | Set some Toolbar options (with overloads)         |                                                              |
@@ -272,13 +280,13 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTI
 - Note that the library has been added to the library's 'androidmanifest.xml'：
 
   ```xml
-  <!-- 外部存储的写权限 -->
+  <!-- Write permission of the external storage -->
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <!-- 安卓11额外权限 -->
+  <!-- Android 11 Extra privileges -->
   <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
       tools:ignore="ScopedStorage" />
-  <!-- 已经适配了分区存储特性 -->
+  <!-- The partitioned storage feature has been adapted -->
   <application
           android:preserveLegacyExternalStorage="true"
           android:requestLegacyExternalStorage="true"
