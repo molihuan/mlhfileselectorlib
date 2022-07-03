@@ -130,7 +130,7 @@ public class UriTools {
     }
 
     /**
-     * 更新tabbarFileBeanList数据
+     * 通过uri更新tabbarFileBeanList数据
      * @param tabbarList
      * @param tabbarAdapter
      * @param path
@@ -197,25 +197,18 @@ public class UriTools {
         if (context == null || uri == null) return null;//判空
         //通过URI创建DocumentFile对象
         DocumentFile rootDocumentFile = DocumentFile.fromSingleUri(context, uri);
-        Mtools.log("fromSingleUri完毕");
+        //Mtools.log("fromSingleUri完毕");
         if (rootDocumentFile == null) return null;//判空
-        Mtools.log("rootDocumentFile有值");
+        //Mtools.log("rootDocumentFile有值");
 
 
 
         //创建一个 DocumentFile表示以给定的 Uri根的文档树。其实就是获取子目录的权限
         DocumentFile pickedDir = rootDocumentFile.fromTreeUri(context, uri);
-        Mtools.log("fromTreeUri完毕");
+        //Mtools.log("fromTreeUri完毕");
         if (pickedDir==null) return null;//判空
-        Mtools.log("pickedDir有值");
+        //Mtools.log("pickedDir有值");
         for (DocumentFile i : pickedDir.listFiles()) {//遍历
-            if (i.isDirectory()) {//如果是一个目录
-                Mtools.log("文件:"+i.getName());
-                Mtools.log("类型:"+i.getType());
-            } else {//如果是一个文件
-                Mtools.log("文件:"+i.getName());
-                Mtools.log("类型:"+i.getType());
-            }
 
             fileBean=new FileBean(UriTools.uri2File(i.getUri()),true,i);
             //只添加文件后缀符合要求的、文件夹添加、没有要求就都添加
@@ -255,14 +248,14 @@ public class UriTools {
         if (context == null || uri == null) return;//判空
         //通过URI创建DocumentFile对象
         DocumentFile rootDocumentFile = DocumentFile.fromSingleUri(context, uri);
-        Mtools.log("fromSingleUri完毕");
+        //Mtools.log("fromSingleUri完毕");
         if (rootDocumentFile == null) return;
-        Mtools.log("rootDocumentFile有值");
+        //Mtools.log("rootDocumentFile有值");
         //创建一个 DocumentFile表示以给定的 Uri根的文档树。其实就是获取子目录的权限
         DocumentFile pickedDir = rootDocumentFile.fromTreeUri(context, uri);
-        Mtools.log("fromTreeUri完毕");
+        //Mtools.log("fromTreeUri完毕");
         if (pickedDir==null) return;
-        Mtools.log("pickedDir有值");
+        //Mtools.log("pickedDir有值");
         for (DocumentFile i : pickedDir.listFiles()) {//遍历
             if (i.isDirectory()) {//如果是一个目录
                 handleDirSubfileByUri(contentResolver,context, i.getUri(), handleType,filerType);//递归

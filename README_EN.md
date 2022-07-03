@@ -4,6 +4,10 @@
 
 Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 12, support Android/data directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11
 
+## Language(语言)
+
+### [Chinese](./README.md) | **[English](./README_EN.md)**
+
 ## Preface
 
 #### may I have a little star before we begin?
@@ -17,10 +21,6 @@ Provide file or path selection, automatically apply for storage permission, supp
 #### [Github](https://github.com/molihuan/mlhfileselectorlib)
 
 #### [Gitee](https://gitee.com/molihuan/mlhfileselectorlib)
-
-## 语言(Language)
-
-### [Chinese](./README.md) | **[English](./README_EN.md)**
 
 ## 一、how to use
 
@@ -302,7 +302,9 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTI
 
   Please be consistent in setting 'androidmanifest.xml' in your project
 
+#### code confusion
 
+- Generally, obfuscation rules are automatically imported without configuration
 
 # Thank
 

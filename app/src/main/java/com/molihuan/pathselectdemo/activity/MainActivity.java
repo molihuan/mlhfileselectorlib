@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Constants.BUILD_ACTIVITY为ACTIVITY模式
         PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)
                 .requestCode(10011)//请求码
-                .setRootPath("/storage/emulated/0")//设置根目录(注意最后没有/)
+                .setRootPath("/storage/emulated/0/")//设置根目录(注意最后没有/)
                 .setMaxCount(3)//设置最大选择数量，默认是-1不限制
                 //.setToolbarFragment(new TestFragment())//加载自定义ToolbarFragment
                 //.setMoreChooseFragment(new TestFragment())//加载自定义MoreChooseFragment

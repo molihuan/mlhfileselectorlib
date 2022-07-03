@@ -4,6 +4,10 @@
 
 提供文件或路径选择，自动申请存储权限，支持安卓4.4 ~ 12，支持Android/data目录访问，支持自定义UI，支持SD卡。(Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 12, support Android/data directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11)
 
+## 语言(Language)
+
+### **[中文](./README.md)** | [English](./README_EN.md)
+
 ## 前言
 
 #### 在开始之前可以给我一个小星星吗？
@@ -15,10 +19,6 @@
 #### 项目地址：
 #### [Github地址](https://github.com/molihuan/mlhfileselectorlib)
 #### [Gitee地址](https://gitee.com/molihuan/mlhfileselectorlib)
-
-## 语言(Language)
-
-### **[中文](./README.md)** | [English](./README_EN.md)
 
 ## 一、如何使用
 
@@ -298,7 +298,9 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTI
 
   请在你的项目中的`AndroidManifest.xml`设置一致
 
+#### 代码混淆
 
+- 一般来说无需配置，会自动导入混淆规则
 
 # 非常感谢
 

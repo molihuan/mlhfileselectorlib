@@ -53,7 +53,12 @@ public class SelectManager {
      * @return
      */
     public SelectManager setRootPath(String path){
-        mSelectOptions.rootPath = path;
+        if (path.endsWith("/")){//判断是否是以/结束的
+            mSelectOptions.rootPath = path.substring(0,path.length()-1);//去除最后的/
+        }else {
+            mSelectOptions.rootPath = path;
+        }
+
         return this;
     }
 

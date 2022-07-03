@@ -270,7 +270,9 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                     break;
                 default:
                     FileBean fileBean = mFileList.get(position);
-                    fileBean.setChecked(true);
+                    if (!fileBean.isChecked()&&fileBean.isVisible()){
+                        fileBean.setChecked(true);
+                    }
                     mFileListAdapter.notifyDataSetChanged();
                     //choosedFileItemNumber++;
             }
