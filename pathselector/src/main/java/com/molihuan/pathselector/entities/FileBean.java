@@ -5,6 +5,7 @@ import androidx.documentfile.provider.DocumentFile;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.utils.Commons;
 import com.molihuan.pathselector.utils.FileTools;
+import com.molihuan.pathselector.utils.PermissionsTools;
 import com.molihuan.pathselector.utils.UriTools;
 
 import java.io.File;
@@ -18,21 +19,21 @@ import java.io.File;
 
 public class FileBean {
     private String filePath;//文件路径(必须)
-    private Boolean dir;//是否是文件夹
-    private Boolean file;//是否文件
+    private boolean dir;//是否是文件夹
+    private boolean file;//是否文件
     private String fileName;//名称
     private String fileNameNoExtension;//名称(无后缀)
     private String fileExtension;//后缀
-    private Integer fileImgType;//文件图片类型
+    private int fileImgType;//文件图片类型
     private String parentPath;//上一级目录/父目录
     private String parentName;//上一级文件夹名称
-    private Integer childrenFileNumber;//子文件数量
-    private Integer childrenDirNumber;//子文件夹数量
+    private int childrenFileNumber;//子文件数量
+    private int childrenDirNumber;//子文件夹数量
     private String size;//占空间大小
-    private Boolean visible;//checkbox是否显示
-    private Boolean checked;//checkbox是否选择
+    private boolean visible;//checkbox是否显示
+    private boolean checked;//checkbox是否选择
 
-    private Boolean useUri;//是否使用uri地址
+    private boolean useUri;//是否使用uri地址
     /**
      * 通过DocumentFile可以对Android/data目录进行操作
      * 具体怎么操作可以百度
@@ -40,8 +41,8 @@ public class FileBean {
      */
     private DocumentFile documentFile;//documentFile
 
-    private Long modifyTime;//文件修改时间
-    private Long simpleSize;//简单文件大小
+    private long modifyTime;//文件修改时间
+    private long simpleSize;//简单文件大小
 
 
 
@@ -54,7 +55,13 @@ public class FileBean {
 
     public FileBean(String filePath, Boolean useUri,DocumentFile documentFile) {
         this.filePath = filePath;
-        this.useUri = useUri;
+
+        if (PermissionsTools.isAndroid11()){
+            this.useUri = useUri;
+        }else {
+            this.useUri = false;
+        }
+
 
         if (this.useUri){//使用Uri
             this.documentFile=documentFile;
@@ -76,11 +83,13 @@ public class FileBean {
             parentName=FileTools.getDirName(uriFile);
             childrenFileNumber=0;
             childrenDirNumber=0;
-            size=FileTools.getSize(uriFile);
+            //size=FileTools.getSize(uriFile);
             visible=false;
             checked=false;
-            modifyTime=documentFile.lastModified();
-            simpleSize =FileTools.getSimpleSize(uriFile);
+            //modifyTime=documentFile.lastModified();
+            if (file){
+                //simpleSize =FileTools.getSimpleSize(uriFile);
+            }
 
         }else {//直接使用路径
 
@@ -99,12 +108,14 @@ public class FileBean {
             parentName=FileTools.getDirName(filePath);
             childrenFileNumber=FileTools.getChildrenNumber(filePath)[0];
             childrenDirNumber=FileTools.getChildrenNumber(filePath)[1];
-            size=FileTools.getSize(filePath);
+//            size=FileTools.getSize(filePath);
             visible=false;
             checked=false;
+//            modifyTime=FileTools.getFileLastModified(filePath);
+            if (file){
+                //simpleSize =FileTools.getSimpleSize(filePath);
+            }
 
-            modifyTime=FileTools.getFileLastModified(filePath);
-            simpleSize =FileTools.getSimpleSize(filePath);
         }
 
 
@@ -120,7 +131,7 @@ public class FileBean {
      * @return
      */
 
-    public Integer setImageResourceByExtension(String extension) {
+    public int setImageResourceByExtension(String extension) {
         int resourceId;
         switch (extension){
             case "apk":
@@ -187,15 +198,15 @@ public class FileBean {
         this.filePath = filePath;
     }
 
-    public void setVisible(Boolean visible) {
+    public void setVisible(boolean visible) {
         this.visible = visible;
     }
 
-    public void setChecked(Boolean checked) {
+    public void setChecked(boolean checked) {
         this.checked = checked;
     }
 
-    public void setUseUri(Boolean useUri) {
+    public void setUseUri(boolean useUri) {
         this.useUri = useUri;
     }
 
@@ -207,11 +218,11 @@ public class FileBean {
         return filePath;
     }
 
-    public Boolean isDir() {
+    public boolean isDir() {
         return dir;
     }
 
-    public Boolean isFile() {
+    public boolean isFile() {
         return file;
     }
 
@@ -227,7 +238,7 @@ public class FileBean {
         return fileExtension;
     }
 
-    public Integer getFileImgType() {
+    public int getFileImgType() {
         return fileImgType;
     }
 
@@ -239,11 +250,11 @@ public class FileBean {
         return parentName;
     }
 
-    public Integer getChildrenFileNumber() {
+    public int getChildrenFileNumber() {
         return childrenFileNumber;
     }
 
-    public Integer getChildrenDirNumber() {
+    public int getChildrenDirNumber() {
         return childrenDirNumber;
     }
 
@@ -251,15 +262,15 @@ public class FileBean {
         return size;
     }
 
-    public Boolean isVisible() {
+    public boolean isVisible() {
         return visible;
     }
 
-    public Boolean isChecked() {
+    public boolean isChecked() {
         return checked;
     }
 
-    public Boolean isUseUri() {
+    public boolean isUseUri() {
         return useUri;
     }
 
@@ -267,11 +278,11 @@ public class FileBean {
         return documentFile;
     }
 
-    public Long getModifyTime() {
+    public long getModifyTime() {
         return modifyTime;
     }
 
-    public Long getSimpleSize() {
+    public long getSimpleSize() {
         return simpleSize;
     }
 

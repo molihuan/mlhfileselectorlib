@@ -107,22 +107,8 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
         //获取排序类型
         mSortType = mSelectOptions.getSortType();
 
-        //获取数据
-        if (FileTools.isAndroidDataPath(mCurrentPath)) {//判断是否在Android/data目录下
-            //通过uri来获取数据
-            mFileList= UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
-        }else {
-            mFileList= BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath, mShowFileTypes,mSortType);//加载数据
-        }
-
-
-
-        mTabbarFileList=BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-                mTabbarFileListAdapter,
-                mCurrentPath,
-                BeanListManager.TypeInitTabbar,
-                mSdCardList
-        );//初始化数据
+        mFileList=new ArrayList<>();
+        mTabbarFileList=new ArrayList<>();
 
     }
 
@@ -194,6 +180,26 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
         mTabbarFileRecyclerView.setAdapter(mTabbarFileListAdapter);//RecyclerView设置适配器
 
 
+
+        //获取数据
+        if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)) {//判断是否在Android/data目录下
+            //通过uri来获取数据
+            mFileList= UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
+        }else {
+            BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath, mShowFileTypes,mSortType);//加载数据
+        }
+
+        mTabbarFileList=BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
+                mTabbarFileListAdapter,
+                mCurrentPath,
+                BeanListManager.TypeInitTabbar,
+                mSdCardList
+        );//初始化数据
+
+
+
+
+
         //初始化 多选Fragment: mMoreChooseFragment
         if (mMoreChooseFragment==null){
             mMoreChooseFragment= mSelectOptions.getMoreChooseFragment();
@@ -216,6 +222,8 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
 //                fileBeanList.clear();//注意清理集合，不然上拉加载的数据会出现重复
 //            }
 //        });
+
+
 
 
     }
@@ -304,7 +312,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
         }else {
             mCurrentPath=FileTools.getParentPath(mCurrentPath);//更新当前路径
 
-            if (FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
+            if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
                 //通过uri来获取数据
                 UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
                 mTabbarFileList=UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
@@ -315,7 +323,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                 );//删除数据
             }else {
                 //通过路径来获取数据
-                BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
+                BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
                 mTabbarFileList=BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
                         mTabbarFileListAdapter,
                         mCurrentPath,
@@ -412,7 +420,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                 }else {//点击的是文件夹
                     mCurrentPath=item.getFilePath();//更新当前路径
 
-                    if (FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
+                    if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
                         //通过uri来获取数据
                         UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
                         UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
@@ -423,7 +431,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                         );//添加数据
                     }else {
                         //通过路径来获取数据
-                        BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
+                        BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
                         BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
                                 mTabbarFileListAdapter,
                                 mCurrentPath,
@@ -452,7 +460,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                 }else {
 
 
-                    if (FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
+                    if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
                         //通过uri来获取数据
                         UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
                         UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
@@ -463,7 +471,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                         );//删除数据
                     }else {
                         //通过路径来获取数据
-                        BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
+                        BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
                         BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
                                 mTabbarFileListAdapter,
                                 mCurrentPath,
@@ -471,6 +479,8 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                                 mSdCardList
                         );//删除数据
                     }
+
+
 
 //                    BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
 //                    BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
@@ -490,7 +500,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
             mSdCardPopupWindow.dismiss();
             mCurrentPath = mSdCardList.get(position);
 
-            if (FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
+            if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
                 //通过uri来获取数据
                 UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
                 UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
@@ -501,7 +511,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                 );//初始化数据
             }else {
                 //通过路径来获取数据
-                BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
+                BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
                 BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
                         mTabbarFileListAdapter,
                         mCurrentPath,

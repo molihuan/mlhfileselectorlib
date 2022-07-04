@@ -4,6 +4,7 @@ import androidx.documentfile.provider.DocumentFile;
 
 import com.molihuan.pathselector.utils.Commons;
 import com.molihuan.pathselector.utils.FileTools;
+import com.molihuan.pathselector.utils.PermissionsTools;
 import com.molihuan.pathselector.utils.UriTools;
 
 import java.io.File;
@@ -40,6 +41,12 @@ public class TabbarFileBean {
     public TabbarFileBean(String filePath, Boolean useUri,DocumentFile documentFile) {
         this.filePath = filePath;
         this.useUri = useUri;
+
+        if (PermissionsTools.isAndroid11()){
+            this.useUri = useUri;
+        }else {
+            this.useUri = false;
+        }
 
         if (this.useUri){
             this.documentFile=documentFile;

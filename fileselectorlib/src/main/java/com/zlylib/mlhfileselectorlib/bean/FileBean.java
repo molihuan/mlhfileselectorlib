@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.zlylib.mlhfileselectorlib.utils.FileUtils;
 import com.zlylib.mlhfileselectorlib.utils.MimeType;
@@ -54,6 +55,7 @@ public class FileBean implements Parcelable {
         uri = in.readParcelable(Uri.class.getClassLoader());
         itemType = in.readInt();
         isVisible = in.readByte() != 0;
+
     }
 
     public static final Creator<FileBean> CREATOR = new Creator<FileBean>() {
@@ -104,6 +106,7 @@ public class FileBean implements Parcelable {
             isFile = file.isFile();
         }
         mimeType = FileUtils.getMimeType(file.getAbsolutePath());
+        Log.e("","开始");
     }
 
     public FileBean(long id, String mimeType) {

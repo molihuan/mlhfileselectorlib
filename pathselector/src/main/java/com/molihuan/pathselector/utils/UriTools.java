@@ -183,6 +183,8 @@ public class UriTools {
      * @param
      */
     public static List<FileBean> upDataFileBeanListByUri(Context context, Uri uri, List<FileBean> fileBeanList, FileListAdapter fileListAdapter, List<String> fileTypes, int sortType){
+
+
         //清除列表
         if (fileBeanList==null){
             fileBeanList=new ArrayList<>();

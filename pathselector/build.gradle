@@ -45,8 +45,8 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
 
     //Rxjava框架
-//    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-//    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
 
     //基础控件
     implementation 'androidx.recyclerview:recyclerview:1.1.0'

@@ -27,6 +27,7 @@ public class FileListAdapter extends BaseQuickAdapter<FileBean, BaseViewHolder> 
 
     @Override
     protected void convert(BaseViewHolder helper, FileBean fileBean) {
+
         ImageView imgvFiletype = helper.getView(R.id.iv_file_type_fileitem);//文件类型图片
         ImageView imgvEnter = helper.getView(R.id.iv_file_enter_fileitem);//右边进入图片
         TextView tvFileName = helper.getView(R.id.tv_file_name_fileitem);//文件名称
