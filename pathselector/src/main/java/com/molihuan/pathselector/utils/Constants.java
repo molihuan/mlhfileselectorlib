@@ -19,10 +19,12 @@ public class Constants {
     //默认路径
     public static String DEFAULT_ROOTPATH;
     public static String PATH_ANRROID_DATA;//AndroidData目录
+    public static String PATH_ANRROID_OBB;//AndroidOBB目录
 
     static {
         DEFAULT_ROOTPATH = Environment.getExternalStorageDirectory().getAbsolutePath();
         PATH_ANRROID_DATA = DEFAULT_ROOTPATH+"/Android/data";
+        PATH_ANRROID_OBB = DEFAULT_ROOTPATH+"/Android/obb";
     }
     //排序相关
     //按名称排序

@@ -5,7 +5,6 @@ import androidx.documentfile.provider.DocumentFile;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.utils.Commons;
 import com.molihuan.pathselector.utils.FileTools;
-import com.molihuan.pathselector.utils.PermissionsTools;
 import com.molihuan.pathselector.utils.UriTools;
 
 import java.io.File;
@@ -37,7 +36,6 @@ public class FileBean {
     /**
      * 通过DocumentFile可以对Android/data目录进行操作
      * 具体怎么操作可以百度
-     *
      */
     private DocumentFile documentFile;//documentFile
 
@@ -55,13 +53,14 @@ public class FileBean {
 
     public FileBean(String filePath, Boolean useUri,DocumentFile documentFile) {
         this.filePath = filePath;
-
-        if (PermissionsTools.isAndroid11()){
-            this.useUri = useUri;
-        }else {
-            this.useUri = false;
-        }
-
+        this.useUri = useUri;
+//        if (SelectOptions.getInstance().mSingle) {
+//            visible=true;
+//        }else {
+//            visible=false;
+//        }
+        visible=false;
+        checked=false;
 
         if (this.useUri){//使用Uri
             this.documentFile=documentFile;
@@ -83,14 +82,12 @@ public class FileBean {
             parentName=FileTools.getDirName(uriFile);
             childrenFileNumber=0;
             childrenDirNumber=0;
-            //size=FileTools.getSize(uriFile);
-            visible=false;
-            checked=false;
-            //modifyTime=documentFile.lastModified();
-            if (file){
-                //simpleSize =FileTools.getSimpleSize(uriFile);
-            }
 
+            modifyTime=documentFile.lastModified();
+            if (file){//非常耗时
+                size=FileTools.getSize(uriFile);
+                simpleSize =FileTools.getSimpleSize(uriFile);
+            }
         }else {//直接使用路径
 
             if (FileTools.isFile(filePath)){
@@ -108,12 +105,11 @@ public class FileBean {
             parentName=FileTools.getDirName(filePath);
             childrenFileNumber=FileTools.getChildrenNumber(filePath)[0];
             childrenDirNumber=FileTools.getChildrenNumber(filePath)[1];
-//            size=FileTools.getSize(filePath);
-            visible=false;
-            checked=false;
-//            modifyTime=FileTools.getFileLastModified(filePath);
-            if (file){
-                //simpleSize =FileTools.getSimpleSize(filePath);
+
+            modifyTime=FileTools.getFileLastModified(filePath);
+            if (file) {//非常耗时
+                size=FileTools.getSize(filePath);
+                simpleSize =FileTools.getSimpleSize(filePath);
             }
 
         }
@@ -292,5 +288,13 @@ public class FileBean {
 
     public void setIsFile(Boolean file) {
         this.file = file;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public void setSimpleSize(long simpleSize) {
+        this.simpleSize = simpleSize;
     }
 }

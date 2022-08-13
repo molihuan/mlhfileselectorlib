@@ -45,7 +45,28 @@ public class BeanListManager {
         }
     }
 
+    /**
+     * 设置List<FileBean> 的所有Checked
+     * @param list
+     * @param var
+     */
+    public static void setCheckList(List<FileBean> list,boolean var){
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setChecked(var);
+        }
+    }
 
+
+
+
+    /**
+     * 异步
+     * 更新fileBeanList数据通过路径的方式
+     * @param fileBeanList
+     * @param fileListAdapter
+     * @param path
+     * @return
+     */
     public static void upDataFileBeanListByAsyn(List<FileBean> fileBeanList, FileListAdapter fileListAdapter, String path, List<String> fileTypes,int sortType) {
 
         //清除列表
@@ -62,7 +83,6 @@ public class BeanListManager {
                     public List<FileBean> apply(List<FileBean> fileBeanList) throws Throwable {
                         //一些数据处理
                         FileBean fileBean;
-
                         //添加数据
                         File file = FileTools.getFileByPath(path);
                         File[] files = file.listFiles();
@@ -75,11 +95,8 @@ public class BeanListManager {
                                 }
                             }
                         }
-
                         //排序
                         sortFileBeanList(fileBeanList,sortType);
-
-
 
                         return fileBeanList;
                     }
@@ -94,7 +111,6 @@ public class BeanListManager {
 
                     @Override
                     public void onNext(@NonNull List<FileBean> fileBeanList) {
-
                         //刷新数据
                         if (fileListAdapter!=null){
                             fileListAdapter.notifyDataSetChanged();
@@ -118,52 +134,7 @@ public class BeanListManager {
 
     }
 
-    /**
-     * 更新fileBeanList数据通过路径的方式
-     * @param fileBeanList
-     * @param fileListAdapter
-     * @param path
-     * @return
-     */
-    public static List<FileBean> upDataFileBeanList(List<FileBean> fileBeanList, FileListAdapter fileListAdapter, String path, List<String> fileTypes,int sortType) {
-        //清除列表
-        if (fileBeanList==null){
-            fileBeanList=new ArrayList<>();
-        }else if (fileBeanList.size()!=0){
-            fileBeanList.clear();
-        }
-        //一些数据处理
-        FileBean fileBean;
 
-        //添加数据
-        File file = FileTools.getFileByPath(path);
-        File[] files = file.listFiles();
-        if (files!=null){
-            for (int i = 0; i < files.length; i++) {
-                fileBean=new FileBean(files[i].getAbsolutePath(),false);
-                //只添加文件后缀符合要求的、文件夹添加、没有要求就都添加
-                if (fileTypes==null||fileTypes.size()==0||fileBean.isDir()||fileTypes.contains(fileBean.getFileExtension())){
-                    fileBeanList.add(fileBean);
-                }
-            }
-        }
-
-        //排序
-        sortFileBeanList(fileBeanList,sortType);
-
-        //刷新数据
-        if (fileListAdapter!=null){
-            fileListAdapter.notifyDataSetChanged();
-            if (fileBeanList.size()==0){
-
-                //没有数据时显示空
-                fileListAdapter.setEmptyView(R.layout.fragment_empty_files_list_mlh);
-
-            }
-        }
-
-        return fileBeanList;
-    }
 
     /**
      * FileBeanList排序
@@ -251,6 +222,7 @@ public class BeanListManager {
         getTabbarFileBeanList(tabbarList,FileTools.getParentPath(path),SdCardList);
     }
     /**
+     * 有问题
      * 更新tabbarFileBeanList数据
      * @param tabbarList
      * @param tabbarAdapter
@@ -258,12 +230,74 @@ public class BeanListManager {
      * @param type
      * @return
      */
-    public static List<TabbarFileBean> upDataTabbarFileBeanListByAsyn (List<TabbarFileBean> tabbarList, TabbarFileListAdapter tabbarAdapter, String path, int type,List<String> SdCardList){
-        tabbarList=new ArrayList<>();
-        return tabbarList;
-    }
-    public static List<TabbarFileBean> upDataTabbarFileBeanList (List<TabbarFileBean> tabbarList, TabbarFileListAdapter tabbarAdapter, String path, int type,List<String> SdCardList){
+    public static void upDataTabbarFileBeanListByAsyn (List<TabbarFileBean> tabbarList, TabbarFileListAdapter tabbarAdapter, String path, int type,List<String> SdCardList){
 
+        Observable
+                .just(tabbarList)
+                .map(new Function<List<TabbarFileBean>, List<TabbarFileBean>>() {
+                    @Override
+                    public List<TabbarFileBean> apply(List<TabbarFileBean> tabbarLists) throws Throwable {
+                        //选择模式
+                        switch (type){
+                            case TypeAddTabbar :
+                                //添加数据
+                                tabbarLists.add(new TabbarFileBean(path,false));
+                                break;
+                            case TypeDelTabbar:
+                                //移除数据
+                                for (int i = tabbarLists.size() - 1; i >= 0; i--) {
+                                    if (tabbarLists.get(i).getFilePath().length()>path.length()){//移除比当前路径还长的数据
+                                        tabbarLists.remove(i);
+                                    }else {
+                                        break;
+                                    }
+                                }
+                                break;
+                            case TypeInitTabbar:
+                                //创建初始化数据
+                                if (tabbarLists==null){
+                                    tabbarLists=new ArrayList<>();
+                                    getTabbarFileBeanList(tabbarLists,path,SdCardList);
+                                }else {
+                                    tabbarLists.clear();
+                                    getTabbarFileBeanList(tabbarLists,path,SdCardList);
+                                }
+                                break;
+                        }
+
+                        return null;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<TabbarFileBean>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<TabbarFileBean> tabbarFileBeanList) {
+                        //刷新数据
+                        if (tabbarAdapter!=null){
+                            tabbarAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
+    public static List<TabbarFileBean> upDataTabbarFileBeanList (List<TabbarFileBean> tabbarList, TabbarFileListAdapter tabbarAdapter, String path, int type,List<String> SdCardList){
         //选择模式
         switch (type){
             case TypeAddTabbar :

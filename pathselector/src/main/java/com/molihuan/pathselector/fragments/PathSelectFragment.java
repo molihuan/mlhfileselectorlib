@@ -107,6 +107,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
         //获取排序类型
         mSortType = mSelectOptions.getSortType();
 
+
         mFileList=new ArrayList<>();
         mTabbarFileList=new ArrayList<>();
 
@@ -142,30 +143,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
         return SdCardList;
     }
 
-    /**
-     * 所有存储设备PopupWindow
-     * CardPopupWindow
-     */
-    private void showSdCardsPopupWindow() {
-        if (mSdCardList==null||mSdCardList.size()<=1)return;
 
-        if (mSdCardPopupWindow != null) {
-            mSdCardPopupWindow.showAsDropDown(mLinlPathStatusbar);//显示位置
-            return;
-        }
-
-        View popView = LayoutInflater.from(mActivity).inflate(R.layout.general_recyview_mlh, null);//加载布局文件
-        mSdCardPopupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);//设置宽度高度
-        mSdCardPopupWindow.setFocusable(true);
-        mSdCardPopupWindow.setOutsideTouchable(true);
-        RecyclerView recyclerView = popView.findViewById(R.id.general_recyclerview_mlh);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        SDCardListAdapter adapter = new SDCardListAdapter(mSdCardList);
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);//设置监听
-        mSdCardPopupWindow.showAsDropDown(mLinlPathStatusbar);//显示位置
-
-    }
 
     @Override
     public void initView() {
@@ -179,26 +157,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
         mTabbarFileListAdapter =new TabbarFileListAdapter(mTabbarFileList);//适配器添加数据
         mTabbarFileRecyclerView.setAdapter(mTabbarFileListAdapter);//RecyclerView设置适配器
 
-
-
-        //获取数据
-        if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)) {//判断是否在Android/data目录下
-            //通过uri来获取数据
-            mFileList= UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
-        }else {
-            BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath, mShowFileTypes,mSortType);//加载数据
-        }
-
-        mTabbarFileList=BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-                mTabbarFileListAdapter,
-                mCurrentPath,
-                BeanListManager.TypeInitTabbar,
-                mSdCardList
-        );//初始化数据
-
-
-
-
+        refreshFileAndTabbar(BeanListManager.TypeInitTabbar);
 
         //初始化 多选Fragment: mMoreChooseFragment
         if (mMoreChooseFragment==null){
@@ -216,15 +175,15 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
             }
         }
 
+
+
+
 //        mFileAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
 //            @Override
 //            public void onLoadMore() {
 //                fileBeanList.clear();//注意清理集合，不然上拉加载的数据会出现重复
 //            }
 //        });
-
-
-
 
     }
 
@@ -238,6 +197,31 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
         if (id==R.id.imb_select_sdcard){
             showSdCardsPopupWindow();
         }
+    }
+
+    /**
+     * 所有存储设备PopupWindow
+     * CardPopupWindow
+     */
+    private void showSdCardsPopupWindow() {
+
+        if (mSdCardList==null||mSdCardList.size()<=1)return;
+
+        if (mSdCardPopupWindow != null) {
+            mSdCardPopupWindow.showAsDropDown(mLinlPathStatusbar);//显示位置
+            return;
+        }
+
+        View popView = LayoutInflater.from(mActivity).inflate(R.layout.general_recyview_mlh, null);//加载布局文件
+        mSdCardPopupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);//设置宽度高度
+        mSdCardPopupWindow.setFocusable(true);
+        mSdCardPopupWindow.setOutsideTouchable(true);
+        RecyclerView recyclerView = popView.findViewById(R.id.general_recyclerview_mlh);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        SDCardListAdapter adapter = new SDCardListAdapter(mSdCardList);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);//设置监听
+        mSdCardPopupWindow.showAsDropDown(mLinlPathStatusbar);//显示位置
     }
 
     @Override
@@ -256,7 +240,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
      * position长按的位置 -1表示没有长按
      */
     private void moreChooseCheckBox(int position){
-        if (!mSelectOptions.mSingle){//不是单选才显示多选
+        //if (!mSelectOptions.mSingle){//不是单选才显示多选
             isShowMorechoose=!isShowMorechoose;
 
             if (mMoreChooseFragment!=null) {
@@ -284,8 +268,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                     mFileListAdapter.notifyDataSetChanged();
                     //choosedFileItemNumber++;
             }
-
-        }
+        //}
         //不显示数量就为0
         if (!isShowMorechoose){
             choosedFileItemNumber=0;
@@ -294,6 +277,8 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
         if (mToolbarFragment instanceof ToolbarFragment){
             ((ToolbarFragment)mToolbarFragment).setTitles(mSelectOptions.toolbarMainTitle,mSelectOptions.toolbarSubtitleTitle);
         }
+
+
     }
 
     public interface IMoreChooseCheckBoxCallBack{
@@ -311,37 +296,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
             return false;
         }else {
             mCurrentPath=FileTools.getParentPath(mCurrentPath);//更新当前路径
-
-            if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
-                //通过uri来获取数据
-                UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
-                mTabbarFileList=UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
-                        mTabbarFileListAdapter,
-                        mCurrentPath,
-                        BeanListManager.TypeDelTabbar,
-                        mSdCardList
-                );//删除数据
-            }else {
-                //通过路径来获取数据
-                BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
-                mTabbarFileList=BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-                        mTabbarFileListAdapter,
-                        mCurrentPath,
-                        BeanListManager.TypeDelTabbar,
-                        mSdCardList
-                );//删除数据
-            }
-
-//            BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
-//            mTabbarFileList=BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-//                    mTabbarFileListAdapter,
-//                    mCurrentPath,
-//                    BeanListManager.TypeDelTabbar,
-//                    mSdCardList
-//            );//移除数据
-
-
-
+            refreshFileAndTabbar(BeanListManager.TypeDelTabbar);
             return true;
         }
     }
@@ -364,33 +319,35 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                 }
 
 
-
-                if (!item.isChecked()) {//计数已经选择的数量
-                    if (choosedFileItemNumber>=mSelectOptions.mMaxCount&&mSelectOptions.mMaxCount!=-1){//判断已经选择的数量是否超过规定
-                        Mtools.toast(mActivity, String.format("最多选择%d项", mSelectOptions.mMaxCount));
-                        return;
+                if (mSelectOptions.mSingle) {//是单选
+                    BeanListManager.setCheckList(mFileList,false);
+                    item.setChecked(true);
+                } else {
+                    if (!item.isChecked()) {//计数已经选择的数量
+                        if (choosedFileItemNumber>=mSelectOptions.mMaxCount&&mSelectOptions.mMaxCount!=-1){//判断已经选择的数量是否超过规定
+                            Mtools.toast(mActivity, String.format("最多选择%d项", mSelectOptions.mMaxCount));
+                            return;
+                        }else {
+                            choosedFileItemNumber++;
+                        }
                     }else {
-                        choosedFileItemNumber++;
+                        choosedFileItemNumber--;
                     }
-                }else {
-                    choosedFileItemNumber--;
+
+                    if (mToolbarFragment instanceof ToolbarFragment){
+                        ToolbarFragment toolbar = (ToolbarFragment) mToolbarFragment;
+                        if (choosedFileItemNumber==0){
+                            toolbar.setTitles(mSelectOptions.toolbarMainTitle,mSelectOptions.toolbarSubtitleTitle);
+                        }else {
+                            toolbar.setTitles(String.format("%s 已选(%d)",mSelectOptions.toolbarMainTitle, choosedFileItemNumber),mSelectOptions.toolbarSubtitleTitle);
+                            toolbar.setSize(19,17,mSelectOptions.toolbarOptionSize);
+                        }
+                    }
+
+                    item.setChecked(!item.isChecked());//设置状态
                 }
 
 
-
-                if (mToolbarFragment instanceof ToolbarFragment){
-                    ToolbarFragment toolbar = (ToolbarFragment) mToolbarFragment;
-                    if (choosedFileItemNumber==0){
-                        toolbar.setTitles(mSelectOptions.toolbarMainTitle,mSelectOptions.toolbarSubtitleTitle);
-                    }else {
-                        toolbar.setTitles(String.format("%s 已选(%d)",mSelectOptions.toolbarMainTitle, choosedFileItemNumber),mSelectOptions.toolbarSubtitleTitle);
-                        toolbar.setSize(19,17,mSelectOptions.toolbarOptionSize);
-                    }
-                }
-
-
-
-                item.setChecked(!item.isChecked());//设置状态
                 mFileListAdapter.notifyDataSetChanged();//刷新适配器
             }else {//未开启多选
 
@@ -407,7 +364,6 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                     if (state)return;//表示已经处理了
                 }
 
-
                 if (item.isFile()) {//点击的是文件
 
                     if (mSelectFileTypes.size()!=0){//筛选选择类型，没有设置就不筛选
@@ -419,28 +375,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
 
                 }else {//点击的是文件夹
                     mCurrentPath=item.getFilePath();//更新当前路径
-
-                    if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
-                        //通过uri来获取数据
-                        UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
-                        UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
-                                mTabbarFileListAdapter,
-                                mCurrentPath,
-                                BeanListManager.TypeAddTabbar,
-                                mSdCardList
-                        );//添加数据
-                    }else {
-                        //通过路径来获取数据
-                        BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
-                        BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-                                mTabbarFileListAdapter,
-                                mCurrentPath,
-                                BeanListManager.TypeAddTabbar,
-                                mSdCardList
-                        );//添加数据
-                    }
-
-
+                    refreshFileAndTabbar(BeanListManager.TypeAddTabbar);
                 }
             }
 
@@ -458,39 +393,8 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                 if (mTabbarFileList.size()==1){//如果只有一个item
                     showSdCardsPopupWindow();
                 }else {
-
-
-                    if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
-                        //通过uri来获取数据
-                        UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
-                        UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
-                                mTabbarFileListAdapter,
-                                mCurrentPath,
-                                BeanListManager.TypeDelTabbar,
-                                mSdCardList
-                        );//删除数据
-                    }else {
-                        //通过路径来获取数据
-                        BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
-                        BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-                                mTabbarFileListAdapter,
-                                mCurrentPath,
-                                BeanListManager.TypeDelTabbar,
-                                mSdCardList
-                        );//删除数据
-                    }
-
-
-
-//                    BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
-//                    BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-//                            mTabbarFileListAdapter,
-//                            mCurrentPath,
-//                            BeanListManager.TypeDelTabbar,
-//                            mSdCardList);//删除数据
-
+                    refreshFileAndTabbar(BeanListManager.TypeDelTabbar);
                 }
-
 
             }
         }
@@ -500,38 +404,13 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
             mSdCardPopupWindow.dismiss();
             mCurrentPath = mSdCardList.get(position);
 
-            if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
-                //通过uri来获取数据
-                UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
-                UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
-                        mTabbarFileListAdapter,
-                        mCurrentPath,
-                        BeanListManager.TypeInitTabbar,
-                        mSdCardList
-                );//初始化数据
-            }else {
-                //通过路径来获取数据
-                BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
-                BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-                        mTabbarFileListAdapter,
-                        mCurrentPath,
-                        BeanListManager.TypeInitTabbar,
-                        mSdCardList
-                );//初始化数据
-            }
-
-//            BeanListManager.upDataFileBeanList(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
-//            mTabbarFileList=BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
-//                    mTabbarFileListAdapter,
-//                    mCurrentPath,
-//                    BeanListManager.TypeInitTabbar,
-//                    mSdCardList
-//            );//初始化数据
-
+            refreshFileAndTabbar(BeanListManager.TypeInitTabbar);
 
         }
 
     }
+
+
 
     @Override
     public boolean onItemLongClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
@@ -541,7 +420,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
             FileBean item = mFileList.get(position);
 
             if (mSelectOptions.fileItemListener!=null) {//如果设置了fileItemListener
-                //fileitem回调
+                //fileitemLongClick回调
                 boolean state = mSelectOptions.fileItemListener.onLongFileItemClick(view,
                         mCurrentPath,
                         mFileList,
@@ -552,8 +431,6 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                 );
                 if (state) return true;//表示已经处理了
             }
-
-
 
             if (mSelectFileTypes.size()!=0){//筛选选择类型，没有设置就不筛选
                 if (!mSelectFileTypes.contains(item.getFileExtension())){
@@ -575,7 +452,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
                 choosedFileItemNumber--;
             }
 
-            //Mtools.log(choosedFileItemNumber);
+            Mtools.log(choosedFileItemNumber);
 
             if (mToolbarFragment instanceof ToolbarFragment){
                 ToolbarFragment toolbar = (ToolbarFragment) mToolbarFragment;
@@ -598,6 +475,33 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
     }
 
     /**
+     * 刷新FileBeanList & TabbarFileBeanList
+     * @param tabbarType
+     */
+    private void refreshFileAndTabbar(int tabbarType) {
+        if (PermissionsTools.isAndroid11()&&FileTools.isAndroidDataPath(mCurrentPath)){//判断是否在Android/data目录下
+            //通过uri来获取数据
+            UriTools.upDataFileBeanListByUri(mActivity,UriTools.file2Uri(mCurrentPath),mFileList,mFileListAdapter,mShowFileTypes,mSortType);
+            UriTools.upDataTabbarFileBeanListByUri(mTabbarFileList,
+                    mTabbarFileListAdapter,
+                    mCurrentPath,
+                    tabbarType,
+                    mSdCardList
+            );//初始化数据
+        }else {
+            //通过路径来获取数据
+            BeanListManager.upDataFileBeanListByAsyn(mFileList,mFileListAdapter,mCurrentPath,mShowFileTypes,mSortType);
+            BeanListManager.upDataTabbarFileBeanList(mTabbarFileList,
+                    mTabbarFileListAdapter,
+                    mCurrentPath,
+                    tabbarType,
+                    mSdCardList
+            );//初始化数据
+        }
+
+    }
+
+    /**
      * 返回授权状态并存储
      * @param requestCode
      * @param resultCode
@@ -614,6 +518,7 @@ public class PathSelectFragment extends BaseFragment implements OnItemClickListe
             mActivity.getContentResolver().takePersistableUriPermission(uri, data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION
                     | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));//关键是这里，这个就是保存这个目录的访问权限
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 

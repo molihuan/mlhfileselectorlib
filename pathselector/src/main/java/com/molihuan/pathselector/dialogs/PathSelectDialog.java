@@ -55,6 +55,7 @@ public class PathSelectDialog extends BaseDialogFragment {
                             isShow);
                 })
                 ;
+
         FragmentTools.fragmentShowHide(getChildFragmentManager(),
                 R.id.framelayout_dialog_show_body_mlh,
                 mPathSelectFragment,

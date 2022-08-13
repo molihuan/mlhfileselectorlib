@@ -19,7 +19,6 @@ import com.molihuan.pathselector.entities.FileBean;
 import com.molihuan.pathselector.fragments.PathSelectFragment;
 import com.molihuan.pathselector.utils.Constants;
 import com.molihuan.pathselector.utils.Mtools;
-import com.zlylib.mlhfileselectorlib.FileSelector;
 
 import java.util.List;
 
@@ -89,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.btn_dialog_selector :
                 dialogSelectShow();
-                //cs();
                 break;
             case R.id.btn_fragment_selector :
                 fragmentSelectShow();
@@ -98,36 +96,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 activitySelectShow();
                 break;
             case R.id.btn_custom_toolbar_selector :
-                //customToolbarSelectShow();
-                otherOpen();
+                customToolbarSelectShow();
+
                 break;
         }
     }
 
-    private void otherOpen() {
-        FileSelector.from(this)
-                .start();
-    }
 
-
-    public void cs(){
-
-//        List list = UriTools.data2UriMimeTypeData(Arrays.asList(new String[]{"txt"}));
-//
-//        Uri p1 = Uri.parse(UriTools.URI_M5);
-//        Mtools.log(p1.toString());
-//
-//        String filepath = UriTools.uri2File(p1);
-//
-//
-//        Mtools.log(filepath);
-//        Uri uri = UriTools.file2Uri(filepath);
-//        if (uri!=null)
-//        Mtools.log(uri.toString());
-
-//        UriUtils.uri2File()
-        //UriTools.traverseDirByUri(this,UriTools.URI_MOLI,);
-    }
 
     /**
      * 自定义Toolbar方式 详细选项设置请看本类中{@link #activitySelectShow()} 传送门
@@ -169,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void dialogSelectShow(){
         //获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
         mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_DIALOG)
+                .isSingle()
                 .frameLayoutID(R.id.fragment_select_show_area)//加载位置FrameLayout的ID
                 .requestCode(10011)//请求码
                 .showToolBarFragment(true)//是否显示ToolbarFragment
@@ -250,7 +226,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setFileItemListener(new com.molihuan.pathselector.dao.SelectOptions.onFileItemListener() {
                     @Override
                     public boolean onFileItemClick(View view, String currentPath, List<com.molihuan.pathselector.entities.FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, com.molihuan.pathselector.adapters.FileListAdapter fileAdapter,FileBean fileBean) {
-                        Mtools.toast(getBaseContext(),currentPath);
+
+
+
                         return false;
                     }
                     @Override

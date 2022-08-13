@@ -50,20 +50,23 @@ public class UriTools {
     public static final String URI_ANRROID_DATA="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata";
     //uri路径分割符
     public static final String URI_SEPARATOR="%2F";
+    //SDcard有通配符%s匹配sd卡名
+    public static final String URI_SDCARD_ROOT_FRONT="content://com.android.externalstorage.documents/tree/";
+    public static final String URI_SDCARD_ROOT_LAST="%3A";
 
     //测试数据    Android/data/moli目录
-//    public static final String URI_MOLI="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata%2Fmoli";
-//    public static final String URI_M="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata%2Fm.txt";
-//    public static final String URI_M1="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata%2Fmoli%2Fm1.txt";
-//    public static final String URI_M2="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata%2Fmoli%2Fm2.txt";
-//    public static final String URI_M3D="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata%2Fmoli%2Fm3d";
-//    public static final String URI_M4D="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata%2Fmoli%2Fm3d%2Fm4d";
-//    public static final String URI_M5="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata%2Fmoli%2Fm3d%2Fm5.txt";
-//    public static final String URI_M6="content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata/document/primary%3AAndroid%2Fdata%2Fmoli%2Fm3d%2Fm6.txt";
 
 
-
-
+    /**
+     * 获取SD卡root目录的uri字符串
+     * @param path sd卡root的path字符串 如:/storage/1020-1A01
+     * @return 如:content://com.android.externalstorage.documents/tree/1020-1A01%3A
+     */
+    public static String getSdcardRootUriByPath(String path){
+        int last = path.lastIndexOf("/");
+        String SDName = path.substring(last + 1);
+        return URI_SDCARD_ROOT_FRONT+SDName;
+    }
 
 
     /**
@@ -92,14 +95,14 @@ public class UriTools {
     }
 
     /**
-     * 把Uri转为可操作的DocumentFile对象
+     * 把Uri转为可操作的DocumentFile对象(通用)
      * @param context
      * @param uri
      * @return
      */
     public static DocumentFile uri2DocumentFile(Context context,Uri uri){
-        DocumentFile rootDocumentFile = DocumentFile.fromSingleUri(context, uri);
-        return rootDocumentFile;
+        DocumentFile documentFile = DocumentFile.fromSingleUri(context, uri);
+        return documentFile;
     }
     public static DocumentFile uri2DocumentFile(Context context,String path){
         return uri2DocumentFile(context,file2Uri(path));
@@ -323,7 +326,9 @@ public class UriTools {
         return true;
     }
 
-
+//    public static Uri path2Uri(Context context,String filePath) {
+//
+//    }
 
     /**
      * 根据file转换为uri(只对/storage/emulated/0/Android/data下面的有效)

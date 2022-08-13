@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.molihuan.pathselector">
     <!-- 外部存储的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -7,11 +8,16 @@
     <!-- 安卓11额外权限 -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+
     <application
         android:preserveLegacyExternalStorage="true"
         android:requestLegacyExternalStorage="true">
 
         <activity android:name=".activities.PathSelectActivity"></activity>
+
+
     </application>
 
 </manifest>

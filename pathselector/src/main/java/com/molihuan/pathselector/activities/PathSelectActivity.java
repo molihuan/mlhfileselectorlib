@@ -38,6 +38,9 @@ public class PathSelectActivity extends BaseActivity {
     public void initData() {
         mSelectOptions = SelectOptions.getInstance();//获取实例
         mSelectOptions.frameLayoutID=R.id.framelayout_show_body_mlh;//设置显示的位置
+
+
+
     }
 
     @Override

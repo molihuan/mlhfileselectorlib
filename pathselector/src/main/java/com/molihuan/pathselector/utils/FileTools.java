@@ -240,7 +240,10 @@ public class FileTools {
         return file == null ? -1L : file.lastModified();
     }
 
+
+
     /**
+     * 非常耗时
      * 获取获取文件或目录大小
      * @param filePath
      * @return
@@ -250,6 +253,7 @@ public class FileTools {
         return getSimpleSize(getFileByPath(filePath));
     }
     public static Long getSimpleSize(File file) {
+
         return StringTools.getOnlyNumber(getSize(file));
     }
 
@@ -320,7 +324,7 @@ public class FileTools {
     //*********************       结束获取获取文件或目录大小             *******************************//
 
     /**
-     *
+     *创建目录
      * @param file
      * @return
      */
@@ -345,6 +349,11 @@ public class FileTools {
         return var10000;
     }
 
+    /**
+     * 创建文件
+     * @param file
+     * @return
+     */
     public static boolean createOrExistsFile(File file) {
         if (file == null) {
             return false;
@@ -428,6 +437,14 @@ public class FileTools {
      */
     public static boolean isAndroidDataPath(String path){
         return path.matches(Constants.PATH_ANRROID_DATA+"(.*)") ? true : false;
+    }
+    /**
+     * 判断是否在/storage/emulated/0/Android/obb目录下
+     * @param path
+     * @return
+     */
+    public static boolean isAndroidObbPath(String path){
+        return path.matches(Constants.PATH_ANRROID_OBB+"(.*)") ? true : false;
     }
 
 

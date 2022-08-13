@@ -30,8 +30,7 @@
                 android:layout_gravity="center"
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="centerInside"
-                android:rotation="90"
-                android:src="@mipmap/ic_tabbar_partition"
+                android:src="@drawable/ic_drop_down"
                 android:tint="@color/mlh_Grey500"
                 />
             <androidx.recyclerview.widget.RecyclerView

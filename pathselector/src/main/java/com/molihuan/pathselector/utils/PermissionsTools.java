@@ -210,6 +210,7 @@ public class PermissionsTools {
                         break;
                     }
                 } else {
+
                     Uri uri = Uri.parse(URI_ANRROID_DATA);
                     Intent intent1 = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
                     intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -217,6 +218,7 @@ public class PermissionsTools {
                             | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
                             | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
                     intent1.putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri);
+
                     if (fragment!=null){
                         fragment.startActivityForResult(intent1, 11);
                     }else {
@@ -228,6 +230,87 @@ public class PermissionsTools {
             }
         }
     }
+
+
+    //content://com.android.externalstorage.documents/tree/418A-1D08%3AAndroid%2Fdata%2Fcom.amazon.mp3
+
+    /**
+     *获取SD目录访问权限
+     * @param activity  this
+     * @param contentResolver   getContentResolver()
+     */
+
+    public static void getSDPermission(Activity activity, Fragment fragment, ContentResolver contentResolver, String path){
+        //安卓SD目录访问权限
+
+//        Intent intent = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//            StorageManager sm =activity.getSystemService(StorageManager.class);
+//            StorageVolume volume = sm.getStorageVolume(new File(path));
+//            if (volume != null) {
+//                intent = volume.createOpenDocumentTreeIntent();
+//            }
+//        }
+//        if (intent == null) {
+//            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+//        }
+//        Mtools.log(intent);
+//        if (fragment!=null){
+//            fragment.startActivityForResult(intent, 12);
+//        }else {
+//            activity.startActivityForResult(intent, 12);
+//        }
+
+        //{act=android.intent.action.OPEN_DOCUMENT_TREE flg=0xc3 cmp=com.google.android.documentsui/com.android.documentsui.picker.PickActivity (has extras)}
+        //{act=android.intent.action.OPEN_DOCUMENT_TREE flg=0xc3 cmp=com.google.android.documentsui/com.android.documentsui.picker.PickActivity (has extras)}
+
+
+        Uri uri = Uri.parse(UriTools.getSdcardRootUriByPath(path));
+        Mtools.log(uri);//uri: content://com.android.externalstorage.documents/tree/1020-1A01
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
+        
+        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri);
+
+        if (fragment!=null){
+            fragment.startActivityForResult(intent, 12);
+        }else {
+            activity.startActivityForResult(intent, 12);
+        }
+
+
+            //Iterator<UriPermission> it = contentResolver.getPersistedUriPermissions().iterator();
+//            while (true) {
+//                if (it.hasNext()) {
+//                    if (it.next().isWritePermission()) {
+//                        break;
+//                    }
+//                } else {
+//
+//                    Uri uri = Uri.parse(UriTools.getSdcardRootUriByPath(path));
+//                    Intent intent1 = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+//                    intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+//                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+//                            | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+//                            | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
+//                    intent1.putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri);
+//
+//                    if (fragment!=null){
+//                        fragment.startActivityForResult(intent1, 11);
+//                    }else {
+//                        activity.startActivityForResult(intent1, 11);
+//                    }
+//
+//                    break;
+//                }
+//            }
+
+        }
+
 
 
 

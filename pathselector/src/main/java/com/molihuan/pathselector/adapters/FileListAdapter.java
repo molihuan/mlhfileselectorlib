@@ -36,12 +36,13 @@ public class FileListAdapter extends BaseQuickAdapter<FileBean, BaseViewHolder> 
         //设置类型图片
         imgvFiletype.setImageResource(fileBean.getFileImgType());
 
+
         boolean isFile = fileBean.isFile();
         //设置详细信息
         if (isFile){
             tvFileDetail.setText(String.format("大小:%s", fileBean.getSize()));
         }else {
-            tvFileDetail.setText(String.format("大小:%s | 文件:%s | 文件夹:%s", fileBean.getSize(),fileBean.getChildrenFileNumber(),fileBean.getChildrenDirNumber()));
+            tvFileDetail.setText(String.format(" 文件:%s | 文件夹:%s", fileBean.getChildrenFileNumber(),fileBean.getChildrenDirNumber()));
         }
 
         //设置checkBox
