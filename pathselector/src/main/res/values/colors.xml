@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="orange_mlh">#FF7F50</color>
+    <color name="transparent_mlh">#00000000</color>
+    <color name="white_mlh">#FFFFFF</color>
 
-    <color name="transparent">#00000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="mlh_Grey50">#FAFAFA</color>
-    <color name="mlh_Grey100">#F5F5F5</color>
-    <color name="mlh_Grey200">#EEEEEE</color>
-    <color name="mlh_Grey300">#E0E0E0</color>
-    <color name="mlh_Grey400">#bdbdbd</color>
-    <color name="mlh_Grey500">#9e9e9e</color>
-    <color name="mlh_Grey600">#757575</color>
-    <color name="mlh_Grey700">#616161</color>
-    <color name="mlh_Grey800">#3D3D3D</color>
-    <color name="mlh_Grey900">#212121</color>
-    <color name="mlh_black">#000000</color>
-    <color name="mlh_titlebg">#6200EE</color>
+    <color name="grey_transparent1_mlh">#019e9e9e</color>
+    <color name="grey_transparent5_mlh">#059e9e9e</color>
+    <color name="grey_transparent10_mlh">#109e9e9e</color>
+    <color name="grey_transparent20_mlh">#209e9e9e</color>
+    <color name="grey_transparent30_mlh">#309e9e9e</color>
+    <color name="grey_transparent40_mlh">#409e9e9e</color>
+    <color name="grey_transparent50_mlh">#509e9e9e</color>
+    <color name="grey_transparent60_mlh">#609e9e9e</color>
+    <color name="grey_transparent70_mlh">#709e9e9e</color>
+    <color name="grey_transparent80_mlh">#809e9e9e</color>
+    <color name="grey_transparent90_mlh">#909e9e9e</color>
+
+    <color name="grey50_mlh">#FAFAFA</color>
+    <color name="grey100_mlh">#F5F5F5</color>
+    <color name="grey200_mlh">#EEEEEE</color>
+    <color name="grey300_mlh">#E0E0E0</color>
+    <color name="grey400_mlh">#bdbdbd</color>
+    <color name="grey500_mlh">#9e9e9e</color>
+    <color name="grey600_mlh">#757575</color>
+    <color name="grey700_mlh">#616161</color>
+    <color name="grey800_mlh">#3D3D3D</color>
+    <color name="grey900_mlh">#212121</color>
+    <color name="black_mlh">#000000</color>
 </resources>

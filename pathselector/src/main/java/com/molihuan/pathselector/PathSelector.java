@@ -1,88 +1,45 @@
 package com.molihuan.pathselector;
 
-import android.app.Activity;
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import com.molihuan.pathselector.service.SelectManager;
-import com.molihuan.pathselector.utils.Constants;
+import com.molihuan.pathselector.service.IConfigDataBuilder;
+import com.molihuan.pathselector.service.impl.ConfigDataBuilderImpl;
+
+import java.util.Objects;
 
 /**
- * @ClassName PathSelector
- * @Description TODO
- * @Author molihuan
- * @Date 2022/6/22 3:12
+ * @ClassName: PathSelector
+ * @Author: molihuan
+ * @Date: 2022/11/22/22:09
+ * @Description: 以数据为驱动, 先初始化数据，再由数据控制构建
+ * 1、初始化DataBuilder(数据构建者)
+ * 2、再由DataBuilder初始化AbstractBuildController(构建控制者)并构建
  */
+
 public class PathSelector {
-    private static int buidlType;//跳转显示方式：Activity Fragment
-    private static Context mContext;//上下文
-    private static Fragment mFragment;//fragment
+    private static Fragment fragment;
 
-    private PathSelector(Activity activity) {
-        this.mContext=activity;
-        this.mFragment=null;
+    public static IConfigDataBuilder build(Fragment fragment, int buildType) {
+        PathSelector.fragment = fragment;
+        Context context = fragment.getContext();
+        Objects.requireNonNull(context, "context is null");
+        return build(context, buildType);
     }
 
-    private PathSelector(Fragment fragment){
-        this.mContext=fragment.getActivity();
-        this.mFragment=fragment;
+    public static IConfigDataBuilder build(Context context, int buildType) {
+        IConfigDataBuilder builder = ConfigDataBuilderImpl.getInstance();
+        builder.setContext(context)
+                .setBuildType(buildType);
+        return builder;
     }
 
-    public static SelectManager build(Activity activity,int buidlType){
-        if (buidlType== Constants.BUILD_FRAGMENT){
-            throw new IllegalArgumentException("BUILD_FRAGMENT模式下context必须为FragmentActivity以及其子类(AppCompatActivity)类型");
-        }
-        PathSelector.buidlType=buidlType;
-        return new PathSelector(activity).initManager();
+    public static Fragment getFragment() {
+        return fragment;
     }
 
-    public static SelectManager build(Fragment fragment,int buidlType){
-        if (buidlType== Constants.BUILD_FRAGMENT){
-            throw new IllegalArgumentException("BUILD_FRAGMENT模式下context必须为FragmentActivity以及其子类(AppCompatActivity)类型");
-        }
-        PathSelector.buidlType=buidlType;
-        return new PathSelector(fragment).initManager();
-    }
-
-
-    /**
-     * Fragment模式参数必须为FragmentActivity类型以及其子类(AppCompatActivity)
-     * @param activity
-     * @param buidlType
-     * @return
-     */
-    public static SelectManager build(FragmentActivity activity,int buidlType){
-        PathSelector.buidlType=buidlType;
-        return new PathSelector(activity).initManager();
-    }
-
-    /**
-     * 初始化管理者
-     * @return
-     */
-    private SelectManager initManager(){
-        return new SelectManager(this);
-    }
-
-    public Context getActivity() {
-        return mContext;
-    }
-
-    public Fragment getFragment() {
-        return mFragment != null ? mFragment : null;
-    }
-
-    public int getBuidlType() {
-        return buidlType;
-    }
-
-    /**
-     * 释放资源
-     */
-    public void release() {
-        mContext=null;
-        mFragment=null;
+    public static void setFragment(Fragment fragment) {
+        PathSelector.fragment = fragment;
     }
 }

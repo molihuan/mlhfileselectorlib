@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rel_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/orange_mlh">
+
+
+        <View
+            android:id="@+id/view_position_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true">
+
+            <ImageView
+                android:id="@+id/imgv_back_titlebar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_titlebar_back"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/style_click_round_transp_gray_mlh" />
+
+            <ImageView
+                android:id="@+id/imgv_storage_titlebar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_tabbar_storage"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/style_click_round_transp_gray_mlh"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tv_main_title_titlebar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_text"
+                    android:textSize="21dp"
+                    android:textColor="@color/white_mlh" />
+                <!--            TODO     副标题显示跑马灯-->
+                <TextView
+                    android:id="@+id/tv_subtitle_titlebar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_main_title_titlebar"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/white_mlh"
+                    android:text="@string/test_text"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true">
+
+            <!--            TODO  搜索功能添加  -->
+            <ImageView
+                android:id="@+id/imgv_seach_titlebar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_titlebar_search"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/style_click_round_transp_gray_mlh"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imgv_more_options_titlebar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_titlebar_options"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/style_click_round_transp_gray_mlh" />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_one_option_titlebar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:textColor="@color/white_mlh"
+            android:background="@drawable/style_click_rectangle_transp_gray_mlh" />
+    </RelativeLayout>
+</RelativeLayout>

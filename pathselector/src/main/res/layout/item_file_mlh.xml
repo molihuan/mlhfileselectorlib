@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+
+    <!--    <View-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0.5dp"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        />-->
+
+
+    <LinearLayout
+        android:id="@+id/linl_item_file_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/style_click_r_rectangle_white_gray_mlh">
+
+        <RelativeLayout
+            android:layout_width="54dp"
+            android:layout_height="54dp">
+
+            <ImageView
+                android:id="@+id/imgv_item_file_ico"
+                android:layout_width="36dp"
+                android:layout_height="42dp"
+                android:src="@mipmap/folder"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_item_file_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:text="1"
+                    android:textColor="@color/black_mlh"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_item_file_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/grey500_mlh"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <CheckBox
+                android:id="@+id/checkbox_item_file_choose"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:clickable="false"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/imgv_item_file_enter"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_partition_tabbar_black" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

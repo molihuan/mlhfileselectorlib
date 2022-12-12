@@ -1,215 +1,42 @@
 package com.molihuan.pathselector.utils;
 
-import android.content.Context;
-import android.os.storage.StorageManager;
-import android.util.Log;
+import androidx.documentfile.provider.DocumentFile;
 
-import java.io.BufferedOutputStream;
+import com.blankj.molihuan.utilcode.util.ConvertUtils;
+import com.blankj.molihuan.utilcode.util.FileUtils;
+import com.molihuan.pathselector.R;
+
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * @ClassName FileTools
- * @Description TODO
- * @Author molihuan
- * @Date 2022/6/24 13:27
+ * @ClassName: FileTools
+ * @Author: molihuan
+ * @Date: 2022/12/03/10:15
+ * @Description:
  */
 public class FileTools {
-    /**
-     * 根据文件路径获取文件
-     * @param path 绝对路径
-     * @return
-     */
-    public static File getFileByPath(String path){
-        return StringTools.isEmpty(path) ? null : new File(path);
-    }
+
+    public static final String ERROR_GETTING_FILE_SIZE = "-1b";
+
 
     /**
-     * 判断文件是否存在
-     * @param file
+     * 只计算文件的大小(不能计算文件夹)
+     *
      * @return
      */
-    public static boolean isFileExists(File file) {
-        if (file == null) {
-            return false;
-        } else {
-            return file.exists() ? true : isFileExists(file.getAbsolutePath());
+    public static String computeFileSize(File file) {
+        if (!file.exists() || file.isDirectory()) {
+            return ERROR_GETTING_FILE_SIZE;
         }
-    }
-
-    public static boolean isFileExists(String filePath) {
-        File file = getFileByPath(filePath);
-        if (file == null) {
-            return false;
-        } else {
-            return file.exists() ? true : false;
-        }
-    }
-
-    /**
-     * 重命名文件
-     * @param filePath
-     * @param newName
-     * @return
-     */
-    public static boolean rename(String filePath, String newName) {
-        return rename(getFileByPath(filePath), newName);
-    }
-
-    public static boolean rename(File file, String newName) {
-        if (file == null) {
-            return false;
-        } else if (!file.exists()) {
-            return false;
-        } else if (StringTools.isEmpty(newName)) {
-            return false;
-        } else if (newName.equals(file.getName())) {
-            return true;
-        } else {
-            File newFile = new File(file.getParent() + File.separator + newName);
-            return !newFile.exists() && file.renameTo(newFile);
-        }
-    }
-
-    /**
-     * 获取子文件、文件夹数量
-     * @param path
-     * @return numbers[0]为文件数量、numbers[1]为文件夹数量
-     */
-    public static int[] getChildrenNumber(String path) {
-        return getChildrenNumber(getFileByPath(path));
-    }
-    public static int[] getChildrenNumber(File file) {
-        File[] files = file.listFiles();
-        int [] numbers=new int[]{0,0};
-        if (files!=null){
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
-                    numbers[0]++;
-                }else {
-                    numbers[1]++;
-                }
-            }
-        }
-        return numbers;
-    }
-
-    /**
-     *判断是否是目录
-     * @param dirPath
-     * @return
-     */
-    public static boolean isDir(String dirPath) {
-        return isDir(getFileByPath(dirPath));
-    }
-
-    public static boolean isDir(File file) {
-        return file != null && file.exists() && file.isDirectory();
-    }
-
-    /**
-     * 判断是否是文件
-     * @param filePath
-     * @return
-     */
-    public static boolean isFile(String filePath) {
-        return isFile(getFileByPath(filePath));
-    }
-
-    public static boolean isFile(File file) {
-        return file != null && file.exists() && file.isFile();
-    }
-
-    /**
-     * 根据绝对路径获取上一级文件夹名
-     * @param file
-     * @return
-     */
-    public static String getDirName(File file) {
-        return file == null ? "" : getDirName(file.getAbsolutePath());
-    }
-
-    public static String getDirName(String filePath) {
-        if (StringTools.isEmpty(filePath)) {
-            return "";
-        } else {
-            int lastSep1 = filePath.lastIndexOf(File.separator);
-            if (lastSep1==-1){
-                return "";
-            }else {
-                int lastSep2 = filePath.substring(0, lastSep1).lastIndexOf(File.separator);
-                return filePath.substring(lastSep2+1, lastSep1);
-            }
-        }
-    }
-
-    /**
-     * 根据绝对路径获取上一级绝对路径
-     * @param file
-     * @return
-     */
-    public static String getParentPath(File file) {
-        return file == null ? "" : getParentPath(file.getAbsolutePath());
-    }
-
-    public static String getParentPath(String filePath) {
-        if (StringTools.isEmpty(filePath)) {
-            return "";
-        } else {
-            int lastSep = filePath.lastIndexOf(File.separator);
-            return lastSep == -1 ? "" : filePath.substring(0, lastSep);
-        }
-    }
-
-    /**
-     * 根据绝对路径获取文件名(有后缀名)
-     * @param file
-     * @return
-     */
-    public static String getFileName(File file) {
-        return file == null ? "" : getFileName(file.getAbsolutePath());
-    }
-
-    public static String getFileName(String filePath) {
-        if (StringTools.isEmpty(filePath)) {
-            return "";
-        } else {
-            int lastSep = filePath.lastIndexOf(File.separator);
-            return lastSep == -1 ? filePath : filePath.substring(lastSep + 1);
-        }
-    }
-
-    /**
-     * 根据绝对路径获取文件名不带拓展名
-     * @param file
-     * @return
-     */
-    public static String getFileNameNoExtension(File file) {
-        return file == null ? "" : getFileNameNoExtension(file.getPath());
-    }
-
-    public static String getFileNameNoExtension(String filePath) {
-        if (StringTools.isEmpty(filePath)) {
-            return "";
-        } else {
-            int lastPoi = filePath.lastIndexOf(46);
-            int lastSep = filePath.lastIndexOf(File.separator);
-            if (lastSep == -1) {
-                return lastPoi == -1 ? filePath : filePath.substring(0, lastPoi);
-            } else {
-                return lastPoi != -1 && lastSep <= lastPoi ? filePath.substring(lastSep + 1, lastPoi) : filePath.substring(lastSep + 1);
-            }
-        }
+        //根据byte计算文件大小-->B  KB  MB  GB
+        return ConvertUtils.byte2FitMemorySize(file.length(), 2);
     }
 
     /**
      * 根据绝对路径获取文件拓展名
+     *
      * @param file
      * @return
      */
@@ -218,7 +45,7 @@ public class FileTools {
     }
 
     public static String getFileExtension(String filePath) {
-        if (StringTools.isEmpty(filePath)) {
+        if (stringIsEmpty(filePath)) {
             return "";
         } else {
             int lastPoi = filePath.lastIndexOf(46);
@@ -228,250 +55,244 @@ public class FileTools {
     }
 
     /**
-     * 获取文件最后修改的毫秒时间戳
-     * @param filePath
+     * 根据绝对路径获取上一级绝对路径
+     *
+     * @param file
      * @return
      */
-    public static long getFileLastModified(String filePath) {
-        return getFileLastModified(getFileByPath(filePath));
+    public static String getParentPath(File file) {
+        return file == null ? "" : getParentPath(file.getAbsolutePath());
     }
 
-    public static long getFileLastModified(File file) {
-        return file == null ? -1L : file.lastModified();
-    }
-
-
-
-    /**
-     * 非常耗时
-     * 获取获取文件或目录大小
-     * @param filePath
-     * @return
-     */
-    //*********************       开始获取获取文件或目录大小             *******************************//
-    public static Long getSimpleSize(String filePath) {
-        return getSimpleSize(getFileByPath(filePath));
-    }
-    public static Long getSimpleSize(File file) {
-
-        return StringTools.getOnlyNumber(getSize(file));
-    }
-
-    public static String getSize(String filePath) {
-        return getSize(getFileByPath(filePath));
-    }
-
-    public static String getSize(File file) {
-        if (file == null) {
+    public static String getParentPath(String filePath) {
+        if (stringIsEmpty(filePath)) {
             return "";
         } else {
-            return file.isDirectory() ? getDirSize(file) : getFileSize(file);
+            int lastSep = filePath.lastIndexOf(File.separator);
+            return lastSep == -1 ? "" : filePath.substring(0, lastSep);
         }
     }
-
-    private static String getDirSize(File dir) {
-        long len = getDirLength(dir);
-        return len == -1L ? "" : byte2FitMemorySize(len,3);
-    }
-
-    private static String getFileSize(File file) {
-        long len = getFileLength(file);
-        return len == -1L ? "" : byte2FitMemorySize(len,3);
-    }
-
-    private static long getFileLength(File file) {
-        return !isFile(file) ? -1L : file.length();
-    }
-
-    private static long getDirLength(File dir) {
-        if (!isDir(dir)) {
-            return 0L;
-        } else {
-            long len = 0L;
-            File[] files = dir.listFiles();
-            if (files != null && files.length > 0) {
-                File[] var4 = files;
-                int var5 = files.length;
-
-                for(int var6 = 0; var6 < var5; ++var6) {
-                    File file = var4[var6];
-                    if (file.isDirectory()) {
-                        len += getDirLength(file);
-                    } else {
-                        len += file.length();
-                    }
-                }
-            }
-
-            return len;
-        }
-    }
-
-    public static String byte2FitMemorySize(long byteSize, int precision) {
-        if (precision < 0) {
-            throw new IllegalArgumentException("precision shouldn't be less than zero!");
-        } else if (byteSize < 0L) {
-            throw new IllegalArgumentException("byteSize shouldn't be less than zero!");
-        } else if (byteSize < 1024L) {
-            return String.format("%." + precision + "fB", (double)byteSize);
-        } else if (byteSize < 1048576L) {
-            return String.format("%." + precision + "fKB", (double)byteSize / 1024.0D);
-        } else {
-            return byteSize < 1073741824L ? String.format("%." + precision + "fMB", (double)byteSize / 1048576.0D) : String.format("%." + precision + "fGB", (double)byteSize / 1.073741824E9D);
-        }
-    }
-
-    //*********************       结束获取获取文件或目录大小             *******************************//
 
     /**
-     *创建目录
-     * @param file
+     * 是否需要使用uri
+     *
      * @return
      */
-    public static boolean createOrExistsDir(File file) {
-        boolean var10000;
-        label25: {
-            if (file != null) {
-                if (file.exists()) {
-                    if (file.isDirectory()) {
-                        break label25;
-                    }
-                } else if (file.mkdirs()) {
-                    break label25;
-                }
-            }
-
-            var10000 = false;
-            return var10000;
-        }
-
-        var10000 = true;
-        return var10000;
+    public static boolean needUseUri(String path) {
+        return underAndroidDataUseUri(path) || underAndroidObbUseUri(path);
     }
 
     /**
-     * 创建文件
-     * @param file
-     * @return
-     */
-    public static boolean createOrExistsFile(File file) {
-        if (file == null) {
-            return false;
-        } else if (file.exists()) {
-            return file.isFile();
-        } else if (!createOrExistsDir(file.getParentFile())) {
-            return false;
-        } else {
-            try {
-                return file.createNewFile();
-            } catch (IOException var2) {
-                var2.printStackTrace();
-                return false;
-            }
-        }
-    }
-
-
-
-
-    /**
-     * 通过流的形式写入文件
-     * @param file
-     * @param is
-     * @param append
-     * @return
-     */
-    private static int sBufferSize = 524288;
-    public static boolean writeFileFromIS(File file, InputStream is, boolean append) {
-        if (is != null && createOrExistsFile(file)) {
-            BufferedOutputStream os = null;
-
-            boolean var6;
-            try {
-                os = new BufferedOutputStream(new FileOutputStream(file, append), sBufferSize);
-
-                double totalSize = (double)is.available();
-                int curSize = 0;
-                byte[] data = new byte[sBufferSize];
-
-                int len;
-                while((len = is.read(data)) != -1) {
-                    os.write(data, 0, len);
-                    curSize += len;
-
-                }
-
-                boolean var25 = true;
-                return var25;
-            } catch (IOException var22) {
-                var22.printStackTrace();
-                var6 = false;
-            } finally {
-                try {
-                    is.close();
-                } catch (IOException var21) {
-                    var21.printStackTrace();
-                }
-
-                try {
-                    if (os != null) {
-                        os.close();
-                    }
-                } catch (IOException var20) {
-                    var20.printStackTrace();
-                }
-
-            }
-
-            return var6;
-        } else {
-            Log.e("FileIOUtils", "create file <" + file + "> failed.");
-            return false;
-        }
-    }
-
-    /**
-     * 判断是否在/storage/emulated/0/Android/data目录下
+     * 路径是否是Android/data或其子目录
+     *
      * @param path
      * @return
      */
-    public static boolean isAndroidDataPath(String path){
-        return path.matches(Constants.PATH_ANRROID_DATA+"(.*)") ? true : false;
+    public static boolean underAndroidDataUseUri(String path) {
+        //判断是否是安卓11以及以上
+        if (!VersionTool.isAndroid11()) {
+            return false;
+        }
+        //判断是否在Android/data目录下
+        if (!isUnderDir(path, MConstants.TYPE_UNDERDIR_ANRROID_DATA)) {
+            return false;
+        }
+        return true;
     }
+
     /**
-     * 判断是否在/storage/emulated/0/Android/obb目录下
+     * 路径是否是Android/obb或其子目录
+     *
      * @param path
      * @return
      */
-    public static boolean isAndroidObbPath(String path){
-        return path.matches(Constants.PATH_ANRROID_OBB+"(.*)") ? true : false;
+    public static boolean underAndroidObbUseUri(String path) {
+        //判断是否是安卓11以及以上
+        if (!VersionTool.isAndroid11()) {
+            return false;
+        }
+        //判断是否在Android/obb目录下
+        if (!isUnderDir(path, MConstants.TYPE_UNDERDIR_ANRROID_OBB)) {
+            return false;
+        }
+        return true;
     }
-
 
     /**
-     * 得到所有的存储路径（内部存储+外部存储）
-     * 反射的方式
-     * @param context context
-     * @return 路径列表
+     * 是否在目录下
+     * 是否在Android/data/和Android/obb/下
+     *
+     * @param targetPath
+     * @return
      */
-    public static List<String> getAllSdPaths(Context context) {
-        Method mMethodGetPaths = null;
-        String[] paths = null;
-        //通过调用类的实例mStorageManager的getClass()获取StorageManager类对应的Class对象
-        //getMethod("getVolumePaths")返回StorageManager类对应的Class对象的getVolumePaths方法，这里不带参数
-        StorageManager mStorageManager = (StorageManager) context
-                .getSystemService(context.STORAGE_SERVICE);//storage
-        try {
-            mMethodGetPaths = mStorageManager.getClass().getMethod("getVolumePaths");
-            paths = (String[]) mMethodGetPaths.invoke(mStorageManager);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    private static boolean isUnderDir(String targetPath, String parentPath, int type) {
+        switch (type) {
+            case MConstants.TYPE_UNDERDIR_ANRROID_DATA:
+                parentPath = MConstants.PATH_ANRROID_DATA;
+                break;
+            case MConstants.TYPE_UNDERDIR_ANRROID_OBB:
+                parentPath = MConstants.PATH_ANRROID_OBB;
+                break;
+            default:
         }
-        if (paths != null) {
-            return Arrays.asList(paths);
-        }
-        return new ArrayList<String>();
+        return targetPath.startsWith(parentPath);
     }
 
+    public static boolean isUnderDir(String targetPath, String parentPath) {
+        return isUnderDir(targetPath, parentPath, 0);
+    }
+
+    public static boolean isUnderDir(String targetPath, int type) {
+        return isUnderDir(targetPath, null, type);
+    }
+
+    /**
+     * 判断选择的是否符合要求
+     *
+     * @param selectType
+     * @param selectFileTypes
+     * @return
+     */
+    public static boolean selectTypeCompliance(String selectType, List<String> selectFileTypes) {
+        if (selectFileTypes == null || selectFileTypes.size() == 0 || selectFileTypes.contains(selectType)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取子文件、文件夹数量
+     *
+     * @param path
+     * @return numbers[0]为文件数量、numbers[1]为文件夹数量
+     */
+    public static int[] getChildrenNumber(String path) {
+        File file = FileUtils.getFileByPath(path);
+        Objects.requireNonNull(file, "FileTools.getChildrenNumber的file为null");
+        return getChildrenNumber(file);
+    }
+
+    public static int[] getChildrenNumber(File file) {
+        File[] files = file.listFiles();
+        int[] numbers = new int[]{0, 0};
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isFile()) {
+                    numbers[0]++;
+                } else {
+                    numbers[1]++;
+                }
+            }
+        }
+        return numbers;
+    }
+
+    public static int[] getChildrenNumber(DocumentFile file) {
+        DocumentFile[] files = file.listFiles();
+        int[] numbers = new int[]{0, 0};
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isFile()) {
+                    numbers[0]++;
+                } else {
+                    numbers[1]++;
+                }
+            }
+        }
+        return numbers;
+    }
+
+    /**
+     * 根据绝对路径获取文件名(有后缀名)
+     *
+     * @param file
+     * @return
+     */
+    public static String getFileName(File file) {
+        return file == null ? "" : getFileName(file.getAbsolutePath());
+    }
+
+    public static String getFileName(String filePath) {
+        if (stringIsEmpty(filePath)) {
+            return "";
+        } else {
+            int lastSep = filePath.lastIndexOf(File.separator);
+            return lastSep == -1 ? filePath : filePath.substring(lastSep + 1);
+        }
+    }
+
+    public static boolean stringIsEmpty(String s) {
+        return s == null || s.trim().isEmpty();
+    }
+
+    /**
+     * 根据后缀选择显示图片
+     *
+     * @param isDir
+     * @param extension
+     * @return
+     */
+
+    public static int getImageResourceByExtension(boolean isDir, String extension) {
+        int resourceId;
+        switch (extension) {
+            case "apk":
+                resourceId = R.mipmap.apk;
+                break;
+            case "avi":
+                resourceId = R.mipmap.avi;
+                break;
+            case "doc":
+            case "docx":
+                resourceId = R.mipmap.doc;
+                break;
+            case "exe":
+                resourceId = R.mipmap.exe;
+                break;
+            case "flv":
+                resourceId = R.mipmap.flv;
+                break;
+            case "gif":
+                resourceId = R.mipmap.gif;
+                break;
+            case "jpg":
+            case "jpeg":
+            case "png":
+                resourceId = R.mipmap.png;
+                break;
+            case "mp3":
+                resourceId = R.mipmap.mp3;
+                break;
+            case "mp4":
+            case "f4v":
+                resourceId = R.mipmap.movie;
+                break;
+            case "pdf":
+                resourceId = R.mipmap.pdf;
+                break;
+            case "ppt":
+            case "pptx":
+                resourceId = R.mipmap.ppt;
+                break;
+            case "wav":
+                resourceId = R.mipmap.wav;
+                break;
+            case "xls":
+            case "xlsx":
+                resourceId = R.mipmap.xls;
+                break;
+            case "zip":
+                resourceId = R.mipmap.zip;
+                break;
+            case "ext":
+            default:
+                if (isDir) {
+                    resourceId = R.mipmap.folder;
+                } else {
+                    resourceId = R.mipmap.documents;
+                }
+                break;
+        }
+        return resourceId;
+    }
 }

@@ -1,7 +1,14 @@
-<resources>
-    <string name="app_name" translatable="false">zly</string>
-    <string name="folder_desc" translatable="false">文件:%1$s&#160;&#160;|&#160;&#160;文件夹:%2$s</string>
-    <string name="file_desc" translatable="false">%1$s&#160;&#160;|&#160;&#160;%2$s</string>
-    <string name="selected_file_count" translatable="false">选中(%1$s/%2$s)</string>
-
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="zh">
+    <string name="no_data">无数据</string>
+    <string name="tip_denial_authorization">被永久拒绝授权，请手动授予读取权限</string>
+    <string name="tip_permission_failed">获取权限失败</string>
+    <string name="internal_storage">内部存储</string>
+    <string name="test_text">测试文本</string>
+    <string name="tip_dialog_title_select_memory_path_mlh">请选择内部存储</string>
+    <string name="option_confirm_mlh">确定</string>
+    <string name="option_cancel_mlh">取消</string>
+    <string name="tip_filebeanitem_select_limit_exceeded">选择数量超过限制</string>
+    <string name="tip_filebeanitem_select_error_type_mlh">选择类型错误</string>
+    <string name="filebeanitem_dir_detail_mlh">文件夹:%s  文件:%s</string>
 </resources>

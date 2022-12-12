@@ -7,17 +7,14 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 安卓11额外权限 -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
-
+    <!--分区存储特性-->
     <application
         android:preserveLegacyExternalStorage="true"
         android:requestLegacyExternalStorage="true">
-
-        <activity android:name=".activities.PathSelectActivity"></activity>
-
-
+        <activity android:name=".activity.impl.PathSelectActivity" />
     </application>
 
 </manifest>

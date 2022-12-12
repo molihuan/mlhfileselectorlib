@@ -306,6 +306,23 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTI
 
 - Generally, obfuscation rules are automatically imported without configuration
 
+## 五、Offline integration
+
+First remove the "io.github.molihuan:pathselector" dependency from your project.
+
+Then download the source code, unzip the package, open "build.gradle" under the pathselector folder, remove the (->id 'com.kezong.fat-aar'<-) and (->apply from: "${getRootDir().absolutePath}/gradles/publish- maven.gradle"<-), modify (->embed(name: 'XXPermissions-13.6', ext: 'aar')<-) to (->implementation fileTree(dir: "libs", includes: ["*.aar", "*.jar"] ) <-) .
+
+Then open your project and pass the pathselector folder into your project by way of a module, then making sure that project build.gradle (no app or pathselector build.gradle) contains the remote repository:
+allprojects {
+    repositories {
+        ...
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+Finally sync Now Get the dependencies
+
 # Thank
 
 [ZLYang110/FileSelector: Android 文件选择器，指定选择文件夹还是文件，根据后缀名过滤，支持多选 (github.com)](https://github.com/ZLYang110/FileSelector)

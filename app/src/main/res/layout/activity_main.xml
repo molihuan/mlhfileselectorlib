@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent" android:layout_width="match_parent"
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        >
+        android:gravity="center">
+
         <Button
             android:id="@+id/btn_dialog_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="依附Dialog选择器"
-            />
+            android:text="依附Dialog选择器" />
 
         <Button
             android:id="@+id/btn_fragment_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="依附Fragment选择器"
-            />
+            android:text="依附Fragment选择器" />
+
         <Button
             android:id="@+id/btn_activity_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="跳转另一个新Activity选择器"
-            />
+            android:text="跳转另一个新Activity选择器" />
+
         <Button
             android:id="@+id/btn_custom_toolbar_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="自定义toolbar选择器"
-            />
+            android:text="自定义toolbar选择器" />
+
         <FrameLayout
             android:id="@+id/fragment_select_show_area"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
 
 
 </RelativeLayout>

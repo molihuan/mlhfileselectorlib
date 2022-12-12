@@ -119,7 +119,7 @@ public class DocumentsUtils {
         }
 
         String baseFolder = getExtSdCardFolder(file, context);
-        Log.i(TAG," baseFolder " + baseFolder);
+        Log.i(TAG, " baseFolder " + baseFolder);
         boolean originalDirectory = false;
         if (baseFolder == null) {
             return null;
@@ -301,11 +301,11 @@ public class DocumentsUtils {
         if (!root.canWrite()) {
 
             if (DocumentsUtils.isOnExtSdCard(root, context)) {
-                Log.i(TAG,"isOnExtSdCard");
+                Log.i(TAG, "isOnExtSdCard");
                 DocumentFile documentFile = DocumentsUtils.getDocumentFile(root, true, context);
                 return documentFile == null || !documentFile.canWrite();
             } else {
-                Log.i(TAG," get perf");
+                Log.i(TAG, " get perf");
                 SharedPreferences perf = PreferenceManager.getDefaultSharedPreferences(context);
 
                 String documentUri = perf.getString(rootPath, "");

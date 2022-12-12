@@ -2,57 +2,52 @@ plugins {
     id 'com.android.library'
     id 'com.kezong.fat-aar'
 }
-
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
-
+    compileSdkVersion 33
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0.9"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
-
-
+        minSdkVersion 14
+        targetSdkVersion 33
+        versionCode 11
+        versionName "1.1.0"
+        consumerProguardFiles "proguard-rules.pro"
     }
-
 
 
     buildTypes {
         release {
-            minifyEnabled false      // 开启代码混淆
-            zipAlignEnabled false    // 开启Zip压缩优化
+            minifyEnabled false      // 代码混淆
+            zipAlignEnabled false    // Zip压缩优化
             shrinkResources false    // 移除未被使用的资源
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    //开启数据绑定
-    //dataBinding.enabled=true
 
 }
 
 dependencies {
+    //TODO 精简工具包，去除不需要的工具类
+    //精简https://github.com/Blankj/AndroidUtilCode工具
+    embed project(path: ':AndroidUtilCode', configuration: 'default')
+    //embed(name: 'XXPermissions-16.2', ext: 'aar')
+
     //权限申请框架
-    embed(name: 'XXPermissions-13.6', ext: 'aar')
-    //适配器
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    implementation 'com.github.getActivity:XXPermissions:16.2'
+    //万能适配器
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11'
 
-    //Rxjava框架
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
-
-    //基础控件
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    //异步库
+    implementation 'com.github.xuexiangjys.XTask:xtask-core:1.0.2'
+    
     //使用这个包遍历Android/data目录
     implementation 'androidx.documentfile:documentfile:1.0.1'
+    //基础控件
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 
 }
 apply from: "${getRootDir().absolutePath}/gradles/publish-maven.gradle"

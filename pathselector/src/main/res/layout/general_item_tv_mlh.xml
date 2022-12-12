@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/generl_textview_item_mlh"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="50dp"
     android:layout_width="match_parent"
-    android:padding="15dp"
-    android:gravity="center"
-    android:textColor="@color/mlh_black"
+    android:orientation="horizontal"
+    android:background="@drawable/style_click_rectangle_white_gray_mlh"
+    android:elevation="3dp"
+    android:translationZ="3dp">
 
-    />
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp">
+
+        <ImageView
+            android:id="@+id/general_item_imav_ico_mlh"
+            android:layout_height="18dp"
+            android:layout_width="18dp"
+            android:src="@drawable/ic_partition_tabbar_black"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/general_item_textview_mlh"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/test_text"
+            android:textSize="20dp"
+            android:layout_toRightOf="@id/general_item_imav_ico_mlh"
+
+
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

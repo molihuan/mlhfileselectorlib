@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/linl_tabbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/grey_transparent20_mlh">
+
+        <ImageView
+            android:id="@+id/imgv_select_storage_tabbar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_tabbar_storage_black"
+            android:background="@drawable/style_click_rectangle_transp_gray_mlh"
+            android:tooltipText="@string/internal_storage"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recv_file_bread_tabbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgv_select_storage_tabbar" />
+    </RelativeLayout>
+</RelativeLayout>

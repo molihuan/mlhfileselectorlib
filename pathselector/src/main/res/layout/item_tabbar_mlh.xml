@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/relatl_item_tabbar_mlh"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgv_item_tabbar_mlh"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_partition_tabbar_black"
+            android:clickable="false"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/tv_item_tabbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/test_text"
+            android:textSize="20sp"
+            android:minWidth="25dp"
+            android:textColor="@color/black_mlh"
+            android:layout_toRightOf="@id/imgv_item_tabbar_mlh"
+            android:background="@drawable/style_click_rectangle_transp_gray_mlh" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

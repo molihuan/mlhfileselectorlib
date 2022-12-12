@@ -1,9 +1,13 @@
 package com.molihuan.pathselector.interfaces;
+
+import java.util.Map;
+
 /**
- * author: molihuan
- * 2022.6.1
- * Activity与Fragment通信接口
+ * @ClassName IActivityAndFragment
+ * @Description Activity与Fragment通信接口
+ * @Author molihuan
+ * @Date 2022/11/22 12:57
  */
 public interface IActivityAndFragment {
-    Object invoke(Object ...parameters);
+    Map invoke(Map data);
 }
