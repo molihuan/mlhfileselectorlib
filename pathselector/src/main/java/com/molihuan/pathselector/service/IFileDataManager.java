@@ -96,7 +96,6 @@ public interface IFileDataManager {
      */
     void returnDataToActivityResult(List<FileBean> selectedFileList, Activity activity);
 
-    void returnDataToActivityResult(List<FileBean> selectedFileList, Fragment fragment);
 
     /**
      * 设置CheckBox显示、隐藏

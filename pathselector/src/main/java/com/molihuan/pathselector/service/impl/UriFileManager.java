@@ -3,19 +3,25 @@ package com.molihuan.pathselector.service.impl;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.blankj.molihuan.utilcode.util.FileUtils;
+import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.adapter.FileListAdapter;
+import com.molihuan.pathselector.dialog.BaseDialog;
+import com.molihuan.pathselector.dialog.impl.MessageDialog;
 import com.molihuan.pathselector.entity.FileBean;
+import com.molihuan.pathselector.entity.FontBean;
 import com.molihuan.pathselector.service.BaseFileManager;
 import com.molihuan.pathselector.utils.FileTools;
 import com.molihuan.pathselector.utils.MConstants;
 import com.molihuan.pathselector.utils.PermissionsTools;
 import com.molihuan.pathselector.utils.UriTools;
+import com.xuexiang.xtask.XTask;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +41,7 @@ public class UriFileManager extends BaseFileManager {
     public List<FileBean> updateFileList(Fragment fragment, String initPath, String currentPath, List<FileBean> fileList, FileListAdapter fileAdapter, List<String> fileTypeList) {
         //获取上下文
         Context context = fragment.getContext();
+        Objects.requireNonNull(context, "context is null");
 
         fileList = initFileList(currentPath, fileList);
         //列表中存在但未初始化的FileBean个数，即列表中FileBean所有字段都为null的个数
@@ -123,7 +130,32 @@ public class UriFileManager extends BaseFileManager {
 
             if (existsPermission == null) {
                 //没有权限申请权限
-                PermissionsTools.goApplyUriPermissionPage(uri, fragment);
+                XTask.postToMain(new Runnable() {
+                    @Override
+                    public void run() {
+                        //申请权限弹窗
+                        new MessageDialog(context)
+                                .setContent(new FontBean(String.format(context.getString(R.string.tip_uri_authorization_permission_content_mlh), currentPath)))
+                                .setConfirm(new FontBean(context.getString(R.string.option_confirm_mlh), 15), new BaseDialog.IOnConfirmListener() {
+                                    @Override
+                                    public boolean onClick(View v, BaseDialog dialog) {
+                                        //申请权限
+                                        PermissionsTools.goApplyUriPermissionPage(uri, fragment);
+                                        dialog.dismiss();
+                                        return false;
+                                    }
+                                })
+                                .setCancel(new FontBean(context.getString(R.string.option_cancel_mlh), 15), new BaseDialog.IOnCancelListener() {
+                                    @Override
+                                    public boolean onClick(View v, BaseDialog dialog) {
+                                        dialog.dismiss();
+                                        return false;
+                                    }
+                                })
+                                .show();
+                    }
+                });
+
                 return fileList;
             }
 

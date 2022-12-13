@@ -2,8 +2,7 @@ package com.molihuan.pathselector.service;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-
-import androidx.fragment.app.Fragment;
+import android.content.Intent;
 
 import com.molihuan.pathselector.adapter.FileListAdapter;
 import com.molihuan.pathselector.adapter.TabbarListAdapter;
@@ -296,15 +295,16 @@ public abstract class BaseFileManager implements IFileDataManager {
 
     @Override
     public void returnDataToActivityResult(List<FileBean> selectedFileList, Activity activity) {
-
-
+        ArrayList<String> selectedPath = new ArrayList<>();
+        for (FileBean bean : selectedFileList) {
+            selectedPath.add(bean.getPath());
+        }
+        Intent result = new Intent();
+        result.putStringArrayListExtra(MConstants.CALLBACK_DATA_ARRAYLIST_STRING, selectedPath);
+        activity.setResult(activity.RESULT_OK, result);//设置返回原界面的结果
         activity.finish();
     }
 
-    @Override
-    public void returnDataToActivityResult(List<FileBean> selectedFileList, Fragment fragment) {
-
-    }
 
     @Override
     public List<FileBean> setCheckBoxVisible(List<FileBean> fileList, FileListAdapter fileAdapter, boolean state) {

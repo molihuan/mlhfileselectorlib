@@ -38,7 +38,7 @@ dependencies {
 
     //远程aar集成
 
-//    implementation 'io.github.molihuan:pathselector:1.1.0'
+//    implementation 'io.github.molihuan:pathselector:1.1.1'
 
     //本地aar集成
 

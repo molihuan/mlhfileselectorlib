@@ -14,6 +14,7 @@ import com.molihuan.pathselector.service.impl.ConfigDataBuilderImpl;
  */
 //TODO 还需要进行抽象
 public abstract class AbstractBuildController {
+
     protected SelectConfigData mConfigData = ConfigDataBuilderImpl.getInstance().getSelectConfigData();
 
     public abstract PathSelectFragment show();

@@ -52,7 +52,6 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:text="1"
                     android:textColor="@color/black_mlh"
                     android:textSize="20sp" />
 

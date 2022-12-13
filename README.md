@@ -1,8 +1,26 @@
-# mlhfileselectorlib
+![ml192.png](https://s2.loli.net/2022/12/14/WoYwfehDNHbMzIZ.png)
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22) ![API](https://img.shields.io/badge/API-19%2B-green) ![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen) [![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981) [![博客园: molihuan (shields.io)](https://img.shields.io/badge/博客园-molihuan-brightgreen)](https://www.cnblogs.com/molihuan/) [![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
 
-提供文件或路径选择，自动申请存储权限，支持安卓4.4 ~ 12，支持Android/data目录访问，支持自定义UI，支持SD卡。(Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 12, support Android/data directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11)
+ <center><h1>mlhfileselector</h1></center>
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22) ![API: 19 ~ 33 (shields.io)](https://img.shields.io/badge/API-19 ~ 33-yellowgreen) ![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen) [![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981) [![博客园: molihuan (shields.io)](https://img.shields.io/badge/博客园-molihuan-brightgreen)](https://www.cnblogs.com/molihuan/) [![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
+
+<center>
+<p>提供文件或路径选择，自动申请存储权限，支持安卓4.4 ~ 13，</p>
+<p>支持Android/data和Android/obb目录访问，支持自定义UI，支持SD卡。</p>
+</center>
+<center>
+(Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11 android 13)
+</center>
+
+## 特点
+
+- [x] 自动申请存储权限
+- [x] 安卓 4.4 ~ 13
+- [x] Android/data和Android/obb目录访问和操作
+- [x] SD卡
+- [x] 高度自定义UI
+- [x] 国际化
 
 ## 语言(Language)
 
@@ -20,7 +38,15 @@
 #### [Github地址](https://github.com/molihuan/mlhfileselectorlib)
 #### [Gitee地址](https://gitee.com/molihuan/mlhfileselectorlib)
 
-## 一、如何使用
+## demo演示：
+
+## 系统版本：Android 13 
+
+#### 链接：[体验APP](https://github.com/molihuan/mlhfileselectorlib/tree/master/app/release)
+
+![pathSelectorDemo.gif](https://s2.loli.net/2022/12/14/QSGrIvwzYKhZuMe.gif)
+
+## 一、快速开始
 
 #### 第1步：添加仓库:
 
@@ -57,7 +83,7 @@ dependencyResolutionManagement {
 ```java
 dependencies {
     ...
-    // 版本请自行选择建议使用最新的
+    // 版本请自行选择建议使用最新发布版本的，如: 1.1.2
     implementation 'io.github.molihuan:pathselector:版本'
 }
 ```
@@ -66,208 +92,332 @@ dependencies {
 
 ```java
 //如果没有权限会自动申请权限
-PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)//跳转Activity方式
-    .requestCode(10011)//请求码
-    //toolbar选项
-    .setMoreOPtions(new String[]{"选择"},
-                    new boolean[]{true},//选择后结束掉Activity结果会给到onActivityResult()
-                    new SelectOptions.onToolbarOptionsListener() {
-                        @Override
-                        public void onOptionClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter, List<FileBean> callBackFileBeanList) {
-                            //for (String callBackDatum : callBackData) {
-                            //Mtools.toast(getBaseContext(),callBackDatum);//也可一在这里拿到选择的结果
-                            //}
+PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog方式
+        .setMorePopupItemListeners(
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("you selected:\n");
+                        for (FileBean fileBean : selectedFiles) {
+                            builder.append(fileBean.getPath() + "\n");
                         }
+                        Mtools.toast(builder.toString());
+
+                        return false;
                     }
-                   )
-    .start();//开始构建
+                }
+        )
+        .show();//开始构建
 ```
 
-#### 第4步：获取返回的数据(也可以在点击回调中获取数据):
+
+
+## 二、基本设置
+
+#### 1、Activity模式：
 
 ```java
-@Override
-protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == 10011) {
-        if(data!=null){
-            List<String> pathData = data.getStringArrayListExtra(Constants.CALLBACK_DATA_ARRAYLIST_STRING);//获取数据
-            StringBuilder builder = new StringBuilder();
-            for (String path : pathData) {
-                builder.append(path).append("");
-            }
-            Mtools.toast(MainActivity.this,builder.toString());
-        }
-    }
-}
-```
+//Activity方式
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_ACTIVITY)
+        .setRequestCode(635)
+        .setMorePopupItemListeners(
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
 
-## demo演示：
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("you selected:\n");
+                        for (FileBean fileBean : selectedFiles) {
+                            builder.append(fileBean.getPath() + "\n");
+                        }
+                        Mtools.toast(builder.toString());
 
-## 系统版本：Android 11 
-
-#### 链接：[体验App](https://github.com/molihuan/mlhfileselectorlib/releases/)
-
-![pathSelectorDemo1.gif](https://s2.loli.net/2022/07/02/5Stnm1vHlQdFZ24.gif)
-
-## 二、更多设置
-
-#### 1、Activity&所有设置模式：
-
-```java
-//Constants.BUILD_ACTIVITY为ACTIVITY模式
-PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)
-    .requestCode(10011)//请求码
-    .setRootPath("/storage/emulated/0")//设置根目录(注意最后没有/)
-    .setMaxCount(3)//设置最大选择数量，默认是-1不限制
-    //.setToolbarFragment(new TestFragment())//加载自定义ToolbarFragment
-    //.setMoreChooseFragment(new TestFragment())//加载自定义MoreChooseFragment
-    //.setShowFileTypes("mp4","")//设置显示文件类型如果无后缀请使用""
-    //.setSelectFileTypes("mp3","mp4","ppt","")//设置选择文件类型如果无后缀请使用""
-    .setSortType(Constants.SORT_NAME_ASC)//设置排序类型
-    //.isSingle()//单选模式不能多选
-    .showToolBarFragment(true)//是否显示ToolbarFragment
-    .setToolbarMainTitle("路径选择器")//设置ToolbarFragment主标题
-    .setToolbarSubtitleTitle("MLH")//设置ToolbarFragment副标题
-    .setToolbarSubtitleColor(Color.BLACK)//ToolbarFragment副标题颜色
-    //设置多选item和其回调
-    .setMoreChooseItems(
-    new String[]{"全选", "删除"},
-    //匿名对象
-    new SelectOptions.onMoreChooseItemsListener() {
-        @Override
-        public void onItemsClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter, List<FileBean> callBackFileBeanList) {
-            Mtools.toast(getBaseContext(),"点击了全选");
-        }
-    },
-    //lambda表达式 为了简洁下面都使用lambda表达式
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了删除");
-    }
-)
-    //设置toolbarFragment更多选项item和其回调
-    .setMoreOPtions(
-    new String[]{"选择"},
-    new boolean[]{false},//选择结束后是否需要销毁当前Activity
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了选择"+callBackData.get(0));
-    }
-)
-    //设置文件列表中FileItem和其回调
-    .setFileItemListener(new com.molihuan.pathselector.dao.SelectOptions.onFileItemListener() {
-        @Override
-        public boolean onFileItemClick(View view, String currentPath, List<com.molihuan.pathselector.entities.FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, com.molihuan.pathselector.adapters.FileListAdapter fileAdapter,FileBean fileBean) {
-            Mtools.toast(getBaseContext(),currentPath);
-            return false;
-        }
-        @Override
-        public boolean onLongFileItemClick(View view, String currentPath, List<com.molihuan.pathselector.entities.FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, com.molihuan.pathselector.adapters.FileListAdapter fileAdapter,FileBean fileBean) {
-            return false;
-        }
-    })
-    .start();//开始构建
+                        return false;
+                    }
+                }
+        )
+        .show();
 ```
 
 #### 2、Fragment模式：
 
-```java
-//获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
-mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_FRAGMENT)
-    .frameLayoutID(R.id.fragment_select_show_area)//加载位置,FrameLayout的ID
-    .requestCode(10011)//请求码
-    .showToolBarFragment(false)//是否显示ToolbarFragment
-    //设置多选item和其回调
-    .setMoreChooseItems(
-    new String[]{"全选", "删除"},
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了全选");
-    },
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了删除"+callBackData.get(0));
-    }
-)
-    .start();//开始构建
+##### 第1步：在你需要显示的布局文件xml中使用FrameLayout占位
+
+```xml
+<FrameLayout
+    android:id="@+id/fragment_select_show_area"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 ```
 
-##### onBackPressed()中
+##### 第2步：编写代码
+
+```java
+//获取PathSelectFragment实例然后在onBackPressed中处理返回按钮点击事件
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_FRAGMENT)
+        .setFrameLayoutId(R.id.fragment_select_show_area)//加载位置,FrameLayout的ID
+        .setMorePopupItemListeners(
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("you selected:\n");
+                        for (FileBean fileBean : selectedFiles) {
+                            builder.append(fileBean.getPath() + "\n");
+                        }
+                        
+                        Mtools.toast(builder.toString());
+                        return false;
+                    }
+                }
+        )
+        .show();//开始构建
+```
+
+##### 第3步：重写onBackPressed()方法让路径选择器优先处理返回按钮点击事件
+
+##### 非常重要!!!
+
+##### 非常重要!!!
+
+##### 非常重要!!!
 
 ```java
 @Override
 public void onBackPressed() {
-    //让PathSelectFragment先处理返回按钮点击事件
-    if (mPathSelectFragment!=null&&mPathSelectFragment.onBackPressed()){
+
+    //让pathSelectFragment先处理返回按钮点击事件
+    if (selector != null && selector.onBackPressed()) {
         return;
     }
+    ......
     super.onBackPressed();
 }
 ```
 
-#### 3、Dialog模式：
+#### 3、Dialog模式 & 常用设置：
 
 ```java
-//获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
-mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_DIALOG)
-    .frameLayoutID(R.id.fragment_select_show_area)//加载位置FrameLayout的ID
-    .requestCode(10011)//请求码
-    .showToolBarFragment(true)//是否显示ToolbarFragment
-    //设置toolbarFragment更多选项item和其回调
-    .setMoreOPtions(
-    new String[]{"选择"},
-    new boolean[]{true},
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了选择"+currentPath);
-    }
-)
-    .start();//开始构建
+//获取PathSelectFragment实例然后在onBackPressed中处理返回按钮点击事件
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        //.setBuildType(MConstants.BUILD_DIALOG)//已经在build中已经设置了
+        //.setContext(this)//已经在build中已经设置了
+        .setRootPath("/storage/emulated/0/")//初始路径
+        .setShowSelectStorageBtn(true)//是否显示内部存储选择按钮
+        .setShowTitlebarFragment(true)//是否显示标题栏
+        .setShowTabbarFragment(true)//是否显示面包屑
+        .setAlwaysShowHandleFragment(true)//是否总是显示长按弹出选项
+        .setShowFileTypes("", "mp3", "mp4")//只显示(没有后缀)或(后缀为mp3)或(后缀为mp4)的文件
+        .setSelectFileTypes("", "mp3")//只能选择(没有后缀)或(后缀为mp3)的文件
+        .setMaxCount(3)//最多可以选择3个文件,默认是-1不限制
+        .setRadio()//单选
+        .setSortType(MConstants.SORT_NAME_ASC)//按名称排序
+        .setTitlebarMainTitle(new FontBean("My Selector"))//设置标题栏主标题,还可以设置字体大小,颜色等
+        .setTitlebarBG(Color.GREEN)//设置标题栏颜色
+        .setFileItemListener(//设置文件item点击回调(点击是文件才会回调,如果点击是文件夹则不会)
+                new FileItemListener() {
+                    @Override
+                    public boolean onClick(View v, FileBean file, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        Mtools.toast("you clicked path:\n" + file.getPath());
+                        return false;
+                    }
+                }
+        )
+        .setMorePopupItemListeners(//设置右上角选项回调
+                new CommonItemListener("SelectAll") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        pathSelectFragment.selectAllFile(true);
+                        return false;
+                    }
+                },
+                new CommonItemListener("DeselectAll") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        pathSelectFragment.selectAllFile(false);
+                        return false;
+                    }
+                }
+        )
+        .setHandleItemListeners(//设置长按弹出选项回调
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("you selected:\n");
+                        for (FileBean fileBean : selectedFiles) {
+                            builder.append(fileBean.getPath() + "\n");
+                        }
+                        Mtools.toast(builder.toString());
+                        return false;
+                    }
+                },
+                new CommonItemListener("cancel") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        pathSelectFragment.openCloseMultipleMode(false);
+                        return false;
+                    }
+                }
+        )
+        .show();
 ```
 
-#### 4、自定义Toolbar：
+## 三、高级设置
+
+#### 1、自定义选项样式(以HandleItem为例子)
+
+##### 方式1:通过FontBean来设置样式
 
 ```java
-//获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
-mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)
-    .requestCode(10011)//请求码
-    .showToolBarFragment(true)//是否显示ToolbarFragment 如果自定义必须为true 默认为true
-    .setToolbarFragment(new CustomToolbarFragment())
-    .setToolbarViewClickers(
-    new SelectOptions.onToolbarListener() {
-        @Override
-        public void onClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter,List<FileBean> callBackFileBeanList) {
-            Mtools.toast(getBaseContext(),"点击了按钮1");
-        }
-    }
-)
-    .start();//开始构建
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        .setHandleItemListeners(//设置长按弹出选项回调
+                //FontBean可是设置文本、字的大小、字的颜色、字左边的图标
+    			//R.drawable.ic_test_mlh是你自己的图片资源id
+                new CommonItemListener(new FontBean("OK", 18, Color.RED, R.drawable.ic_test_mlh)) {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        Mtools.toast("You Click");
+                        return false;
+                    }
+                }
+        )
+        .show();
 ```
 
+##### 什么？这种方式还不能满足你，那么试试方式2
+
+##### 方式2:重写CommonItemListener的setViewStyle方法来自定义样式
+
+```java
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        .setHandleItemListeners(
+                //重写CommonItemListener的setViewStyle方法来自定义样式
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean setViewStyle(RelativeLayout container, ImageView leftImg, TextView textView) {
+                        textView.setTextSize(18);
+                        textView.setTextColor(Color.RED);
+                        //默认是不显示的
+                        leftImg.setVisibility(View.VISIBLE);
+                        leftImg.setImageResource(R.drawable.ic_test_mlh);
+                        leftImg.getLayoutParams().width = 90;
+                        leftImg.getLayoutParams().height = 90;
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        Mtools.toast("You Click");
+                        return false;
+                    }
+                }
+        )
+        .show();
+```
+
+#### 什么？什么？这种方式还不能满足你，那么你来写UI我来帮你添加，试试高度自定义UI
+
+#### 2、高度自定义UI(以Titlebar为例子)：
+
+##### 第1步：新建一个布局文件，如:fragment_custom_titlebar.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/my_btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="btn1" />
+
+    <Button
+        android:id="@+id/my_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="selectAll" />
+    
+</LinearLayout>
+```
+
+##### 第2步：新建一个类，如:CustomTitlebarFragment.class使其继承AbstractTitlebarFragment并关联第1步中的布局文件
+
+```java
+public class CustomTitlebarFragment extends AbstractTitlebarFragment {
+    private Button btn1;
+    private Button btn2;
+    
+    @Override
+    public int setFragmentViewId() {
+        return R.layout.fragment_custom_titlebar;
+    }
+
+    @Override
+    public void getComponents(View view) {
+        btn1 = view.findViewById(R.id.my_btn1);
+        btn2 = view.findViewById(R.id.my_btn2);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Mtools.toast("The current path is:\n" + psf.getCurrentPath());
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                psf.selectAllFile(true);
+            }
+        });
+    }
+}
+```
+
+##### 第3步：编写代码
+
+```java
+//获取PathSelectFragment实例然后在onBackPressed中处理返回按钮点击事件
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        .setTitlebarFragment(new CustomTitlebarFragment())
+        .show();
+```
+
+## 四、接口与方法（尽量看源码，都写了注释，懒得写文档）
+
+##### IConfigDataBuilder
 
 
-## 三、类与方法（尽量看源码，都写了注释，懒得写文档）
+| 方法                                                         | 注释                         | 备注                                            |
+| ------------------------------------------------------------ | ---------------------------- | ----------------------------------------------- |
+| setFrameLayoutId(int id)                                     | 设置加载位置FrameLayoutID    | 当构建模式为MConstants.BUILD_FRAGMENT时必须设置 |
+| setRequestCode(int code)                                     | 设置请求码                   | 当构建模式为MConstants.BUILD_ACTIVITY时必须设置 |
+| setRootPath(String path)                                     | 设置开始默认路径             | 默认为内部存储根路径                            |
+| setMaxCount(int maxCount)                                    | 设置最大选择数量             | 不设置默认为-1 即无限                           |
+| setShowFileTypes(String... fileTypes)                        | 设置显示文件类型             | 没有后缀请用""                                  |
+| setSelectFileTypes(String... fileTypes)                      | 设置选择文件类型             | 没有后缀请用""                                  |
+| setSortType(int sortType)                                    | 设置排序规则                 | 类型请看MConstants                              |
+| setRadio()                                                   | 设置单选                     | 默认多选                                        |
+| setShowSelectStorageBtn(boolean var)                         | 设置是否显示内部存储选择按钮 | 默认true                                        |
+| setShowTitlebarFragment(boolean var)                         | 是否显示标题栏               | 默认true                                        |
+| setShowTabbarFragment(boolean var)                           | 是否显示面包屑               | 默认true                                        |
+| setAlwaysShowHandleFragment(boolean var)                     | 是否总是显示长按弹出选项     | 默认false                                       |
+| setTitlebarMainTitle(FontBean titlebarMainTitle)             | 设置标题栏主标题             | 还可以设置字体大小,颜色等                       |
+| setTitlebarBG(Integer titlebarBG)                            | 设置标题栏背景颜色           |                                                 |
+| setFileItemListener(FileItemListener fileItemListener)       | 设置文件item点击回调         | 点击是文件才会回调,如果点击是文件夹则不会       |
+| setMorePopupItemListeners(CommonItemListener... morePopupItemListener) | 设置右上角选项回调           |                                                 |
+| setHandleItemListeners(CommonItemListener... handleItemListener) | 设置长按弹出选项回调         |                                                 |
+| setTitlebarFragment(AbstractTitlebarFragment titlebarFragment) | 设置自定义标题栏UI           | 自己的Fragment必须继承AbstractTitlebarFragment  |
+| setHandleFragment(AbstractHandleFragment handleFragment)     | 设置长按弹出自定义UI         | 自己的Fragment必须继承AbstractHandleFragment    |
+| start()                                                      | 开始构建                     | 必须调用                                        |
+| ......                                                       | ......                       |                                                 |
 
-##### SelectManager
-
-| 方法                                                         | 注释                                | 备注                            |
-| ------------------------------------------------------------ | ----------------------------------- | ------------------------------- |
-| frameLayoutID(int id)                                        | 设置加载位置FrameLayoutID           |                                 |
-| requestCode(int code)                                        | 设置请求码                          |                                 |
-| setRootPath(String path)                                     | 设置开始默认路径                    |                                 |
-| setMaxCount(int maxCount)                                    | 设置最大选择数量                    | 不设置默认为-1 即无限           |
-| setShowFileTypes(String... fileTypes)                        | 设置显示文件类型                    |                                 |
-| setSelectFileTypes(String... fileTypes)                      | 设置选择文件类型                    |                                 |
-| setSortType(int sortType)                                    | 设置排序规则                        |                                 |
-| isSingle()                                                   | 设置单选                            |                                 |
-| showToolBarFragment(boolean var)                             | 设置ToolBarFragment是否显示         |                                 |
-| setMoreOPtions(String[] optionsName ,SelectOptions.onToolbarOptionsListener ...optionListeners) | 设置一些Toolbar选项(有重载)         |                                 |
-| setToolbarViewClickers(SelectOptions.onToolbarListener ...listeners) | 设置一些Toolbar点击                 |                                 |
-| SelectManager setMoreChooseItems(String[] ItemsName ,SelectOptions.onMoreChooseItemsListener ...itemListeners) | 设置一些MoreChooseItems选项(有重载) |                                 |
-| setFileItemListener(SelectOptions.onFileItemListener onFileItem) | FileItem点击/长按回调               |                                 |
-| setToolbarMainTitle(String title)                            | 设置Toolbar主标题                   | 标题相关选项一系列不一一列举    |
-| setToolbarFragment(Fragment fragment)                        | 设置自定义标题栏UI                  | 建议继承AbstractToolbarFragment |
-| setMoreChooseFragment(Fragment fragment)                     | 设置自定义多选UI                    |                                 |
-| start()                                                      | 开始构建                            | 必须调用                        |
-| ......                                                       | ......                              |                                 |
-
-## 四、！！！特别注意！！！
+## 五、！！！特别注意 ！！！
 
 #### 分区存储
 
@@ -297,22 +447,30 @@ mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTI
   ```
 
   请在你的项目中的`AndroidManifest.xml`设置一致
+  
+#### 体积过大
+
+- 已经集成了[Blankj/AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
+
+  如果项目对大小有严格要求请下载源码并精简AndroidUtilCode工具类
 
 #### 代码混淆
 
 - 一般来说无需配置，会自动导入混淆规则
 
-# 非常感谢
-
-[ZLYang110/FileSelector: Android 文件选择器，指定选择文件夹还是文件，根据后缀名过滤，支持多选 (github.com)](https://github.com/ZLYang110/FileSelector)
-
-[zzy0516alex/FileSelectorRelease: lib (github.com)](https://github.com/zzy0516alex/FileSelectorRelease)
+# 特别鸣谢
 
 [getActivity/XXPermissions: Android 权限请求框架，已适配 Android 12 (github.com)](https://github.com/getActivity/XXPermissions)
 
 [CymChad/BaseRecyclerViewAdapterHelper: BRVAH:Powerful and flexible RecyclerAdapter (github.com)](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
 
 [Blankj/AndroidUtilCode: Android developers should collect the following utils(updating). (github.com)](https://github.com/Blankj/AndroidUtilCode)
+
+[xuexiangjys/XTask: 一个拓展性极强的Android任务执行框架。可自由定义和组合任务来实现你想要的功能，尤其适用于处理复杂的业务流程，可灵活添加前置任务或者调整执行顺序。例如：应用的启动初始化流程。 (github.com)](https://github.com/xuexiangjys/XTask)
+
+[ZLYang110/FileSelector: Android 文件选择器，指定选择文件夹还是文件，根据后缀名过滤，支持多选 (github.com)](https://github.com/ZLYang110/FileSelector)
+
+[zzy0516alex/FileSelectorRelease: lib (github.com)](https://github.com/zzy0516alex/FileSelectorRelease)
 
 开源项目以及其依赖项目。
 

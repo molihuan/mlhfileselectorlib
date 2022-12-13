@@ -1,6 +1,7 @@
 package com.molihuan.pathselectdemo.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,12 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.molihuan.pathselectdemo.R;
+import com.molihuan.pathselectdemo.fragments.CustomTitlebarFragment;
 import com.molihuan.pathselector.PathSelector;
 import com.molihuan.pathselector.configs.PathSelectorConfig;
 import com.molihuan.pathselector.entity.FileBean;
+import com.molihuan.pathselector.entity.FontBean;
 import com.molihuan.pathselector.fragment.BasePathSelectFragment;
 import com.molihuan.pathselector.fragment.impl.PathSelectFragment;
 import com.molihuan.pathselector.listener.CommonItemListener;
+import com.molihuan.pathselector.listener.FileItemListener;
 import com.molihuan.pathselector.utils.MConstants;
 import com.molihuan.pathselector.utils.Mtools;
 
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initData() {
+        //开启调试模式，生成环境请关闭
         PathSelectorConfig.setDebug(true);
     }
 
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -89,23 +95,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 activitySelectShow();
                 break;
             case R.id.btn_custom_toolbar_selector:
-                //customToolbarSelectShow();
-                t1();
+                customTitlebarSelectShow();
+//                t1();
+
                 break;
         }
     }
 
-    private void t1() {
-    }
-
 
     /**
-     * dialog方式 详细选项设置请看本类中{@link #activitySelectShow()} 传送门
+     * dialog方式
      */
     private void dialogSelectShow() {
         //获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
         selector = PathSelector.build(MainActivity.this, MConstants.BUILD_DIALOG)
-                
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
@@ -152,12 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     * Fragment方式 详细选项设置请看本类中{@link #activitySelectShow()} 传送门
+     * Fragment方式
      */
     private void fragmentSelectShow() {
 
 
-        selector = PathSelector.build(MainActivity.this, MConstants.BUILD_FRAGMENT)
+        selector = PathSelector.build(this, MConstants.BUILD_FRAGMENT)
                 .setFrameLayoutId(R.id.fragment_select_show_area)
 
                 .setMorePopupItemListeners(
@@ -209,9 +212,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void activitySelectShow() {
         //Constants.BUILD_ACTIVITY为ACTIVITY模式
-        selector = PathSelector.build(MainActivity.this, MConstants.BUILD_ACTIVITY)
+        selector = PathSelector.build(this, MConstants.BUILD_ACTIVITY)
                 .setRequestCode(635)
-
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
@@ -240,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     builder.append(fileBean.getPath() + "\n");
                                 }
                                 Mtools.toast(builder.toString());
+
                                 return false;
                             }
                         },
@@ -255,9 +258,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * 自定义Toolbar方式 详细选项设置请看本类中{@link #activitySelectShow()} 传送门
+     * 自定义Toolbar方式
      */
-    private void customToolbarSelectShow() {
+    private void customTitlebarSelectShow() {
+        PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+                .setTitlebarFragment(new CustomTitlebarFragment())
+                .show();
+    }
+
+    /**
+     * 完整配置
+     */
+    private void CompleteConfiguration() {
+
+        PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+                //.setBuildType(MConstants.BUILD_DIALOG)//已经在build中已经设置了
+                //.setContext(this)//已经在build中已经设置了
+                .setRootPath("/storage/emulated/0/")//初始路径
+                .setShowSelectStorageBtn(true)//是否显示内部存储选择按钮
+                .setShowTitlebarFragment(true)//是否显示标题栏
+                .setShowTabbarFragment(true)//是否显示面包屑
+                .setAlwaysShowHandleFragment(true)//是否总是显示长按弹出选项
+                .setShowFileTypes("", "mp3", "mp4")//只显示(没有后缀)或(后缀为mp3)或(后缀为mp4)的文件
+                .setSelectFileTypes("", "mp3")//只能选择(没有后缀)或(后缀为mp3)的文件
+                .setMaxCount(3)//最多可以选择3个文件,默认是-1不限制
+                .setRadio()//单选,默认多选
+                .setSortType(MConstants.SORT_NAME_ASC)//按名称排序
+                .setTitlebarMainTitle(new FontBean("My Selector"))//设置标题栏主标题,还可以设置字体大小,颜色等
+                .setTitlebarBG(Color.GREEN)//设置标题栏背景颜色
+                .setFileItemListener(//设置文件item点击回调(点击是文件才会回调,如果点击是文件夹则不会)
+                        new FileItemListener() {
+                            @Override
+                            public boolean onClick(View v, FileBean file, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                                Mtools.toast("you clicked path:\n" + file.getPath());
+                                return false;
+                            }
+                        }
+                )
+                .setMorePopupItemListeners(//设置右上角选项回调
+                        new CommonItemListener("SelectAll") {
+                            @Override
+                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                                pathSelectFragment.selectAllFile(true);
+                                return false;
+                            }
+                        },
+                        new CommonItemListener("DeselectAll") {
+                            @Override
+                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                                pathSelectFragment.selectAllFile(false);
+                                return false;
+                            }
+                        }
+                )
+                .setHandleItemListeners(//设置长按弹出选项回调
+                        new CommonItemListener("OK") {
+                            @Override
+                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                                StringBuilder builder = new StringBuilder();
+                                builder.append("you selected:\n");
+                                for (FileBean fileBean : selectedFiles) {
+                                    builder.append(fileBean.getPath() + "\n");
+                                }
+                                Mtools.toast(builder.toString());
+                                return false;
+                            }
+                        },
+                        new CommonItemListener("cancel") {
+                            @Override
+                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                                pathSelectFragment.openCloseMultipleMode(false);
+                                return false;
+                            }
+                        }
+                )
+                .show();
 
     }
 
@@ -268,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (selector != null && selector.onBackPressed()) {
             return;
         }
+
         super.onBackPressed();
     }
 

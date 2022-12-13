@@ -1,5 +1,6 @@
 package com.molihuan.pathselector.adapter;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ public class HandleListAdapter extends BaseQuickAdapter<CommonItemListener, Base
     @Override
     protected void convert(@NonNull BaseViewHolder holder, CommonItemListener itemListener) {
         RelativeLayout relatl = holder.getView(R.id.item_handle_relatl_mlh);
-        ImageView imgIco = holder.getView(R.id.item_handle_imav_ico_mlh);
+        ImageView leftIco = holder.getView(R.id.item_handle_imav_ico_mlh);
         TextView tv = holder.getView(R.id.item_handle_tv_mlh);
 
         FontBean fontBean = itemListener.getFontBean();
@@ -45,6 +46,17 @@ public class HandleListAdapter extends BaseQuickAdapter<CommonItemListener, Base
         relatl.getLayoutParams().width = itemWidth;
 
         tv.setText(fontBean.getText());
+
+        //如果已经设置了样式就不设置了
+        if (itemListener.setViewStyle(relatl, leftIco, tv)) {
+            return;
+        }
+
+        if (fontBean.getLeftIcoResId() != null) {
+            leftIco.setImageResource(fontBean.getLeftIcoResId());
+            leftIco.setVisibility(View.VISIBLE);
+        }
+
         tv.setTextColor(fontBean.getColor());
         tv.setTextSize(fontBean.getSize());
     }

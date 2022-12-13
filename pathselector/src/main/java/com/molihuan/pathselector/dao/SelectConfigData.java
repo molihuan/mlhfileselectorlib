@@ -5,6 +5,7 @@ import android.graphics.Color;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.blankj.molihuan.utilcode.util.LogUtils;
 import com.blankj.molihuan.utilcode.util.ScreenUtils;
 import com.molihuan.pathselector.controller.AbstractBuildController;
 import com.molihuan.pathselector.entity.FontBean;
@@ -87,7 +88,7 @@ public class SelectConfigData {
         frameLayoutId = null;//非必须(fragment模式必须)
 
         sortType = MConstants.SORT_NAME_ASC;
-        radio = false;//默认单选
+        radio = false;//默认多选
         maxCount = -1;//不限制
         rootPath = MConstants.DEFAULT_ROOTPATH;
         fragmentManager = null;
@@ -150,6 +151,7 @@ public class SelectConfigData {
 
         //使用自定义视图  或者  不需要显示则不创建
         if (showTitlebarFragment) {
+            LogUtils.e("titlebarFragment");
             if (titlebarFragment == null || titlebarFragment.getClass().isAssignableFrom(TitlebarFragment.class)) {
                 titlebarFragment = new TitlebarFragment();
             } else {

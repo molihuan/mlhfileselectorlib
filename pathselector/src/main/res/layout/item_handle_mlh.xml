@@ -19,14 +19,14 @@
             android:layout_height="18dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_partition_tabbar_black"
-            android:visibility="gone"
-            android:layout_toLeftOf="@id/item_handle_tv_mlh" />
+            android:layout_toLeftOf="@id/item_handle_tv_mlh"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/item_handle_tv_mlh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/test_text"
             android:textColor="@color/black_mlh"

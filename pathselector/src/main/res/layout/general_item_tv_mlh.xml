@@ -8,7 +8,7 @@
     android:translationZ="3dp">
 
     <RelativeLayout
-
+        android:id="@+id/general_item_relatl_container_mlh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="10dp">
@@ -31,7 +31,6 @@
             android:text="@string/test_text"
             android:textSize="20dp"
             android:layout_toRightOf="@id/general_item_imav_ico_mlh"
-
 
             />
 

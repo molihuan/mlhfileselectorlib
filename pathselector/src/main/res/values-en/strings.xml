@@ -11,4 +11,6 @@
     <string name="tip_filebeanitem_select_limit_exceeded">The number of selections exceeds the limit</string>
     <string name="tip_filebeanitem_select_error_type_mlh">Wrong selection type</string>
     <string name="filebeanitem_dir_detail_mlh">dir:%s  file:%s</string>
+    <string name="default_dialog_title_mlh">Reminder</string>
+    <string name="tip_uri_authorization_permission_content_mlh">Access to the `%s` directory requires authorization.\nDo you want to authorize?</string>
 </resources>

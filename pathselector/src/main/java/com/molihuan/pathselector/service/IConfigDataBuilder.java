@@ -15,6 +15,8 @@ import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.listener.FileItemListener;
 
 public interface IConfigDataBuilder {
+
+
     IConfigDataBuilder setContext(Context context);
 
     /**

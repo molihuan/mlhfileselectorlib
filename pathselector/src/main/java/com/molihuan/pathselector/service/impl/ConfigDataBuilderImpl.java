@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.molihuan.pathselector.PathSelector;
 import com.molihuan.pathselector.controller.AbstractBuildController;
 import com.molihuan.pathselector.controller.impl.ActivityController;
 import com.molihuan.pathselector.controller.impl.DialogController;
@@ -21,6 +20,8 @@ import com.molihuan.pathselector.listener.FileItemListener;
 import com.molihuan.pathselector.service.IConfigDataBuilder;
 import com.molihuan.pathselector.utils.MConstants;
 
+import java.io.File;
+
 
 /**
  * @ClassName: ConfigDataBuilder
@@ -33,13 +34,11 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
 
     private final SelectConfigData mConfigData = new SelectConfigData();
 
-
     public SelectConfigData getSelectConfigData() {
         return mConfigData;
     }
 
     protected void init() {
-        PathSelector.setFragment(null);
         mConfigData.initDefaultConfig();
     }
 
@@ -56,7 +55,7 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
         AbstractBuildController controller = mConfigData.buildController;
         switch (buildType) {
             case MConstants.BUILD_ACTIVITY:
-                //如果实例是空或者实例类型不是ActivityController则创建新的实例，仿重复创建，下面的判断是简写
+                //如果实例是空或者实例类型不是ActivityController则创建新的实例，防止重复创建，下面的判断是简写
                 if (controller == null || !(controller instanceof ActivityController)) {
                     mConfigData.buildController = new ActivityController();
                 }
@@ -111,7 +110,7 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
 
     @Override
     public IConfigDataBuilder setRootPath(String path) {
-        if (path.endsWith("/")) {//判断是否是以/结束的
+        if (path.endsWith(File.separator)) {//判断是否是以/结束的
             mConfigData.rootPath = path.substring(0, path.length() - 1);//去除最后的/
         } else {
             mConfigData.rootPath = path;

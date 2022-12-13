@@ -1,6 +1,9 @@
 package com.molihuan.pathselector.listener;
 
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.FontBean;
@@ -27,6 +30,11 @@ public abstract class CommonItemListener extends BaseItemListener {
         this.needReturnNow = needReturnNow;
     }
 
+    /**
+     * 可以设置字的样式
+     *
+     * @param fontBean
+     */
     public CommonItemListener(FontBean fontBean) {
         this(fontBean, false);
     }
@@ -37,6 +45,20 @@ public abstract class CommonItemListener extends BaseItemListener {
     }
 
     /**
+     * 重新此方法可以自定义item样式
+     *
+     * @param leftImg
+     * @param textView
+     * @return 如果返回false则自定义样式和默认样式都会生效, 且默认样式的优先级高
+     * 如果返回true则只会生效自定义样式
+     */
+    public boolean setViewStyle(RelativeLayout container, ImageView leftImg, TextView textView) {
+        return false;
+    }
+
+    /**
+     * 重写此方法可以进行回调
+     *
      * @param v             点击的视图
      * @param selectedFiles 选择的fileBean
      * @param currentPath   当前路径
@@ -47,4 +69,6 @@ public abstract class CommonItemListener extends BaseItemListener {
     public boolean onLongClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
         return false;
     }
+
+
 }

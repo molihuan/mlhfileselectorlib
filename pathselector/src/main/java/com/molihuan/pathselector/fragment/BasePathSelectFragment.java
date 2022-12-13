@@ -17,6 +17,8 @@ public abstract class BasePathSelectFragment extends AbstractFragment implements
 
     public abstract IFileDataManager getUriFileManager();
 
+    public abstract void returnDataToActivityResult();
+
     /**
      * 显示或隐藏handleFragment
      *

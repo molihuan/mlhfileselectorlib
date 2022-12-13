@@ -1,5 +1,8 @@
 package com.molihuan.pathselector.adapter;
 
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -28,10 +31,22 @@ public class MorePopupAdapter extends BaseQuickAdapter<CommonItemListener, BaseV
     @Override
     protected void convert(BaseViewHolder holder, CommonItemListener item) {
         FontBean fontBean = item.getFontBean();
+        RelativeLayout container = holder.getView(R.id.general_item_relatl_container_mlh);
+        ImageView leftIco = holder.getView(R.id.general_item_imav_ico_mlh);
         TextView tv = holder.getView(R.id.general_item_textview_mlh);
 
-
         tv.setText(fontBean.getText());
+        //如果已经设置了样式就不设置了
+        if (item.setViewStyle(container, leftIco, tv)) {
+            return;
+        }
+
+        if (fontBean.getLeftIcoResId() != null) {
+            leftIco.setImageResource(fontBean.getLeftIcoResId());
+            leftIco.setVisibility(View.VISIBLE);
+        }
+
+
         tv.setTextColor(fontBean.getColor());
         tv.setTextSize(fontBean.getSize());
     }

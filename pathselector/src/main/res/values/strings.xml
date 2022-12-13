@@ -11,4 +11,6 @@
     <string name="tip_filebeanitem_select_limit_exceeded">选择数量超过限制</string>
     <string name="tip_filebeanitem_select_error_type_mlh">选择类型错误</string>
     <string name="filebeanitem_dir_detail_mlh">文件夹:%s  文件:%s</string>
+    <string name="default_dialog_title_mlh">提示</string>
+    <string name="tip_uri_authorization_permission_content_mlh">访问%s目录需要授予权限,\n是否进行授权?</string>
 </resources>

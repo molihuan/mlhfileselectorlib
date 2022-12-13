@@ -86,10 +86,10 @@ public abstract class BaseDialog extends AlertDialog implements View.OnClickList
      * 回调接口
      */
     public interface IOnConfirmListener {
-        boolean onClick(View v);
+        boolean onClick(View v, BaseDialog dialog);
     }
 
     public interface IOnCancelListener {
-        boolean onClick(View v);
+        boolean onClick(View v, BaseDialog dialog);
     }
 }

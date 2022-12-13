@@ -218,7 +218,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
 
             FileBean item = allFileList.get(position);
             //如果当前已经是多选模式
-            if (multipleSelectionMode && (!mConfigData.radio)) {
+            if (multipleSelectionMode && (!radio)) {
                 //多选模式下不能点击返回item
                 if (position == 0) {
                     return;
@@ -299,7 +299,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
         if (adapter instanceof FileListAdapter) {
             FileBean fileBean = allFileList.get(position);
             //根据配置判断是否可以是使用多选,返回item不能长按
-            if (!mConfigData.radio && position != 0) {
+            if (!radio && position != 0) {
 
                 //如果设置了fileItem监听
                 if (fileItemListener != null) {
@@ -320,7 +320,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
     @Override
     public void selectAllFile(boolean status) {
         //只有允许多选并且当前是多选的情况下才可以
-        if (!mConfigData.radio && multipleSelectionMode) {
+        if (!radio && multipleSelectionMode) {
             pathFileManager.setBoxChecked(allFileList, null, status);
             pathFileManager.refreshFileTabbar(fileListAdapter, null, PathFileManager.TYPE_REFRESH_FILE);
         }

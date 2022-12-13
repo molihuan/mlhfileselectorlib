@@ -21,7 +21,7 @@ public class PathSelectorConfig {
      */
     public static void setDebug(boolean var) {
         Mtools.setDebug(var);
-        XTask.debug(true);
+        XTask.debug(var);
     }
 
 }

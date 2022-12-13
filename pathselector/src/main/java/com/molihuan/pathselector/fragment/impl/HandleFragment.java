@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.molihuan.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.adapter.HandleListAdapter;
 import com.molihuan.pathselector.entity.FontBean;
@@ -24,7 +25,7 @@ import java.util.Arrays;
  * @Date: 2022/11/22/18:19
  * @Description:
  */
-public class HandleFragment extends AbstractHandleFragment implements OnItemClickListener {
+public class HandleFragment extends AbstractHandleFragment implements OnItemClickListener, OnItemLongClickListener {
 
     protected RecyclerView mRecView;
 
@@ -74,6 +75,7 @@ public class HandleFragment extends AbstractHandleFragment implements OnItemClic
                 handleListAdapter = new HandleListAdapter(R.layout.item_handle_mlh, Arrays.asList(itemListeners), width);
                 mRecView.setAdapter(handleListAdapter);
                 handleListAdapter.setOnItemClickListener(HandleFragment.this);
+                handleListAdapter.setOnItemLongClickListener(HandleFragment.this);
             }
         });
 
@@ -106,4 +108,26 @@ public class HandleFragment extends AbstractHandleFragment implements OnItemClic
     }
 
 
+    @Override
+    public boolean onItemLongClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View v, int position) {
+        if (adapter instanceof HandleListAdapter) {
+            return optionItemLongClick(v, position);
+        }
+
+        return false;
+    }
+
+    /**
+     * 长按option回调
+     *
+     * @param v 点击的视图
+     * @param i 点击的索引
+     */
+    protected boolean optionItemLongClick(View v, int i) {
+        return itemListeners[i].onLongClick(v,
+                psf.getSelectedFileList(),
+                psf.getCurrentPath(),
+                psf
+        );
+    }
 }

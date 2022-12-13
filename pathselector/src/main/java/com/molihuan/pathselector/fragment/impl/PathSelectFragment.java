@@ -171,6 +171,16 @@ public class PathSelectFragment extends BasePathSelectFragment {
         return uriFileManager;
     }
 
+    /**
+     * 返回数据给onActivityResult(int requestCode, int resultCode, Intent data)
+     * 不建议使用,建议在一些按钮点击回调中获取选择的数据
+     */
+    @Override
+    @Deprecated
+    public void returnDataToActivityResult() {
+        pathFileManager.returnDataToActivityResult(getSelectedFileList(), mActivity);
+    }
+
     @SuppressLint("WrongConstant")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -236,7 +246,7 @@ public class PathSelectFragment extends BasePathSelectFragment {
             isShow = true;
         }
 
-        if (mConfigData.showHandleFragment) {
+        if (mConfigData.showHandleFragment && mConfigData.handleItemListeners != null) {
             FragmentTools.fragmentShowHide(
                     fragmentManager,
                     R.id.frameLayout_handle_area,

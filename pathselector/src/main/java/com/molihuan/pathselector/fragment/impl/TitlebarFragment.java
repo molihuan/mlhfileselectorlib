@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.adapter.MorePopupAdapter;
 import com.molihuan.pathselector.dialog.impl.SelectStorageDialog;
@@ -31,7 +32,7 @@ import java.util.Arrays;
  * @Date: 2022/11/22/18:15
  * @Description:
  */
-public class TitlebarFragment extends AbstractTitlebarFragment implements View.OnClickListener, OnItemClickListener {
+public class TitlebarFragment extends AbstractTitlebarFragment implements View.OnClickListener, OnItemClickListener, OnItemLongClickListener {
 
     protected View positionView;                      //定位视图
     protected RelativeLayout relParent;               //父控件
@@ -212,6 +213,7 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
             morePopupAdapter = new MorePopupAdapter(R.layout.general_item_tv_mlh, Arrays.asList(itemListeners));
             recyclerView.setAdapter(morePopupAdapter);
             morePopupAdapter.setOnItemClickListener(this);//设置监听
+            morePopupAdapter.setOnItemLongClickListener(this);//设置监听
         }
 
         optionsPopup.showAsDropDown(positionView, 0, 0, Gravity.RIGHT);//显示位置
@@ -234,6 +236,29 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
      */
     protected void optionItemClick(View v, int i) {
         itemListeners[i].onClick(v,
+                psf.getSelectedFileList(),
+                psf.getCurrentPath(),
+                psf
+        );
+    }
+
+    @Override
+    public boolean onItemLongClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View v, int position) {
+        if (adapter instanceof MorePopupAdapter) {
+            return optionItemLongClick(v, position);
+        }
+
+        return false;
+    }
+
+    /**
+     * 长按option回调
+     *
+     * @param v 点击的视图
+     * @param i 点击的索引
+     */
+    protected boolean optionItemLongClick(View v, int i) {
+        return itemListeners[i].onLongClick(v,
                 psf.getSelectedFileList(),
                 psf.getCurrentPath(),
                 psf

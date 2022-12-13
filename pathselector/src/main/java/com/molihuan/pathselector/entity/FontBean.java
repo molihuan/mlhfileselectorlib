@@ -2,6 +2,8 @@ package com.molihuan.pathselector.entity;
 
 import android.graphics.Color;
 
+import androidx.annotation.DrawableRes;
+
 import java.io.Serializable;
 
 /**
@@ -14,9 +16,10 @@ public class FontBean implements Serializable {
     private String text;//文本
     private Integer size;//大小
     private Integer color;//颜色
+    private Integer leftIcoResId;//左边图片资源id
 
     public FontBean(String text) {
-        this(text, 18, Color.BLACK);
+        this(text, 18);
     }
 
     public FontBean(String text, Integer size) {
@@ -24,9 +27,14 @@ public class FontBean implements Serializable {
     }
 
     public FontBean(String text, Integer size, Integer color) {
+        this(text, size, color, null);
+    }
+
+    public FontBean(String text, Integer size, Integer color, @DrawableRes Integer leftIcoResId) {
         this.text = text;
         this.size = size;
         this.color = color;
+        this.leftIcoResId = leftIcoResId;
     }
 
     public String getText() {
@@ -51,5 +59,13 @@ public class FontBean implements Serializable {
 
     public void setColor(Integer color) {
         this.color = color;
+    }
+
+    public Integer getLeftIcoResId() {
+        return leftIcoResId;
+    }
+
+    public void setLeftIcoResId(@DrawableRes Integer leftIcoResId) {
+        this.leftIcoResId = leftIcoResId;
     }
 }
