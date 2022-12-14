@@ -1,19 +1,19 @@
-![ml192.png](https://s2.loli.net/2022/12/14/WoYwfehDNHbMzIZ.png)
 
 
- <center><h1>mlhfileselector</h1></center>
+<div style="text-align: center">
+<img src="https://s2.loli.net/2022/12/14/WoYwfehDNHbMzIZ.png" alt="Banner" />
+<h1>mlhfileselector</h1>
+</div>
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22)[![](https://jitpack.io/v/molihuan/mlhfileselectorlib.svg)](https://jitpack.io/#molihuan/mlhfileselectorlib) ![API: 19-33 (shields.io)](https://img.shields.io/badge/API-19--33-green) [![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen)](https://github.com/molihuan/mlhfileselectorlib/blob/master/LICENSE) [![Star](https://img.shields.io/github/stars/molihuan/mlhfileselectorlib.svg)](https://github.com/molihuan/mlhfileselectorlib)[![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981) [![博客园: molihuan (shields.io)](https://img.shields.io/badge/博客园-molihuan-brightgreen)](https://www.cnblogs.com/molihuan/) [![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22) ![API: 19-33 (shields.io)](https://img.shields.io/badge/API-19--33-green) ![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen) [![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981) [![博客园: molihuan (shields.io)](https://img.shields.io/badge/博客园-molihuan-brightgreen)](https://www.cnblogs.com/molihuan/) [![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
-
-<center>
+<div style="text-align: center">
 <p>提供文件或路径选择，自动申请存储权限，支持安卓4.4 ~ 13，</p>
 <p>支持Android/data和Android/obb目录访问，支持自定义UI，支持SD卡。</p>
-</center>
-<center>
-(Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11 android 13)
-</center>
+<p>(Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11 android 13)</p>
+</div>
 
-## 特点
+
+## 特性
 
 - [x] 自动申请存储权限
 - [x] 安卓 4.4 ~ 13
@@ -21,28 +21,25 @@
 - [x] SD卡
 - [x] 高度自定义UI
 - [x] 国际化
+- [ ] 搜索功能
 
 ## 语言(Language)
 
-### **[中文](./README.md)** | [English](./README_EN.md)
+#### **[中文](./README.md)** | [English](./README_EN.md)
 
 ## 前言
 
-#### 在开始之前可以给我一个小星星吗？
-
-#### 非常感谢，你的支持是我唯一动力。
-
-#### 欢迎Star和Issues!
+#### 在开始之前可以给项目一个Star吗？非常感谢，你的支持是我唯一的动力。欢迎Star和Issues!
 
 #### 项目地址：
-#### [Github地址](https://github.com/molihuan/mlhfileselectorlib)
-#### [Gitee地址](https://gitee.com/molihuan/mlhfileselectorlib)
+##### [Github地址](https://github.com/molihuan/mlhfileselectorlib)
+##### [Gitee地址](https://gitee.com/molihuan/mlhfileselectorlib)
 
 ## demo演示：
 
-## 系统版本：Android 13 
+#### 系统版本：Android 13 
 
-#### 链接：[体验APP](https://github.com/molihuan/mlhfileselectorlib/tree/master/app/release)
+#### 下载链接：[体验APP](https://github.com/molihuan/mlhfileselectorlib/tree/master/app/release)
 
 ![pathSelectorDemo.gif](https://s2.loli.net/2022/12/14/QSGrIvwzYKhZuMe.gif)
 
@@ -83,7 +80,7 @@ dependencyResolutionManagement {
 ```java
 dependencies {
     ...
-    // 版本请自行选择建议使用最新发布版本的，如: 1.1.2
+    // 请将"版本"替换成具体的版本号，如 1.1.2
     implementation 'io.github.molihuan:pathselector:版本'
 }
 ```
@@ -92,7 +89,7 @@ dependencies {
 
 ```java
 //如果没有权限会自动申请权限
-PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog方式
+PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog构建方式
         .setMorePopupItemListeners(
                 new CommonItemListener("OK") {
                     @Override
@@ -116,10 +113,18 @@ PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog方式
 
 ## 二、基本设置
 
-#### 1、Activity模式：
+#### 打开调试模式
 
 ```java
-//Activity方式
+//开启调试模式，生产环境请关闭
+PathSelectorConfig.setDebug(true);
+//或者PathSelector.setDebug(true);
+```
+
+#### 1、Activity构建模式：
+
+```java
+//Activity构建方式
 PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_ACTIVITY)
         .setRequestCode(635)
         .setMorePopupItemListeners(
@@ -141,7 +146,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_ACTIVITY
         .show();
 ```
 
-#### 2、Fragment模式：
+#### 2、Fragment构建模式：
 
 ##### 第1步：在你需要显示的布局文件xml中使用FrameLayout占位
 
@@ -179,17 +184,19 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_FRAGMENT
 
 ##### 第3步：重写onBackPressed()方法让路径选择器优先处理返回按钮点击事件
 
-##### 非常重要!!!
+<h5 style="color:red"> 非常重要!!!</h5>
 
-##### 非常重要!!!
+<h5 style="color:red"> 非常重要!!!</h5>
 
-##### 非常重要!!!
+<h5 style="color:red"> 非常重要!!!</h5>
+
+##### 重要的事情说三遍
 
 ```java
 @Override
 public void onBackPressed() {
 
-    //让pathSelectFragment先处理返回按钮点击事件
+    //让PathSelectFragment先处理返回按钮点击事件
     if (selector != null && selector.onBackPressed()) {
         return;
     }
@@ -198,7 +205,7 @@ public void onBackPressed() {
 }
 ```
 
-#### 3、Dialog模式 & 常用设置：
+#### 3、Dialog构建模式 & 常用设置：
 
 ```java
 //获取PathSelectFragment实例然后在onBackPressed中处理返回按钮点击事件
@@ -266,7 +273,11 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .show();
 ```
 
-## 三、高级设置
+## 三、高级设置(自定义UI)
+
+#### UI布局：
+
+![UiLayout.png](https://s2.loli.net/2022/12/14/Yw8bamgrtNC9yiW.png)
 
 #### 1、自定义选项样式(以HandleItem为例子)
 
@@ -275,7 +286,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 ```java
 PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .setHandleItemListeners(//设置长按弹出选项回调
-                //FontBean可是设置文本、字的大小、字的颜色、字左边的图标
+                //FontBean可以设置文本、字的大小、字的颜色、字左边的图标
     			//R.drawable.ic_test_mlh是你自己的图片资源id
                 new CommonItemListener(new FontBean("OK", 18, Color.RED, R.drawable.ic_test_mlh)) {
                     @Override
@@ -288,7 +299,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .show();
 ```
 
-##### 什么？这种方式还不能满足你，那么试试方式2
+<h5 style="color:red">  什么？这种方式还不能满足你，那么试试方式2</h5>
 
 ##### 方式2:重写CommonItemListener的setViewStyle方法来自定义样式
 
@@ -301,7 +312,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
                     public boolean setViewStyle(RelativeLayout container, ImageView leftImg, TextView textView) {
                         textView.setTextSize(18);
                         textView.setTextColor(Color.RED);
-                        //默认是不显示的
+                        //默认是不显示图标的
                         leftImg.setVisibility(View.VISIBLE);
                         leftImg.setImageResource(R.drawable.ic_test_mlh);
                         leftImg.getLayoutParams().width = 90;
@@ -318,8 +329,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         )
         .show();
 ```
-
-#### 什么？什么？这种方式还不能满足你，那么你来写UI我来帮你添加，试试高度自定义UI
+<h4 style="color:red"> 什么？什么？这种方式还不能满足你，那么你来写UI它来帮你添加，试试高度自定义UI</h4>
 
 #### 2、高度自定义UI(以Titlebar为例子)：
 
@@ -447,12 +457,17 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
   ```
 
   请在你的项目中的`AndroidManifest.xml`设置一致
-  
+#### 版本升级
+
+- 新版本往往解决了旧版本的一些问题、增加了性能、可扩展性......建议升级新版本
+- 请注意因为重构了项目导致了旧版本与新版本不兼容。1.0.x升级1.1.x为非兼容升级，请注意学习新的API
+
+
 #### 体积过大
 
 - 已经集成了[Blankj/AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 
-  如果项目对大小有严格要求请下载源码并精简AndroidUtilCode工具类
+  如果项目对大小有严格要求请自行下载源码并精简AndroidUtilCode模块
 
 #### 代码混淆
 
@@ -460,17 +475,17 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 
 # 特别鸣谢
 
-[getActivity/XXPermissions: Android 权限请求框架，已适配 Android 12 (github.com)](https://github.com/getActivity/XXPermissions)
+- [getActivity/XXPermissions](https://github.com/getActivity/XXPermissions)
 
-[CymChad/BaseRecyclerViewAdapterHelper: BRVAH:Powerful and flexible RecyclerAdapter (github.com)](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+- [CymChad/BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
 
-[Blankj/AndroidUtilCode: Android developers should collect the following utils(updating). (github.com)](https://github.com/Blankj/AndroidUtilCode)
+- [Blankj/AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 
-[xuexiangjys/XTask: 一个拓展性极强的Android任务执行框架。可自由定义和组合任务来实现你想要的功能，尤其适用于处理复杂的业务流程，可灵活添加前置任务或者调整执行顺序。例如：应用的启动初始化流程。 (github.com)](https://github.com/xuexiangjys/XTask)
+- [xuexiangjys/XTask](https://github.com/xuexiangjys/XTask)
 
-[ZLYang110/FileSelector: Android 文件选择器，指定选择文件夹还是文件，根据后缀名过滤，支持多选 (github.com)](https://github.com/ZLYang110/FileSelector)
+- [ZLYang110/FileSelector](https://github.com/ZLYang110/FileSelector)
 
-[zzy0516alex/FileSelectorRelease: lib (github.com)](https://github.com/zzy0516alex/FileSelectorRelease)
+- [zzy0516alex/FileSelectorRelease](https://github.com/zzy0516alex/FileSelectorRelease)
 
 开源项目以及其依赖项目。
 

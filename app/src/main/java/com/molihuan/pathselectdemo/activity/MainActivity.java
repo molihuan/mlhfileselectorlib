@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * 完整配置
+     * 基本配置
      */
     private void CompleteConfiguration() {
 

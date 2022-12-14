@@ -1,32 +1,52 @@
-# mlhfileselectorlib
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22) ![API](https://img.shields.io/badge/API-19%2B-green) ![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen) [![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981) [![博客园: molihuan (shields.io)](https://img.shields.io/badge/博客园-molihuan-brightgreen)](https://www.cnblogs.com/molihuan/) [![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
 
-Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 12, support Android/data directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11
+<div style="text-align: center">
+<img src="https://s2.loli.net/2022/12/14/WoYwfehDNHbMzIZ.png" alt="Banner" />
+<h1>mlhfileselector</h1>
+</div>
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22)[![](https://jitpack.io/v/molihuan/mlhfileselectorlib.svg)](https://jitpack.io/#molihuan/mlhfileselectorlib) ![API: 19-33 (shields.io)](https://img.shields.io/badge/API-19--33-green) [![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen)](https://github.com/molihuan/mlhfileselectorlib/blob/master/LICENSE) [![Star](https://img.shields.io/github/stars/molihuan/mlhfileselectorlib.svg)](https://github.com/molihuan/mlhfileselectorlib)[![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981) [![博客园: molihuan (shields.io)](https://img.shields.io/badge/博客园-molihuan-brightgreen)](https://www.cnblogs.com/molihuan/) [![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
+
+<div style="text-align: center">
+<p>(Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11 android 13)</p>
+</div>
+
+
+
+## Characteristics
+
+- [x] Automatically request storage permissions
+- [x] Android 4.4 ~ 13
+- [x] Android/data and Android/obb directory access and manipulation
+- [x] SD Card
+- [x] Highly customizable UI
+- [x] Internationalization
+- [ ] Search function
 
 ## Language(语言)
 
-### [Chinese](./README.md) | **[English](./README_EN.md)**
+#### **[中文](./README.md)** | [English](./README_EN.md)
 
 ## Preface
 
-#### may I have a little star before we begin?
+#### Can you give the project a Star before starting? Thank you very much, your support is the only thing that keeps me going. Welcome Star and Issues!
 
-#### thank you very much, your support is my only motivation.
+#### Project Address：
+##### [Github](https://github.com/molihuan/mlhfileselectorlib)
+##### [Gitee](https://gitee.com/molihuan/mlhfileselectorlib)
 
-#### Welcome to Star and Issues!
+## Demo：
 
-#### Project Address:
+#### Android version：Android 13 
 
-#### [Github](https://github.com/molihuan/mlhfileselectorlib)
+#### Download Links：[Experience App](https://github.com/molihuan/mlhfileselectorlib/tree/master/app/release)
 
-#### [Gitee](https://gitee.com/molihuan/mlhfileselectorlib)
+![pathSelectorDemo.gif](https://s2.loli.net/2022/12/14/QSGrIvwzYKhZuMe.gif)
 
-## 一、how to use
+## I. Quick start
 
-#### Step 1: Add repository:
+#### Step 1: Add the repository:
 
-- ##### If your project Gradle configuration is below '7.0', you need to add it in the 'build. Gradle' file
+- ##### If your project Gradle configuration is under `7.0`, you need to add to the `build.gradle` file
 
 ```java
 allprojects {
@@ -38,9 +58,9 @@ allprojects {
 }
 ```
 
-- ##### If your Gradle configuration is' 7.0 'or above, you need to add it in the' settings. Gradle 'file
+- ##### If your Gradle configuration is `7.0 and above`, you need to add to your `settings.gradle` file
 
-```
+```java
 dependencyResolutionManagement {
     repositories {
     	...
@@ -50,291 +70,422 @@ dependencyResolutionManagement {
 }
 ```
 
-#### Step 2: Add remote dependencies:
+#### Step 2: Add the remote dependency:
 
-- ##### After configuring the remote repository, add the remote dependencies to the 'build.gradle' file in the project app module
+- ##### After configuring the remote repository, add the remote dependency to the `build.gradle` file under the project app module
 
 - ##### Latest Release:[![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22)
 
 ```java
 dependencies {
     ...
-    // 版本请自行选择建议使用最新的
-    //The latest version is recommended
-    implementation 'io.github.molihuan:pathselector:版本'
+    // Please replace "version" with a specific version number, e.g. 1.1.2
+    implementation 'io.github.molihuan:pathselector:version'
 }
 ```
 
-#### Step 3: Basic Usage demonstration:
+#### Step 3: Demonstration of basic usage:
 
 ```java
-//如果没有权限会自动申请权限
-// If there is no permission, the system automatically applies for permission
-PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)//跳转Activity方式
-    .requestCode(10011)//requestCode
-    //toolbar选项
-    .setMoreOPtions(new String[]{"选择"},
-                    new boolean[]{true},//And then you end the Activity and the result will be onActivityResult()
-                    new SelectOptions.onToolbarOptionsListener() {
-                        @Override
-                        public void onOptionClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter, List<FileBean> callBackFileBeanList) {
-                            //for (String callBackDatum : callBackData) {
-                            //Mtools.toast(getBaseContext(),callBackDatum);// You can also get the result of the selection here
-                            //}
+//Permissions will be requested automatically if you don't have them
+PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog build mode
+        .setMorePopupItemListeners(
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("you selected:\n");
+                        for (FileBean fileBean : selectedFiles) {
+                            builder.append(fileBean.getPath() + "\n");
                         }
+                        Mtools.toast(builder.toString());
+
+                        return false;
                     }
-                   )
-    .start();//Begin to build
+                }
+        )
+        .show();//Start building
 ```
 
-#### Step 4: Get the returned data (you can also get the data in the clickback):
+
+
+## II. Basic settings
+
+#### Turn on debug mode
 
 ```java
-@Override
-protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == 10011) {
-        if(data!=null){
-            List<String> pathData = data.getStringArrayListExtra(Constants.CALLBACK_DATA_ARRAYLIST_STRING);// Get data
-            StringBuilder builder = new StringBuilder();
-            for (String path : pathData) {
-                builder.append(path).append("");
-            }
-            Mtools.toast(MainActivity.this,builder.toString());
-        }
-    }
-}
+//Turn on debug mode, please turn off production environment
+PathSelectorConfig.setDebug(true);
+//or use PathSelector.setDebug(true);
 ```
 
-## The demo presentation:
-
-### System version：Android 11 
-
-#### Link：[Experience the App](https://github.com/molihuan/mlhfileselectorlib/releases/)
-
-![pathSelectorDemo1.gif](https://s2.loli.net/2022/07/02/5Stnm1vHlQdFZ24.gif)
-
-## 二、More Settings
-
-#### 1、Activity& All Settings mode:
+#### 1、Activity build mode：
 
 ```java
-//Constants.BUILD_ACTIVITY is an ACTIVITY mode
-PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)
-    .requestCode(10011)//requestCode
-    .setRootPath("/storage/emulated/0")//Set the root directory (note no/at the end)
-    .setMaxCount(3)// Set the maximum number of selections, default is -1 unlimited
-    //.setToolbarFragment(new TestFragment())// Load a custom ToolbarFragment
-    //.setMoreChooseFragment(new TestFragment())// Load a custom MoreChooseFragment
-    //.setShowFileTypes("mp4","")// Set the display file type if no suffix please use ""
-    //.setSelectFileTypes("mp3","mp4","ppt","")// Select file type if no suffix please use ""
-    .setSortType(Constants.SORT_NAME_ASC)// Set the sort type
-    //.isSingle()// Single mode cannot be multiple
-    .showToolBarFragment(true)// Whether to display ToolbarFragment
-    .setToolbarMainTitle("路径选择器")// Set the ToolbarFragment main header
-    .setToolbarSubtitleTitle("MLH")// Set the ToolbarFragment subtitle
-    .setToolbarSubtitleColor(Color.BLACK)//ToolbarFragment subtitle color
-    // Set multiple items and their callback
-    .setMoreChooseItems(
-    new String[]{"全选", "删除"},
-    // Anonymous objects
-    new SelectOptions.onMoreChooseItemsListener() {
-        @Override
-        public void onItemsClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter, List<FileBean> callBackFileBeanList) {
-            Mtools.toast(getBaseContext(),"点击了全选");
-        }
-    },
-    //Lambda expressions are used below for brevity
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了删除");
-    }
-)
-    // Set the toolbarFragment option item and its callback
-    .setMoreOPtions(
-    new String[]{"选择"},
-    new boolean[]{false},// Select whether to destroy the current Activity after it finishes
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了选择"+callBackData.get(0));
-    }
-)
-    // Set FileItem and its callback in the file list
-    .setFileItemListener(new com.molihuan.pathselector.dao.SelectOptions.onFileItemListener() {
-        @Override
-        public boolean onFileItemClick(View view, String currentPath, List<com.molihuan.pathselector.entities.FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, com.molihuan.pathselector.adapters.FileListAdapter fileAdapter,FileBean fileBean) {
-            Mtools.toast(getBaseContext(),currentPath);
-            return false;
-        }
-        @Override
-        public boolean onLongFileItemClick(View view, String currentPath, List<com.molihuan.pathselector.entities.FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, com.molihuan.pathselector.adapters.FileListAdapter fileAdapter,FileBean fileBean) {
-            return false;
-        }
-    })
-    .start();// Start building
+//Activity build mode
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_ACTIVITY)
+        .setRequestCode(635)
+        .setMorePopupItemListeners(
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("you selected:\n");
+                        for (FileBean fileBean : selectedFiles) {
+                            builder.append(fileBean.getPath() + "\n");
+                        }
+                        Mtools.toast(builder.toString());
+
+                        return false;
+                    }
+                }
+        )
+        .show();
 ```
 
-#### 2、Fragments mode:
+#### 2、Fragment build mode：
+
+##### Step 1: Use FrameLayout placeholders in the xml of the layout file you need to display
+
+```xml
+<FrameLayout
+    android:id="@+id/fragment_select_show_area"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+```
+
+##### Step 2: Write the code
 
 ```java
-// Get the return button click event in the PathSelectFragment instance onBackPressed
-mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_FRAGMENT)
-    .frameLayoutID(R.id.fragment_select_show_area)//The ID of the loading location,FrameLayout
-    .requestCode(10011)//requestCode
-    .showToolBarFragment(false)//是否显示ToolbarFragment
-    //Set the multi-select item and its callback
-    .setMoreChooseItems(
-    new String[]{"全选", "删除"},
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了全选");
-    },
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了删除"+callBackData.get(0));
-    }
-)
-    .start();//Start building
+//Get the PathSelectFragment instance and then handle the back button click event in onBackPressed
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_FRAGMENT)
+        .setFrameLayoutId(R.id.fragment_select_show_area)//Load position, ID of FrameLayout
+        .setMorePopupItemListeners(
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("you selected:\n");
+                        for (FileBean fileBean : selectedFiles) {
+                            builder.append(fileBean.getPath() + "\n");
+                        }
+                        
+                        Mtools.toast(builder.toString());
+                        return false;
+                    }
+                }
+        )
+        .show();
 ```
 
-##### onBackPressed()
+##### Step 3: Override the onBackPressed() method to let the path selector take precedence over the return button click event
+
+<h5 style="color:red"> Very important!!!</h5>
+
+<h5 style="color:red"> Very important!!!</h5>
+
+<h5 style="color:red"> Very important!!!</h5>
+
+##### Important things are to be repeated for 3 times
 
 ```java
 @Override
 public void onBackPressed() {
-    //Let the PathSelectFragment handle the return button click event first
-    if (mPathSelectFragment!=null&&mPathSelectFragment.onBackPressed()){
+
+    //Let PathSelectFragment handle the return button click event first
+    if (selector != null && selector.onBackPressed()) {
         return;
     }
+    ......
     super.onBackPressed();
 }
 ```
 
-#### 3、 Dialog mode:
+#### 3、Dialog build mode & common settings.
 
 ```java
-//Get the return button click event in the PathSelectFragment instance onBackPressed
-mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_DIALOG)
-    .frameLayoutID(R.id.fragment_select_show_area)//ID of the load location FrameLayout
-    .requestCode(10011)//requestCode
-    .showToolBarFragment(true)//Whether to display ToolbarFragment
-    //Set the toolbarFragment option item and its callback
-    .setMoreOPtions(
-    new String[]{"选择"},
-    new boolean[]{true},
-    (view,currentPath, fileBeanList,callBackData,tabbarAdapter,fileAdapter,callBackFileBeanList) -> {
-        Mtools.toast(getBaseContext(),"点击了选择"+currentPath);
-    }
-)
-    .start();//Start building
+//Get the PathSelectFragment instance and then handle the back button click event in onBackPressed
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        //.setBuildType(MConstants.BUILD_DIALOG)//Already set in the build
+        //.setContext(this)//Already set in the build
+        .setRootPath("/storage/emulated/0/")//Initial path
+        .setShowSelectStorageBtn(true)//Whether to display internal storage selection button
+        .setShowTitlebarFragment(true)//Whether to display the title bar
+        .setShowTabbarFragment(true)//Whether to show breadcrumbs
+        .setAlwaysShowHandleFragment(true)//Whether to always show the long press pop-up option
+        .setShowFileTypes("", "mp3", "mp4")//Show only files with (no suffix) or (mp3 suffix) or (mp4 suffix)
+        .setSelectFileTypes("", "mp3")//Only files with (no suffix) or (mp3 suffix) can be selected
+        .setMaxCount(3)//You can select up to 3 files. The default is - 1 unlimited
+        .setRadio()//Single choice
+        .setSortType(MConstants.SORT_NAME_ASC)//Sort by name
+        .setTitlebarMainTitle(new FontBean("My Selector"))//Set the title bar main title, you can also set the font size, color, etc.
+        .setTitlebarBG(Color.GREEN)//Set the title bar background color
+        .setFileItemListener(//Set the callback for the file item click (it will be called back only if it is a file, but not if it is a folder)
+                new FileItemListener() {
+                    @Override
+                    public boolean onClick(View v, FileBean file, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        Mtools.toast("you clicked path:\n" + file.getPath());
+                        return false;
+                    }
+                }
+        )
+        .setMorePopupItemListeners(//Set the top right option callback
+                new CommonItemListener("SelectAll") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        pathSelectFragment.selectAllFile(true);
+                        return false;
+                    }
+                },
+                new CommonItemListener("DeselectAll") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        pathSelectFragment.selectAllFile(false);
+                        return false;
+                    }
+                }
+        )
+        .setHandleItemListeners(//Set long press pop-up option callback
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("you selected:\n");
+                        for (FileBean fileBean : selectedFiles) {
+                            builder.append(fileBean.getPath() + "\n");
+                        }
+                        Mtools.toast(builder.toString());
+                        return false;
+                    }
+                },
+                new CommonItemListener("cancel") {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        pathSelectFragment.openCloseMultipleMode(false);
+                        return false;
+                    }
+                }
+        )
+        .show();
 ```
 
-#### 4、Custom toolbars:
+## III. Advanced settings (custom UI)
+
+#### UI：
+
+![UiLayout.png](https://s2.loli.net/2022/12/14/Yw8bamgrtNC9yiW.png)
+
+#### 1、custom option style (HandleItem as an example)
+
+##### Way 1:Set the style by FontBean
 
 ```java
-//Get the return button click event in the PathSelectFragment instance onBackPressed
-mPathSelectFragment = PathSelector.build(MainActivity.this, Constants.BUILD_ACTIVITY)
-    .requestCode(10011)//requestCode
-    .showToolBarFragment(true)//Whether to display ToolbarFragment If custom must be true The default is true
-    .setToolbarFragment(new CustomToolbarFragment())
-    .setToolbarViewClickers(
-    new SelectOptions.onToolbarListener() {
-        @Override
-        public void onClick(View view, String currentPath, List<FileBean> fileBeanList, List<String> callBackData, TabbarFileListAdapter tabbarAdapter, FileListAdapter fileAdapter,List<FileBean> callBackFileBeanList) {
-            Mtools.toast(getBaseContext(),"点击了按钮1");
-        }
-    }
-)
-    .start();//Start building
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        .setHandleItemListeners(//Set long press pop-up option callback
+                //FontBean can set the text, the size of the word, the color of the word, and the icon to the left of the word
+    			//R.drawable.ic_test_mlh is your own image resource id
+                new CommonItemListener(new FontBean("OK", 18, Color.RED, R.drawable.ic_test_mlh)) {
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        Mtools.toast("You Click");
+                        return false;
+                    }
+                }
+        )
+        .show();
 ```
 
+<h5 style="color:red">  What? This way is not enough for you, then try way 2</h5>
+
+##### Way 2: Override CommonItemListener's setViewStyle method to customize the style
+
+```java
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        .setHandleItemListeners(
+                //Override CommonItemListener's setViewStyle method to customize the style
+                new CommonItemListener("OK") {
+                    @Override
+                    public boolean setViewStyle(RelativeLayout container, ImageView leftImg, TextView textView) {
+                        textView.setTextSize(18);
+                        textView.setTextColor(Color.RED);
+                        //Icons are not displayed by default
+                        leftImg.setVisibility(View.VISIBLE);
+                        leftImg.setImageResource(R.drawable.ic_test_mlh);
+                        leftImg.getLayoutParams().width = 90;
+                        leftImg.getLayoutParams().height = 90;
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        Mtools.toast("You Click");
+                        return false;
+                    }
+                }
+        )
+        .show();
+```
+<h4 style="color:red"> What? What? This way is not enough for you, then you write the UI it to help you add, try the highly customizable UI</h4>
+
+#### 2、Highly customizable UI (using Titlebar as an example)：
+
+##### Step 1: Create a new layout file, such as:fragment_custom_titlebar.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/my_btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="btn1" />
+
+    <Button
+        android:id="@+id/my_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="selectAll" />
+    
+</LinearLayout>
+```
+
+##### Step 2: Create a new class such as:CustomTitlebarFragment.class so that it extends AbstractTitlebarFragment and associates the layout file in step 1
+
+```java
+public class CustomTitlebarFragment extends AbstractTitlebarFragment {
+    private Button btn1;
+    private Button btn2;
+    
+    @Override
+    public int setFragmentViewId() {
+        return R.layout.fragment_custom_titlebar;
+    }
+
+    @Override
+    public void getComponents(View view) {
+        btn1 = view.findViewById(R.id.my_btn1);
+        btn2 = view.findViewById(R.id.my_btn2);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Mtools.toast("The current path is:\n" + psf.getCurrentPath());
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                psf.selectAllFile(true);
+            }
+        });
+    }
+}
+```
+
+##### Step 3: Write the code
+
+```java
+//Get the PathSelectFragment instance and then handle the back button click event in onBackPressed
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        .setTitlebarFragment(new CustomTitlebarFragment())
+        .show();
+```
+
+## IV.Interface and methods (try to see the source code, are written comments, lazy to write the document)
+
+##### IConfigDataBuilder
 
 
-## 三、Classes and methods (try to see the source code, have written comments, too lazy to write documentation)
+| Method                                                       | Role                                                         | Comment                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| setFrameLayoutId(int id)                                     | Set load location FrameLayout ID                             | Must be set when the build mode is MConstants.BUILD_FRAGMENT |
+| setRequestCode(int code)                                     | Set request code                                             | Must be set when build mode is MConstants.BUILD_ACTIVITY     |
+| setRootPath(String path)                                     | Set default path to start                                    | Default is the internal storage root path                    |
+| setMaxCount(int maxCount)                                    | Set the maximum number of selections                         | No setting default is -1 i.e. no limit                       |
+| setShowFileTypes(String... fileTypes)                        | Set the display file type                                    | No suffix please use ""                                      |
+| setSelectFileTypes(String... fileTypes)                      | Set the selection file type                                  | No suffix please use ""                                      |
+| setSortType(int sortType)                                    | Set sorting rules                                            | See MConstants for types                                     |
+| setRadio()                                                   | Set radio selection                                          | Default Multiple Choice                                      |
+| setShowSelectStorageBtn(boolean var)                         | Set whether to display the internal storage selection button | Default true                                                 |
+| setShowTitlebarFragment(boolean var)                         | Whether to display the title bar                             | Default true                                                 |
+| setShowTabbarFragment(boolean var)                           | Whether to show breadcrumbs                                  | Default true                                                 |
+| setAlwaysShowHandleFragment(boolean var)                     | Whether to always show the long press pop-up option          | Default false                                                |
+| setTitlebarMainTitle(FontBean titlebarMainTitle)             | Set the main title of the title bar                          | You can also set the font size, color, etc.                  |
+| setTitlebarBG(Integer titlebarBG)                            | Set the title bar background color                           |                                                              |
+| setFileItemListener(FileItemListener fileItemListener)       | Set file item clickback                                      | The callback will be made only if you click on a file, but not if you click on a folder. |
+| setMorePopupItemListeners(CommonItemListener... morePopupItemListener) | Set the top right option callback                            |                                                              |
+| setHandleItemListeners(CommonItemListener... handleItemListener) | Set long press popup option callback                         |                                                              |
+| setTitlebarFragment(AbstractTitlebarFragment titlebarFragment) | Set custom title bar UI                                      | Your own Fragment must extend AbstractTitlebarFragment       |
+| setHandleFragment(AbstractHandleFragment handleFragment)     | Set long press to pop up custom UI                           | Your own Fragment must extend AbstractHandleFragment         |
+| start()                                                      | Start building                                               | Must be called                                               |
+| ......                                                       | ......                                                       | ......                                                       |
 
-##### SelectManager
+## V. !!! Special attention !!!
 
-| methods                                                      | annotation                                        | note                                                         |
-| ------------------------------------------------------------ | ------------------------------------------------- | ------------------------------------------------------------ |
-| frameLayoutID(int id)                                        | Set the loading location FrameLayoutID            |                                                              |
-| requestCode(int code)                                        | Setting the request code                          |                                                              |
-| setRootPath(String path)                                     | Set the default start path                        |                                                              |
-| setMaxCount(int maxCount)                                    | Set the maximum number of selections              | Default to -1 means unlimited                                |
-| setShowFileTypes(String... fileTypes)                        | Set the display file type                         |                                                              |
-| setSelectFileTypes(String... fileTypes)                      | Set select file type                              |                                                              |
-| setSortType(int sortType)                                    | Setting collation rules                           |                                                              |
-| isSingle()                                                   | Setting collation rules                           |                                                              |
-| showToolBarFragment(boolean var)                             | Sets whether ToolBarFragment is displayed         |                                                              |
-| setMoreOPtions(String[] optionsName ,SelectOptions.onToolbarOptionsListener ...optionListeners) | Set some Toolbar options (with overloads)         |                                                              |
-| setToolbarViewClickers(SelectOptions.onToolbarListener ...listeners) | Set up some Toolbar clicks                        |                                                              |
-| SelectManager setMoreChooseItems(String[] ItemsName ,SelectOptions.onMoreChooseItemsListener ...itemListeners) | Set some MoreChooseItems options (with overloads) |                                                              |
-| setFileItemListener(SelectOptions.onFileItemListener onFileItem) | FileItem Click/long press callback                |                                                              |
-| setToolbarMainTitle(String title)                            | Set the Toolbar main title                        | Title related options are listed in a series of different ones |
-| setToolbarFragment(Fragment fragment)                        | Set up a custom title bar UI                      | AbstractToolbarFragment is recommended                       |
-| setMoreChooseFragment(Fragment fragment)                     | Set up a custom multi-choice UI                   |                                                              |
-| start()                                                      | Begin to build                                    | You must call                                                |
-| ......                                                       | ......                                            |                                                              |
+#### Partition Storage
 
-## 四、!!!Special attention!!
+##### The library is also adapted to partitioned storage, no additional adaptation is needed, you just need to write your business code and leave the rest to it.
 
-#### Partition storage
-
-##### The library also ADAPTS partitioned storage, no additional adaptation is required, you just need to write your business code, leave the rest to it.
-
-- Note that the library has been added to the library's 'androidmanifest.xml'：
+- Note that the library has been added to the library's `AndroidManifest.xml`：
 
   ```xml
-  <!-- Write permission of the external storage -->
+  <!-- Write access to external storage -->
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <!-- Android 11 Extra privileges -->
+  <!-- Android 11 extra permissions -->
   <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
       tools:ignore="ScopedStorage" />
-  <!-- The partitioned storage feature has been adapted -->
+  <!-- Partitioned storage features have been adapted -->
   <application
           android:preserveLegacyExternalStorage="true"
           android:requestLegacyExternalStorage="true"
           >
   ```
 
-- Error may occur:
+- Error may be reported:
 
   ```java
   Execution failed for task ':app:processDebugMainManifest'.
   > Manifest merger failed with multiple errors, see logs
   ```
 
-  Please be consistent in setting 'androidmanifest.xml' in your project
+  Please set the `AndroidManifest.xml` in your project to be consistent
+#### Version Upgrade
 
-#### code confusion
+- The new version often solves some of the problems of the old version, increases performance, scalability ...... It is recommended to upgrade to a new version
+- Please note that the old version is not compatible with the new version due to the refactoring of the project. 1.0.x upgrade 1.1.x is a non-compatible upgrade, please pay attention to learn the new API
 
-- Generally, obfuscation rules are automatically imported without configuration
 
-## 五、Offline integration
+#### Excessive volume
 
-First remove the "io.github.molihuan:pathselector" dependency from your project.
+- Already integrated with [Blankj/AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 
-Then download the source code, unzip the package, open "build.gradle" under the pathselector folder, remove the (->id 'com.kezong.fat-aar'<-) and (->apply from: "${getRootDir().absolutePath}/gradles/publish- maven.gradle"<-), modify (->embed(name: 'XXPermissions-13.6', ext: 'aar')<-) to (->implementation fileTree(dir: "libs", includes: ["*.aar", "*.jar"] ) <-) .
+  If the project has strict requirements on size, please download the source code and streamline the AndroidUtilCode module.
 
-Then open your project and pass the pathselector folder into your project by way of a module, then making sure that project build.gradle (no app or pathselector build.gradle) contains the remote repository:
-allprojects {
-    repositories {
-        ...
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
-}
+#### Code obfuscation
 
-Finally sync Now Get the dependencies
+- Generally no configuration is required, obfuscation rules are imported automatically
 
-# Thank
+# Special Thanks
 
-[ZLYang110/FileSelector: Android 文件选择器，指定选择文件夹还是文件，根据后缀名过滤，支持多选 (github.com)](https://github.com/ZLYang110/FileSelector)
+- [getActivity/XXPermissions](https://github.com/getActivity/XXPermissions)
 
-[zzy0516alex/FileSelectorRelease: lib (github.com)](https://github.com/zzy0516alex/FileSelectorRelease)
+- [CymChad/BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
 
-[getActivity/XXPermissions: Android 权限请求框架，已适配 Android 12 (github.com)](https://github.com/getActivity/XXPermissions)
+- [Blankj/AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 
-[CymChad/BaseRecyclerViewAdapterHelper: BRVAH:Powerful and flexible RecyclerAdapter (github.com)](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+- [xuexiangjys/XTask](https://github.com/xuexiangjys/XTask)
 
-[Blankj/AndroidUtilCode: Android developers should collect the following utils(updating). (github.com)](https://github.com/Blankj/AndroidUtilCode)
+- [ZLYang110/FileSelector](https://github.com/ZLYang110/FileSelector)
 
-Open source projects and their dependencies
+- [zzy0516alex/FileSelectorRelease](https://github.com/zzy0516alex/FileSelectorRelease)
+
+Open source projects and their dependencies.
 
 ### [LICENSE ](https://github.com/molihuan/mlhfileselectorlib/blob/master/LICENSE)
