@@ -86,7 +86,7 @@ dependencyResolutionManagement {
 ```java
 dependencies {
     ...
-    // 请将"版本"替换成具体的版本号，如 1.1.2
+    // 请将"版本"替换成具体的版本号，如 1.1.3
     implementation 'io.github.molihuan:pathselector:版本'
 }
 ```
@@ -100,6 +100,10 @@ PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog构建方式
                 new CommonItemListener("OK") {
                     @Override
                     public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        
+                        /**取消dialog弹窗
+ * pathSelectFragment.getSelectConfigData().buildController.getDialogFragment().dismiss();
+ */
 
                         StringBuilder builder = new StringBuilder();
                         builder.append("you selected:\n");

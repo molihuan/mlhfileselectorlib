@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.adapter.FileListAdapter;
 import com.molihuan.pathselector.adapter.TabbarListAdapter;
+import com.molihuan.pathselector.dao.SelectConfigData;
 import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.TabbarFileBean;
 import com.molihuan.pathselector.fragment.AbstractFileShowFragment;
@@ -179,6 +180,11 @@ public class PathSelectFragment extends BasePathSelectFragment {
     @Deprecated
     public void returnDataToActivityResult() {
         pathFileManager.returnDataToActivityResult(getSelectedFileList(), mActivity);
+    }
+
+    @Override
+    public SelectConfigData getSelectConfigData() {
+        return mConfigData;
     }
 
     @SuppressLint("WrongConstant")

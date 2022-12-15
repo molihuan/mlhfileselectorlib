@@ -100,6 +100,10 @@ PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog build mode
                 new CommonItemListener("OK") {
                     @Override
                     public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                        
+                        /**dialog.dismiss()
+ * pathSelectFragment.getSelectConfigData().buildController.getDialogFragment().dismiss();
+ */
 
                         StringBuilder builder = new StringBuilder();
                         builder.append("you selected:\n");

@@ -1,5 +1,6 @@
 package com.molihuan.pathselector.fragment;
 
+import com.molihuan.pathselector.dao.SelectConfigData;
 import com.molihuan.pathselector.interfaces.IFileShowFragment;
 import com.molihuan.pathselector.interfaces.IHandleFragment;
 import com.molihuan.pathselector.interfaces.ITabbarFragment;
@@ -18,6 +19,8 @@ public abstract class BasePathSelectFragment extends AbstractFragment implements
     public abstract IFileDataManager getUriFileManager();
 
     public abstract void returnDataToActivityResult();
+
+    public abstract SelectConfigData getSelectConfigData();
 
     /**
      * 显示或隐藏handleFragment

@@ -113,9 +113,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         new CommonItemListener("SelectAll") {
                             @Override
                             public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                                /**取消dialog弹窗
+                                 * pathSelectFragment.getSelectConfigData().buildController.getDialogFragment().dismiss();
+                                 */
 
                                 pathSelectFragment.selectAllFile(true);
-
                                 return false;
                             }
                         },
