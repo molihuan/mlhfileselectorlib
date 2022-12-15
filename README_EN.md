@@ -8,10 +8,16 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22)[![jitpack](https://jitpack.io/v/molihuan/mlhfileselectorlib.svg)](https://jitpack.io/#molihuan/mlhfileselectorlib)![API: 19-33 (shields.io)](https://img.shields.io/badge/API-19--33-green)[![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen)](https://github.com/molihuan/mlhfileselectorlib/blob/master/LICENSE)[![Star](https://img.shields.io/github/stars/molihuan/mlhfileselectorlib.svg)](https://github.com/molihuan/mlhfileselectorlib)[![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981)[![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
 
+<h3 align="center">Library that provides file or path selection on Android</h3>
+<p align="center">Automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access,</p>
+<p align="center">support custom UI,support SD card.</p>
+<p align="center">(The Keyword:file selector operator android/data android 11 android 13)</p>
 
-<p align="center">(Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11 android 13)</p>
 
 
+## Why choose me?
+
+Automatically apply storage permission, support Android4.4 ~ 13, no longer need to struggle to adapt to various versions, fast integration, a code to get it done, perfect documentation, support no root access and operation of Android/data and Android/obb directory (adapted to Android 13), support SD card, highly customizable UI to meet all your needs, use Very flexible, support internationalization, for Android file selection you just need to focus on your business code and leave the rest to it.
 
 ## Characteristics
 
@@ -25,7 +31,7 @@
 
 ## Language(语言)
 
-#### **[中文](./README.md)** | [English](./README_EN.md)
+#### **[Chinese](./README.md)** | [English](./README_EN.md)
 
 ## Preface
 

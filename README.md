@@ -8,12 +8,16 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.molihuan/pathselector.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.molihuan%22%20AND%20a:%22pathselector%22)[![jitpack](https://jitpack.io/v/molihuan/mlhfileselectorlib.svg)](https://jitpack.io/#molihuan/mlhfileselectorlib)![API: 19-33 (shields.io)](https://img.shields.io/badge/API-19--33-green)[![license: Apache-2.0 (shields.io)](https://img.shields.io/badge/license-Apache--2.0-brightgreen)](https://github.com/molihuan/mlhfileselectorlib/blob/master/LICENSE)[![Star](https://img.shields.io/github/stars/molihuan/mlhfileselectorlib.svg)](https://github.com/molihuan/mlhfileselectorlib)[![bilibili: 玲莫利 (shields.io)](https://img.shields.io/badge/bilibili-玲莫利-orange)](https://space.bilibili.com/454222981)[![CSDN: molihuan (shields.io)](https://img.shields.io/badge/CSDN-molihuan-blue)](https://blog.csdn.net/molihuan)
 
+<h3 align="center">Andriod上提供文件或路径选择的第三方库</h3>
+<p align="center">自动申请存储权限，支持安卓4.4 ~ 13，支持Android/data和Android/obb目录访问，</p>
+<p align="center">支持自定义UI，支持SD卡。</p>
+<p align="center">(Library that provides file or path selection on Android, automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access, support custom UI,support SD card.The Keyword:file selector operator android/data android 11 android 13)</p>
 
-<p align="center">提供文件或路径选择，自动申请存储权限，支持安卓4.4 ~ 13，</p>
-<p align="center">支持Android/data和Android/obb目录访问，支持自定义UI，支持SD卡。</p>
-<p align="center">(Provide file or path selection, automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access, support custom UI,Support SD card.The Keyword:file selector operator android/data android 11 android 13)</p>
 
 
+## 为什么选择我
+
+自动申请存储权限，支持 Android4.4 ~ 13，再也不用为了适配各种版本而苦恼了，快速集成，一句代码搞定，完善的文档，支持无root权限访问和操作Android/data和Android/obb目录(适配Android 13)，支持SD卡，高度自定义UI满足你的所有需求，使用非常灵活，支持国际化，对于Android文件选择你只需要关注你的业务代码即可其他的都交给它。
 
 ## 特性
 
