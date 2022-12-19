@@ -467,6 +467,16 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
   ```
 
   Please set the `AndroidManifest.xml` in your project to be consistent
+
+#### Includes android.support library
+
+- If your project uses Androidx library, because this library references the [getActivity/XXPermissions](https://github.com/getActivity/XXPermissions) library, which contains the android.support library, it will cause a conflict and report an error. The solution is to add the following to the gradle.properties in the project's home directory
+
+  ```
+  android.enableJetifier=true
+  ```
+
+
 #### Version Upgrade
 
 - The new version often solves some of the problems of the old version, increases performance, scalability ...... It is recommended to upgrade to a new version
@@ -486,16 +496,12 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 # Special Thanks
 
 - [getActivity/XXPermissions](https://github.com/getActivity/XXPermissions)
-
 - [CymChad/BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
-
 - [Blankj/AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
-
 - [xuexiangjys/XTask](https://github.com/xuexiangjys/XTask)
-
 - [ZLYang110/FileSelector](https://github.com/ZLYang110/FileSelector)
-
 - [zzy0516alex/FileSelectorRelease](https://github.com/zzy0516alex/FileSelectorRelease)
+- [folderv/androidDataWithoutRootAPI33](https://github.com/folderv/androidDataWithoutRootAPI33)
 
 Open source projects and their dependencies.
 
