@@ -36,12 +36,18 @@ public class PermissionsTools {
     public static final int DEFAULT_URI_BUILD_SUFFIX_ANDROID_DATA = 156;
     public static final int DEFAULT_URI_BUILD_SUFFIX_ANDROID_OBB = 157;
 
+    public OnPermissionCallback specialPermissionCallback;
+    public OnPermissionCallback generalPermissionCallback;
 
-    public static void getStoragePermissions(Context context) {
-        //普通存储访问权限Android 11 -
-        generalPermissionsOfStorage(context);
+
+    public static void getStoragePermissions(Context context, OnPermissionCallback specialPermissionCallback, OnPermissionCallback generalPermissionCallback) {
+
         //所有文件访问权限Android 11 +
-        specialPermissionsOfStorage(context);
+        specialPermissionsOfStorage(context, specialPermissionCallback);
+
+        //普通存储访问权限Android 11 -
+        generalPermissionsOfStorage(context, generalPermissionCallback);
+
     }
 
 
@@ -49,7 +55,7 @@ public class PermissionsTools {
      * 获取一般读写权限
      * Android 11 -
      */
-    public static void generalPermissionsOfStorage(Context context) {
+    public static void generalPermissionsOfStorage(Context context, OnPermissionCallback generalPermissionCallback) {
 
         boolean isGet = XXPermissions.isGranted(context, Permission.Group.STORAGE);
         //已有权限则返回
@@ -66,6 +72,7 @@ public class PermissionsTools {
                     @Override
                     public void onGranted(List<String> permissions, boolean all) {
                         Mtools.log("一般存储权限------获取成功");
+                        generalPermissionCallback.onGranted(permissions, all);
                     }
 
                     @Override
@@ -73,10 +80,13 @@ public class PermissionsTools {
                         if (never) {
                             ToastUtils.make().show(R.string.tip_denial_authorization);
                             //如果是被永久拒绝就跳转到应用权限系统设置页面
-                            XXPermissions.startPermissionActivity(context, permissions);
+                            //XXPermissions.startPermissionActivity(context, permissions);
                         } else {
                             ToastUtils.make().show(R.string.tip_permission_failed);
                         }
+
+                        generalPermissionCallback.onDenied(permissions, never);
+
                     }
                 });
     }
@@ -87,7 +97,7 @@ public class PermissionsTools {
      *
      * @param context
      */
-    public static void specialPermissionsOfStorage(Context context) {
+    public static void specialPermissionsOfStorage(Context context, OnPermissionCallback specialPermissionCallback) {
         if (!VersionTool.isAndroid11()) {
             return;
         }
@@ -108,6 +118,7 @@ public class PermissionsTools {
                     @Override
                     public void onGranted(List<String> permissions, boolean all) {
                         Mtools.log("全文件读取权限------获取成功");
+                        specialPermissionCallback.onGranted(permissions, all);
                     }
 
                     @Override
@@ -119,6 +130,8 @@ public class PermissionsTools {
                         } else {
                             ToastUtils.make().show(R.string.tip_permission_failed);
                         }
+
+                        specialPermissionCallback.onDenied(permissions, never);
                     }
                 });
 

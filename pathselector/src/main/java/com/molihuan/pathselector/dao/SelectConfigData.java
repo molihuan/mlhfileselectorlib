@@ -5,7 +5,6 @@ import android.graphics.Color;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.blankj.molihuan.utilcode.util.LogUtils;
 import com.blankj.molihuan.utilcode.util.ScreenUtils;
 import com.molihuan.pathselector.controller.AbstractBuildController;
 import com.molihuan.pathselector.entity.FontBean;
@@ -151,7 +150,7 @@ public class SelectConfigData {
 
         //使用自定义视图  或者  不需要显示则不创建
         if (showTitlebarFragment) {
-            LogUtils.e("titlebarFragment");
+            
             if (titlebarFragment == null || titlebarFragment.getClass().isAssignableFrom(TitlebarFragment.class)) {
                 titlebarFragment = new TitlebarFragment();
             } else {

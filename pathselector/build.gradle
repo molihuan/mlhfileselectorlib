@@ -36,13 +36,13 @@ dependencies {
     //embed(name: 'XXPermissions-16.2', ext: 'aar')
 
     //权限申请框架
-    implementation 'com.github.getActivity:XXPermissions:16.2'
+    implementation 'com.github.getActivity:XXPermissions:16.5'
     //万能适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11'
 
     //异步库
     implementation 'com.github.xuexiangjys.XTask:xtask-core:1.0.2'
-    
+
     //使用这个包遍历Android/data目录
     implementation 'androidx.documentfile:documentfile:1.0.1'
     //基础控件

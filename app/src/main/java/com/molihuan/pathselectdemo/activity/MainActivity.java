@@ -19,6 +19,7 @@ import com.molihuan.pathselector.fragment.BasePathSelectFragment;
 import com.molihuan.pathselector.fragment.impl.PathSelectFragment;
 import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.listener.FileItemListener;
+import com.molihuan.pathselector.utils.FragmentTools;
 import com.molihuan.pathselector.utils.MConstants;
 import com.molihuan.pathselector.utils.Mtools;
 
@@ -37,8 +38,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnFragmentSelector;
     private Button btnDialogSelector;
     private Button btnCustomSelector;
+    private Button btnTest;
 
     private PathSelectFragment selector;
+    private long firstBackTime;
 
 
     @Override
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnFragmentSelector = findViewById(R.id.btn_fragment_selector);
         btnDialogSelector = findViewById(R.id.btn_dialog_selector);
         btnCustomSelector = findViewById(R.id.btn_custom_toolbar_selector);
+        btnTest = findViewById(R.id.btn_test);
     }
 
     private void initData() {
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnFragmentSelector.setOnClickListener(this);
         btnDialogSelector.setOnClickListener(this);
         btnCustomSelector.setOnClickListener(this);
+        btnTest.setOnClickListener(this);
     }
 
     @Override
@@ -97,7 +102,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_custom_toolbar_selector:
                 customTitlebarSelectShow();
 //                t1();
-
+                break;
+            case R.id.btn_test:
+                FragmentTools.fragmentReplace(
+                        getSupportFragmentManager(),
+                        R.id.fragment_select_show_area,
+                        new CustomTitlebarFragment(),
+                        "55"
+                );
                 break;
         }
     }
@@ -117,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                  * pathSelectFragment.getSelectConfigData().buildController.getDialogFragment().dismiss();
                                  */
 
-                                pathSelectFragment.selectAllFile(true);
+                                //pathSelectFragment.selectAllFile(true);
                                 return false;
                             }
                         },
@@ -343,6 +355,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //让pathSelectFragment先处理返回按钮点击事件
         if (selector != null && selector.onBackPressed()) {
+            return;
+        }
+
+        if (System.currentTimeMillis() - firstBackTime > 2000) {
+            Mtools.toast("再按一次返回键退出程序");
+            firstBackTime = System.currentTimeMillis();
             return;
         }
 

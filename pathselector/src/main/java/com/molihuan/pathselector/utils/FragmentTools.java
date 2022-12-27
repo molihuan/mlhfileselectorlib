@@ -53,4 +53,26 @@ public class FragmentTools {
         return fragment;
     }
 
+    public static Fragment fragmentReplace(FragmentManager fragmentManager, int frameLayoutID, Fragment fragment, String tag) {
+        // Fragment获取事务
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (fragment == null) {
+            Mtools.log("fragment is null and Unable to replace");
+            return fragment;
+        }
+
+        try {
+            fragmentTransaction = fragmentTransaction.replace(frameLayoutID, fragment, tag);
+        } catch (Exception e) {
+            Mtools.log("frameLayoutID may not exist and cannot be replace");
+            e.printStackTrace();
+        }
+
+
+        //提交事务
+        fragmentTransaction.commitAllowingStateLoss();
+        return fragment;
+    }
+
 }

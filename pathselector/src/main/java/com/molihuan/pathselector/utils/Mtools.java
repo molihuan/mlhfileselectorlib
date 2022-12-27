@@ -33,7 +33,11 @@ public class Mtools {
     }
 
     public static void toast(String text) {
-        toast(ReflectTools.getApplicationByReflect(), text, Toast.LENGTH_SHORT);
+        toast(text, Toast.LENGTH_SHORT);
+    }
+
+    public static void toast(String text, int time) {
+        toast(ReflectTools.getApplicationByReflect(), text, time);
     }
 
     public static void toast(Context context, String text, int time) {
