@@ -39,18 +39,6 @@ public class FragmentController extends AbstractBuildController {
         } else {
             if (context instanceof FragmentActivity) {
                 FragmentActivity activity = (FragmentActivity) context;
-                //去除ActionBar不应该影响用户的UI
-//                if (activity instanceof AppCompatActivity) {
-//                    ActionBar supportActionBar = ((AppCompatActivity) activity).getSupportActionBar();
-//                    if (supportActionBar != null) {
-//                        supportActionBar.hide();
-//                    }
-//                } else {
-//                    android.app.ActionBar actionBar = activity.getActionBar();
-//                    if (actionBar != null) {
-//                        actionBar.hide();
-//                    }
-//                }
                 fragmentManager = activity.getSupportFragmentManager();
             } else {
                 throw new ClassCastException("context必须为FragmentActivity类型以及其子类(如 AppCompatActivity)或PathSelector.fragment不为空");
@@ -58,18 +46,17 @@ public class FragmentController extends AbstractBuildController {
         }
         mConfigData.fragmentManager = fragmentManager;
         Mtools.log("PathSelectFragment  new  start");
-        if (pathSelectFragment == null) {
-            pathSelectFragment = new PathSelectFragment();
-        }
+//        if (pathSelectFragment == null) {
+        pathSelectFragment = new PathSelectFragment();
+//        }
         Mtools.log("PathSelectFragment  new  end");
 
         Mtools.log("PathSelectFragment  show  start");
-        FragmentTools.fragmentShowHide(
+        FragmentTools.fragmentReplace(
                 fragmentManager,
                 frameLayoutId,
                 pathSelectFragment,
-                MConstants.TAG_ACTIVITY_FRAGMENT,
-                true
+                MConstants.TAG_ACTIVITY_FRAGMENT
         );
         Mtools.log("PathSelectFragment  show  end");
 

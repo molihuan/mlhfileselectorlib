@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
+import com.hjq.permissions.OnPermissionCallback;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.adapter.FileListAdapter;
 import com.molihuan.pathselector.adapter.TabbarListAdapter;
+import com.molihuan.pathselector.configs.PathSelectorConfig;
 import com.molihuan.pathselector.dao.SelectConfigData;
 import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.TabbarFileBean;
@@ -61,8 +64,25 @@ public class PathSelectFragment extends BasePathSelectFragment {
 
     @Override
     public void initData() {
-        //存储权限的申请
-        PermissionsTools.getStoragePermissions(mActivity);
+
+        if (PathSelectorConfig.AUTO_GET_PERMISSION) {
+            //存储权限的申请
+            PermissionsTools.getStoragePermissions(
+                    mActivity,
+                    new OnPermissionCallback() {
+                        @Override
+                        public void onGranted(@NonNull List<String> permissions, boolean all) {
+
+                        }
+                    },
+                    new OnPermissionCallback() {
+                        @Override
+                        public void onGranted(@NonNull List<String> permissions, boolean all) {
+
+                        }
+                    }
+            );
+        }
 
         //获取Fragment
         titlebarFragment = mConfigData.titlebarFragment;

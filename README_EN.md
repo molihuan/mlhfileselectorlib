@@ -21,13 +21,15 @@ Automatically apply storage permission, support Android4.4 ~ 13, no longer need 
 
 ## Characteristics
 
-- [x] Automatically request storage permissions
+- [x] Automatically request storage permissions(Can control)
 - [x] Android 4.4 ~ 13
 - [x] Android/data and Android/obb directory access and manipulation
 - [x] SD Card
 - [x] Highly customizable UI
 - [x] Internationalization
 - [ ] Search function
+- [ ] Custom icon
+- [ ] Show hidden files
 
 ## Language(语言)
 
@@ -36,6 +38,8 @@ Automatically apply storage permission, support Android4.4 ~ 13, no longer need 
 ## Preface
 
 #### Can you give the project a Star before starting? Thank you very much, your support is the only thing that keeps me going. Welcome Star and Issues!
+
+#### Welcome to Pr, please submit to the dev branch
 
 #### Project Address：
 ##### [Github](https://github.com/molihuan/mlhfileselectorlib)
@@ -86,7 +90,7 @@ dependencyResolutionManagement {
 ```java
 dependencies {
     ...
-    // Please replace "version" with a specific version number, e.g. 1.1.2
+    // Please replace "version" with a specific version number, e.g. 1.1.7
     implementation 'io.github.molihuan:pathselector:version'
 }
 ```

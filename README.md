@@ -21,7 +21,7 @@
 
 ## 特性
 
-- [x] 自动申请存储权限
+- [x] 自动申请存储权限(可以控制)
 - [x] 安卓 4.4 ~ 13
 - [x] Android/data和Android/obb目录访问和操作
 - [x] SD卡
@@ -38,6 +38,8 @@
 ## 前言
 
 #### 在开始之前可以给项目一个Star吗？非常感谢，你的支持是我唯一的动力。欢迎Star和Issues!
+
+#### 欢迎Pr，请Pr提交到dev分支
 
 #### 项目地址：
 ##### [Github地址](https://github.com/molihuan/mlhfileselectorlib)
@@ -88,7 +90,7 @@ dependencyResolutionManagement {
 ```java
 dependencies {
     ...
-    // 请将"版本"替换成具体的版本号，如 1.1.3
+    // 请将"版本"替换成具体的版本号，如 1.1.7
     implementation 'io.github.molihuan:pathselector:版本'
 }
 ```
