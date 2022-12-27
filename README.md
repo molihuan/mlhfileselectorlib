@@ -28,6 +28,8 @@
 - [x] 高度自定义UI
 - [x] 国际化
 - [ ] 搜索功能
+- [ ] 自定义图标
+- [ ] 显示隐藏文件
 
 ## 语言(Language)
 
@@ -467,6 +469,15 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
   ```
 
   请在你的项目中的`AndroidManifest.xml`设置一致
+
+#### 包含Android Support库
+
+- 如果你的项目使用Androidx库，因为此库引用了[getActivity/XXPermissions](https://github.com/getActivity/XXPermissions)库，其包含旧版Support库，会导致冲突而报错。解决办法为在project主目录下的gradle.properties中添加
+
+  ```
+  android.enableJetifier=true
+  ```
+
 #### 版本升级
 
 - 新版本往往解决了旧版本的一些问题、增加了性能、可扩展性......建议升级新版本
@@ -486,16 +497,12 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 # 特别鸣谢
 
 - [getActivity/XXPermissions](https://github.com/getActivity/XXPermissions)
-
 - [CymChad/BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
-
 - [Blankj/AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
-
 - [xuexiangjys/XTask](https://github.com/xuexiangjys/XTask)
-
 - [ZLYang110/FileSelector](https://github.com/ZLYang110/FileSelector)
-
 - [zzy0516alex/FileSelectorRelease](https://github.com/zzy0516alex/FileSelectorRelease)
+- [folderv/androidDataWithoutRootAPI33](https://github.com/folderv/androidDataWithoutRootAPI33)
 
 开源项目以及其依赖项目。
 
