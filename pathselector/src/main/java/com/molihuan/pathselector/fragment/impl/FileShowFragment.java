@@ -207,6 +207,11 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
     }
 
     @Override
+    public void refreshFileList() {
+        pathFileManager.refreshFileTabbar(fileListAdapter, psf.getTabbarListAdapter(), PathFileManager.TYPE_REFRESH_FILE_TABBAR);
+    }
+
+    @Override
     public FileListAdapter getFileListAdapter() {
         return this.fileListAdapter;
     }

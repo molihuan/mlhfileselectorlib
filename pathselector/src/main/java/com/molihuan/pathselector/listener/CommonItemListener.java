@@ -21,11 +21,11 @@ public abstract class CommonItemListener extends BaseItemListener {
     //是否离开返回
     protected Boolean needReturnNow;
 
-    public CommonItemListener(String text) {
+    public CommonItemListener(CharSequence text) {
         this(text, false);
     }
 
-    public CommonItemListener(String text, Boolean needReturnNow) {
+    public CommonItemListener(CharSequence text, Boolean needReturnNow) {
         super(text);
         this.needReturnNow = needReturnNow;
     }
@@ -59,14 +59,15 @@ public abstract class CommonItemListener extends BaseItemListener {
     /**
      * 重写此方法可以进行回调
      *
-     * @param v             点击的视图
+     * @param v             点击的总视图(即视图容器)
+     * @param tv            从总视图中findViewById拿到的TextView(其他视图的获取也可以参照此思路)
      * @param selectedFiles 选择的fileBean
      * @param currentPath   当前路径
      * @return
      */
-    public abstract boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment);
+    public abstract boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment);
 
-    public boolean onLongClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+    public boolean onLongClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
         return false;
     }
 

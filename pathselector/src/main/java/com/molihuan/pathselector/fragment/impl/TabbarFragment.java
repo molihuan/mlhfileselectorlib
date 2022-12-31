@@ -1,5 +1,6 @@
 package com.molihuan.pathselector.fragment.impl;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -143,6 +144,12 @@ public class TabbarFragment extends AbstractTabbarFragment implements View.OnCli
                 .start();
 
         return tabbarList;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void refreshTabbarList() {
+        tabbarListAdapter.notifyDataSetChanged();
     }
 
     @Override

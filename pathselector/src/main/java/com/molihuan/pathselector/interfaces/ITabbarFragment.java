@@ -19,4 +19,11 @@ public interface ITabbarFragment {
 
     List<TabbarFileBean> updateTabbarList();
 
+    /**
+     * 刷新 TabbarList ui
+     *
+     * @return
+     */
+    void refreshTabbarList();
+
 }

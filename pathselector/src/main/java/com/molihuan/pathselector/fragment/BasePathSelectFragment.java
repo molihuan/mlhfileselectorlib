@@ -1,5 +1,8 @@
 package com.molihuan.pathselector.fragment;
 
+import android.app.Dialog;
+
+import com.molihuan.pathselector.controller.impl.DialogController;
 import com.molihuan.pathselector.dao.SelectConfigData;
 import com.molihuan.pathselector.interfaces.IFileShowFragment;
 import com.molihuan.pathselector.interfaces.IHandleFragment;
@@ -14,13 +17,38 @@ import com.molihuan.pathselector.service.IFileDataManager;
  * @Description: 拥有了她就拥有了它就拥有了全世界(具体方法可以看她的实现类或者她的接口)
  */
 public abstract class BasePathSelectFragment extends AbstractFragment implements IFileShowFragment, IHandleFragment, ITabbarFragment, ITitlebarFragment {
+    
+    public abstract void returnDataToActivityResult();
+
+    public abstract SelectConfigData getSelectConfigData();
+
+    public abstract AbstractTitlebarFragment getTitlebarFragment();
+
+    public abstract AbstractTabbarFragment getTabbarFragment();
+
+    public abstract AbstractFileShowFragment getFileShowFragment();
+
+    public abstract AbstractHandleFragment getHandleFragment();
+
     public abstract IFileDataManager getPathFileManager();
 
     public abstract IFileDataManager getUriFileManager();
 
-    public abstract void returnDataToActivityResult();
+    @Override
+    public void dismiss() {
+        if (mConfigData.buildController instanceof DialogController) {
+            mConfigData.buildController.getDialogFragment().dismiss();
+        }
+    }
 
-    public abstract SelectConfigData getSelectConfigData();
+    @Override
+    public Dialog getDialog() {
+        if (mConfigData.buildController instanceof DialogController) {
+            return mConfigData.buildController.getDialogFragment().getDialog();
+        }
+        return null;
+    }
+
 
     /**
      * 显示或隐藏handleFragment

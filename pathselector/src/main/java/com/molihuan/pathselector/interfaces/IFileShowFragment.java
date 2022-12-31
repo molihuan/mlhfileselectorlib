@@ -38,7 +38,7 @@ public interface IFileShowFragment {
     List<FileBean> getFileList();
 
     /**
-     * 刷新当前路径
+     * 更新当前路径
      *
      * @return
      */
@@ -51,6 +51,14 @@ public interface IFileShowFragment {
      * @return
      */
     List<FileBean> updateFileList(String currentPath);
+
+    /**
+     * 更新ui
+     *
+     * @return
+     */
+    void refreshFileList();
+
 
     /**
      * 获取FileListAdapter

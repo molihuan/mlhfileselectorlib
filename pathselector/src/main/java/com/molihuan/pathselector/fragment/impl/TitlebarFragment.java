@@ -1,5 +1,6 @@
 package com.molihuan.pathselector.fragment.impl;
 
+import android.annotation.SuppressLint;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,8 @@ import com.molihuan.pathselector.fragment.AbstractTitlebarFragment;
 import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.utils.MConstants;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName: TitlebarFragment
@@ -39,17 +41,21 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
     protected ImageView backImgView;                  //返回按钮
     protected ImageView storageImgView;                  //内存卡按钮
 
-    protected ImageView searchImgView;                  //搜索按钮
+    protected ImageView searchImgView;                //搜索按钮
     protected ImageView moreImgView;                  //更多选项
     protected TextView mainTitleTv;                   //主标题
     protected TextView subtitleTv;                    //副标题(跑马灯还没实现)
     protected TextView oneOptionTv;                   //一个选项
     protected PopupWindow optionsPopup;               //选项 PopupWindow
+
     protected MorePopupAdapter morePopupAdapter;               //选项 PopupWindow数据适配器
-    protected CommonItemListener[] itemListeners;     //选项数组
+    protected List<CommonItemListener> morePopupItemListeners;     //选项列表
+
     protected FontBean mainTitle;                     //主标题字样式
     protected FontBean subtitle;                      //副标题字样式
     protected boolean isDialogBuild;                   //是否是dialog模式
+
+    protected TextView morePopupItemTv;
 
     protected SelectStorageDialog selectStorageDialog;
 
@@ -78,7 +84,16 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
         super.initData();
         mainTitle = mConfigData.titlebarMainTitle;
         subtitle = mConfigData.titlebarSubtitleTitle;
-        itemListeners = mConfigData.morePopupItemListeners;
+
+        //将监听回调列表转换为数组
+        if (morePopupItemListeners == null) {
+            morePopupItemListeners = new ArrayList<>();
+            if (mConfigData.morePopupItemListeners != null) {
+                for (CommonItemListener listener : mConfigData.morePopupItemListeners) {
+                    morePopupItemListeners.add(listener);
+                }
+            }
+        }
 
         if (mConfigData.buildType == MConstants.BUILD_DIALOG) {
             isDialogBuild = true;
@@ -123,14 +138,14 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
             storageImgView.setVisibility(View.GONE);
         }
 
-        if (itemListeners == null || itemListeners.length == 0) {
+        if (morePopupItemListeners == null || morePopupItemListeners.size() == 0) {
             //没有选项
             moreImgView.setVisibility(View.GONE);
-        } else if (itemListeners.length == 1) {
+        } else if (morePopupItemListeners.size() == 1) {
             //一个选项
             moreImgView.setVisibility(View.INVISIBLE);
             oneOptionTv.setVisibility(View.VISIBLE);
-            FontBean font = itemListeners[0].getFontBean();
+            FontBean font = morePopupItemListeners.get(0).getFontBean();
 
             oneOptionTv.setText(font.getText());
             oneOptionTv.setTextColor(font.getColor());
@@ -184,7 +199,7 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
 
         } else if (id == R.id.tv_one_option_titlebar) {
             //一个选项按钮
-            optionItemClick(v, 0);
+            optionItemClick(v, (TextView) v, 0);
         } else if (id == R.id.imgv_seach_titlebar) {
             //搜索按钮
 
@@ -209,8 +224,8 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
             optionsPopup.setElevation(3);//设置阴影 (注意阴影穿透---父组件和子组件必须都设置阴影)
             RecyclerView recyclerView = popView.findViewById(R.id.general_recyclerview_mlh);
             recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-            //TODO  Arrays.asList 返回的类型不是 java.util.ArrayList 而是 java.util.Arrays.ArrayList 返回的 ArrayList 对象是只读的
-            morePopupAdapter = new MorePopupAdapter(R.layout.general_item_tv_mlh, Arrays.asList(itemListeners));
+
+            morePopupAdapter = new MorePopupAdapter(R.layout.general_item_tv_mlh, morePopupItemListeners);
             recyclerView.setAdapter(morePopupAdapter);
             morePopupAdapter.setOnItemClickListener(this);//设置监听
             morePopupAdapter.setOnItemLongClickListener(this);//设置监听
@@ -221,10 +236,11 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
     }
 
     @Override
-    public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int i) {
+    public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View v, int i) {
         if (adapter instanceof MorePopupAdapter) {
             optionsPopup.dismiss();
-            optionItemClick(view, i);
+            morePopupItemTv = v.findViewById(R.id.general_item_textview_mlh);
+            optionItemClick(v, mainTitleTv, i);
         }
     }
 
@@ -234,8 +250,9 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
      * @param v 点击的视图
      * @param i 点击的索引
      */
-    protected void optionItemClick(View v, int i) {
-        itemListeners[i].onClick(v,
+    protected void optionItemClick(View v, TextView tv, int i) {
+        morePopupItemListeners.get(i).onClick(v,
+                tv,
                 psf.getSelectedFileList(),
                 psf.getCurrentPath(),
                 psf
@@ -245,7 +262,8 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
     @Override
     public boolean onItemLongClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View v, int position) {
         if (adapter instanceof MorePopupAdapter) {
-            return optionItemLongClick(v, position);
+            morePopupItemTv = v.findViewById(R.id.general_item_textview_mlh);
+            return optionItemLongClick(v, morePopupItemTv, position);
         }
 
         return false;
@@ -257,11 +275,33 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
      * @param v 点击的视图
      * @param i 点击的索引
      */
-    protected boolean optionItemLongClick(View v, int i) {
-        return itemListeners[i].onLongClick(v,
+    protected boolean optionItemLongClick(View v, TextView tv, int i) {
+        return morePopupItemListeners.get(i).onLongClick(v,
+                tv,
                 psf.getSelectedFileList(),
                 psf.getCurrentPath(),
                 psf
         );
+    }
+
+    @Override
+    public MorePopupAdapter getMorePopupAdapter() {
+        return morePopupAdapter;
+    }
+
+    @Override
+    public List<CommonItemListener> getMorePopupItemListeners() {
+        return morePopupItemListeners;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void refreshMorePopup() {
+        morePopupAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public TextView getOnlyOneMorePopupTextView() {
+        return this.oneOptionTv;
     }
 }

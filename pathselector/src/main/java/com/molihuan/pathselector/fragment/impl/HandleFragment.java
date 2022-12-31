@@ -1,6 +1,8 @@
 package com.molihuan.pathselector.fragment.impl;
 
+import android.annotation.SuppressLint;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,7 +19,8 @@ import com.molihuan.pathselector.fragment.AbstractHandleFragment;
 import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.utils.MConstants;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName: HandleFragment
@@ -28,10 +31,11 @@ import java.util.Arrays;
 public class HandleFragment extends AbstractHandleFragment implements OnItemClickListener, OnItemLongClickListener {
 
     protected RecyclerView mRecView;
+    protected TextView handleItemTv;
 
+    protected List<CommonItemListener> handleItemListeners;     //选项列表
+    protected HandleListAdapter handleListAdapter;     //选项适配器
 
-    protected CommonItemListener[] itemListeners;     //选项数组
-    protected HandleListAdapter handleListAdapter;     //适配器
     protected FontBean fontBean;                      //字样式
     protected boolean isDialogBuild;                   //是否是dialog模式
 
@@ -50,8 +54,17 @@ public class HandleFragment extends AbstractHandleFragment implements OnItemClic
     public void initData() {
         super.initData();
 
-        itemListeners = mConfigData.handleItemListeners;
-        fontBean = itemListeners[0].getFontBean();//只需要一份样式
+        //将监听回调列表转换为数组
+        if (handleItemListeners == null) {
+            handleItemListeners = new ArrayList<>();
+            fontBean = mConfigData.handleItemListeners[0].getFontBean();//只需要一份样式
+            if (mConfigData.handleItemListeners != null) {
+                for (CommonItemListener listener : mConfigData.handleItemListeners) {
+                    handleItemListeners.add(listener);
+                }
+            }
+
+        }
 
         if (mConfigData.buildType == MConstants.BUILD_DIALOG) {
             isDialogBuild = true;
@@ -68,11 +81,11 @@ public class HandleFragment extends AbstractHandleFragment implements OnItemClic
             @Override
             public void onGetSize(View view) {
                 //计算 mRecView item宽度
-                int width = view.getMeasuredWidth() / itemListeners.length;
+                int width = view.getMeasuredWidth() / handleItemListeners.size();
                 //设置适配器
                 mRecView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                 //TODO  Arrays.asList 返回的类型不是 java.util.ArrayList 而是 java.util.Arrays.ArrayList 返回的 ArrayList 对象是只读的
-                handleListAdapter = new HandleListAdapter(R.layout.item_handle_mlh, Arrays.asList(itemListeners), width);
+                handleListAdapter = new HandleListAdapter(R.layout.item_handle_mlh, handleItemListeners, width);
                 mRecView.setAdapter(handleListAdapter);
                 handleListAdapter.setOnItemClickListener(HandleFragment.this);
                 handleListAdapter.setOnItemLongClickListener(HandleFragment.this);
@@ -87,9 +100,26 @@ public class HandleFragment extends AbstractHandleFragment implements OnItemClic
     }
 
     @Override
+    public List<CommonItemListener> getHandleItemListeners() {
+        return handleItemListeners;
+    }
+
+    @Override
+    public HandleListAdapter getHandleListAdapter() {
+        return handleListAdapter;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void refreshHandleList() {
+        handleListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View v, int position) {
         if (adapter instanceof HandleListAdapter) {
-            optionItemClick(v, position);
+            handleItemTv = v.findViewById(R.id.item_handle_tv_mlh);
+            optionItemClick(v, handleItemTv, position);
         }
     }
 
@@ -99,8 +129,9 @@ public class HandleFragment extends AbstractHandleFragment implements OnItemClic
      * @param v 点击的视图
      * @param i 点击的索引
      */
-    protected void optionItemClick(View v, int i) {
-        itemListeners[i].onClick(v,
+    protected void optionItemClick(View v, TextView tv, int i) {
+        handleItemListeners.get(i).onClick(v,
+                tv,
                 psf.getSelectedFileList(),
                 psf.getCurrentPath(),
                 psf
@@ -111,7 +142,8 @@ public class HandleFragment extends AbstractHandleFragment implements OnItemClic
     @Override
     public boolean onItemLongClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View v, int position) {
         if (adapter instanceof HandleListAdapter) {
-            return optionItemLongClick(v, position);
+            handleItemTv = v.findViewById(R.id.item_handle_tv_mlh);
+            return optionItemLongClick(v, handleItemTv, position);
         }
 
         return false;
@@ -123,8 +155,9 @@ public class HandleFragment extends AbstractHandleFragment implements OnItemClic
      * @param v 点击的视图
      * @param i 点击的索引
      */
-    protected boolean optionItemLongClick(View v, int i) {
-        return itemListeners[i].onLongClick(v,
+    protected boolean optionItemLongClick(View v, TextView tv, int i) {
+        return handleItemListeners.get(i).onLongClick(v,
+                tv,
                 psf.getSelectedFileList(),
                 psf.getCurrentPath(),
                 psf

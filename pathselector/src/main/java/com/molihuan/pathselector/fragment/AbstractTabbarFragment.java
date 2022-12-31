@@ -2,8 +2,12 @@ package com.molihuan.pathselector.fragment;
 
 import androidx.annotation.CallSuper;
 
+import com.molihuan.pathselector.adapter.TabbarListAdapter;
+import com.molihuan.pathselector.entity.TabbarFileBean;
 import com.molihuan.pathselector.interfaces.ITabbarFragment;
 import com.molihuan.pathselector.utils.MConstants;
+
+import java.util.List;
 
 /**
  * @ClassName: AbstractTabbarFragment
@@ -18,5 +22,25 @@ public abstract class AbstractTabbarFragment extends AbstractFragment implements
     @Override
     public void initData() {
         psf = (BasePathSelectFragment) mConfigData.fragmentManager.findFragmentByTag(MConstants.TAG_ACTIVITY_FRAGMENT);
+    }
+
+    @Override
+    public TabbarListAdapter getTabbarListAdapter() {
+        return null;
+    }
+
+    @Override
+    public List<TabbarFileBean> getTabbarList() {
+        return null;
+    }
+
+    @Override
+    public List<TabbarFileBean> updateTabbarList() {
+        return null;
+    }
+
+    @Override
+    public void refreshTabbarList() {
+
     }
 }

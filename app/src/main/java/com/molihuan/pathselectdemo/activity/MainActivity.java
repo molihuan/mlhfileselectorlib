@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -124,18 +125,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 /**取消dialog弹窗
-                                 * pathSelectFragment.getSelectConfigData().buildController.getDialogFragment().dismiss();
+                                 * pathSelectFragment.dismiss();
                                  */
-
-                                //pathSelectFragment.selectAllFile(true);
                                 return false;
                             }
                         },
                         new CommonItemListener("DeselectAll") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.selectAllFile(false);
                                 return false;
                             }
@@ -144,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setHandleItemListeners(
                         new CommonItemListener("OK") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 StringBuilder builder = new StringBuilder();
                                 builder.append("you selected:\n");
                                 for (FileBean fileBean : selectedFiles) {
@@ -156,8 +155,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         },
                         new CommonItemListener("cancel") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.openCloseMultipleMode(false);
+
                                 return false;
                             }
                         }
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
 
                                 pathSelectFragment.selectAllFile(true);
 
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         },
                         new CommonItemListener("DeselectAll") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.selectAllFile(false);
                                 return false;
                             }
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setHandleItemListeners(
                         new CommonItemListener("OK") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 StringBuilder builder = new StringBuilder();
                                 builder.append("you selected:\n");
                                 for (FileBean fileBean : selectedFiles) {
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         },
                         new CommonItemListener("cancel") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.openCloseMultipleMode(false);
                                 return false;
                             }
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
 
                                 pathSelectFragment.selectAllFile(true);
 
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         },
                         new CommonItemListener("DeselectAll") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.selectAllFile(false);
                                 return false;
                             }
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setHandleItemListeners(
                         new CommonItemListener("OK") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 StringBuilder builder = new StringBuilder();
                                 builder.append("you selected:\n");
                                 for (FileBean fileBean : selectedFiles) {
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         },
                         new CommonItemListener("cancel") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.openCloseMultipleMode(false);
                                 return false;
                             }
@@ -312,14 +312,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setMorePopupItemListeners(//设置右上角选项回调
                         new CommonItemListener("SelectAll") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.selectAllFile(true);
                                 return false;
                             }
                         },
                         new CommonItemListener("DeselectAll") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.selectAllFile(false);
                                 return false;
                             }
@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setHandleItemListeners(//设置长按弹出选项回调
                         new CommonItemListener("OK") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 StringBuilder builder = new StringBuilder();
                                 builder.append("you selected:\n");
                                 for (FileBean fileBean : selectedFiles) {
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         },
                         new CommonItemListener("cancel") {
                             @Override
-                            public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                            public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 pathSelectFragment.openCloseMultipleMode(false);
                                 return false;
                             }

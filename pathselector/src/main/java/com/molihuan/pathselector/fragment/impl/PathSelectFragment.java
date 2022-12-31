@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,8 @@ import androidx.fragment.app.FragmentManager;
 import com.hjq.permissions.OnPermissionCallback;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.adapter.FileListAdapter;
+import com.molihuan.pathselector.adapter.HandleListAdapter;
+import com.molihuan.pathselector.adapter.MorePopupAdapter;
 import com.molihuan.pathselector.adapter.TabbarListAdapter;
 import com.molihuan.pathselector.configs.PathSelectorConfig;
 import com.molihuan.pathselector.dao.SelectConfigData;
@@ -22,6 +25,7 @@ import com.molihuan.pathselector.fragment.AbstractHandleFragment;
 import com.molihuan.pathselector.fragment.AbstractTabbarFragment;
 import com.molihuan.pathselector.fragment.AbstractTitlebarFragment;
 import com.molihuan.pathselector.fragment.BasePathSelectFragment;
+import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.service.IFileDataManager;
 import com.molihuan.pathselector.service.impl.PathFileManager;
 import com.molihuan.pathselector.service.impl.UriFileManager;
@@ -41,12 +45,13 @@ import java.util.List;
  */
 public class PathSelectFragment extends BasePathSelectFragment {
 
+    private FragmentManager fragmentManager;
+
     private AbstractTitlebarFragment titlebarFragment;
     private AbstractTabbarFragment tabbarFragment;
     private AbstractFileShowFragment fileShowFragment;
     private AbstractHandleFragment handleFragment;
-
-    private FragmentManager fragmentManager;
+    
     //路径管理者
     private IFileDataManager pathFileManager;
     //uri管理者
@@ -107,6 +112,38 @@ public class PathSelectFragment extends BasePathSelectFragment {
 
     }
 
+    //**************************    自身的属性获取方法    ****************************
+    @Override
+    public AbstractTitlebarFragment getTitlebarFragment() {
+        return titlebarFragment;
+    }
+
+    @Override
+    public AbstractTabbarFragment getTabbarFragment() {
+        return tabbarFragment;
+    }
+
+    @Override
+    public AbstractFileShowFragment getFileShowFragment() {
+        return fileShowFragment;
+    }
+
+    @Override
+    public AbstractHandleFragment getHandleFragment() {
+        return handleFragment;
+    }
+
+    @Override
+    public IFileDataManager getPathFileManager() {
+        return pathFileManager;
+    }
+
+    @Override
+    public IFileDataManager getUriFileManager() {
+        return uriFileManager;
+    }
+
+    //**************************    其他接口实现(方法的作用请看具体的接口)    ****************************
     @Override
     public void setInitPath(String initPath) {
         fileShowFragment.setInitPath(initPath);
@@ -135,6 +172,11 @@ public class PathSelectFragment extends BasePathSelectFragment {
     @Override
     public List<FileBean> updateFileList(String currentPath) {
         return fileShowFragment.updateFileList(currentPath);
+    }
+
+    @Override
+    public void refreshFileList() {
+        fileShowFragment.refreshFileList();
     }
 
     @Override
@@ -183,14 +225,45 @@ public class PathSelectFragment extends BasePathSelectFragment {
     }
 
     @Override
-    public IFileDataManager getPathFileManager() {
-        return pathFileManager;
+    public void refreshTabbarList() {
+        tabbarFragment.refreshTabbarList();
     }
 
     @Override
-    public IFileDataManager getUriFileManager() {
-        return uriFileManager;
+    public List<CommonItemListener> getHandleItemListeners() {
+        return handleFragment.getHandleItemListeners();
     }
+
+    @Override
+    public HandleListAdapter getHandleListAdapter() {
+        return handleFragment.getHandleListAdapter();
+    }
+
+    @Override
+    public void refreshHandleList() {
+        handleFragment.refreshHandleList();
+    }
+
+    @Override
+    public MorePopupAdapter getMorePopupAdapter() {
+        return titlebarFragment.getMorePopupAdapter();
+    }
+
+    @Override
+    public List<CommonItemListener> getMorePopupItemListeners() {
+        return titlebarFragment.getMorePopupItemListeners();
+    }
+
+    @Override
+    public void refreshMorePopup() {
+        titlebarFragment.refreshMorePopup();
+    }
+
+    @Override
+    public TextView getOnlyOneMorePopupTextView() {
+        return titlebarFragment.getOnlyOneMorePopupTextView();
+    }
+
 
     /**
      * 返回数据给onActivityResult(int requestCode, int resultCode, Intent data)
@@ -287,4 +360,6 @@ public class PathSelectFragment extends BasePathSelectFragment {
     public boolean onBackPressed() {
         return fileShowFragment.onBackPressed();
     }
+
+
 }
