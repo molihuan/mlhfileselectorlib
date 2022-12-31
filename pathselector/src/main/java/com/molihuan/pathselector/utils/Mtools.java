@@ -32,15 +32,15 @@ public class Mtools {
         toast(context, text, Toast.LENGTH_SHORT);
     }
 
-    public static void toast(String text) {
+    public static void toast(CharSequence text) {
         toast(text, Toast.LENGTH_SHORT);
     }
-
-    public static void toast(String text, int time) {
+    
+    public static void toast(CharSequence text, int time) {
         toast(ReflectTools.getApplicationByReflect(), text, time);
     }
 
-    public static void toast(Context context, String text, int time) {
+    public static void toast(Context context, CharSequence text, int time) {
 //        if (!debug) {
 //            return;
 //        }

@@ -90,7 +90,7 @@ dependencyResolutionManagement {
 ```java
 dependencies {
     ...
-    // Please replace "version" with a specific version number, e.g. 1.1.7
+    // Please replace "version" with a specific version number, e.g. 1.1.11
     implementation 'io.github.molihuan:pathselector:version'
 }
 ```
@@ -103,10 +103,10 @@ PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog build mode
         .setMorePopupItemListeners(
                 new CommonItemListener("OK") {
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         
-                        /**dialog.dismiss()
- * pathSelectFragment.getSelectConfigData().buildController.getDialogFragment().dismiss();
+                        /**Dialog dismiss
+ * pathSelectFragment.dismiss();
  */
 
                         StringBuilder builder = new StringBuilder();
@@ -144,7 +144,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_ACTIVITY
         .setMorePopupItemListeners(
                 new CommonItemListener("OK") {
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
 
                         StringBuilder builder = new StringBuilder();
                         builder.append("you selected:\n");
@@ -180,7 +180,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_FRAGMENT
         .setMorePopupItemListeners(
                 new CommonItemListener("OK") {
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
 
                         StringBuilder builder = new StringBuilder();
                         builder.append("you selected:\n");
@@ -250,14 +250,14 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .setMorePopupItemListeners(//Set the top right option callback
                 new CommonItemListener("SelectAll") {
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         pathSelectFragment.selectAllFile(true);
                         return false;
                     }
                 },
                 new CommonItemListener("DeselectAll") {
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         pathSelectFragment.selectAllFile(false);
                         return false;
                     }
@@ -266,7 +266,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .setHandleItemListeners(//Set long press pop-up option callback
                 new CommonItemListener("OK") {
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         StringBuilder builder = new StringBuilder();
                         builder.append("you selected:\n");
                         for (FileBean fileBean : selectedFiles) {
@@ -278,7 +278,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
                 },
                 new CommonItemListener("cancel") {
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         pathSelectFragment.openCloseMultipleMode(false);
                         return false;
                     }
@@ -304,7 +304,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
     			//R.drawable.ic_test_mlh is your own image resource id
                 new CommonItemListener(new FontBean("OK", 18, Color.RED, R.drawable.ic_test_mlh)) {
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         Mtools.toast("You Click");
                         return false;
                     }
@@ -335,7 +335,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
                     }
 
                     @Override
-                    public boolean onClick(View v, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
+                    public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         Mtools.toast("You Click");
                         return false;
                     }
@@ -509,4 +509,20 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 
 Open source projects and their dependencies.
 
-### [LICENSE ](https://github.com/molihuan/mlhfileselectorlib/blob/master/LICENSE)
+### LICENSE 
+
+```
+   Copyright [2020] molihuan
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+```

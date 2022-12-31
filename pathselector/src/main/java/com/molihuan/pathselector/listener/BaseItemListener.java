@@ -11,7 +11,7 @@ import com.molihuan.pathselector.entity.FontBean;
 public class BaseItemListener {
     protected FontBean fontBean;
 
-    public BaseItemListener(String text) {
+    public BaseItemListener(CharSequence text) {
         fontBean = new FontBean(text);
     }
 

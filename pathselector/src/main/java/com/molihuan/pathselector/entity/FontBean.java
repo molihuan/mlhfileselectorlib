@@ -13,31 +13,31 @@ import java.io.Serializable;
  * @Description: 字---样式实体
  */
 public class FontBean implements Serializable {
-    private String text;//文本
+    private CharSequence text;//文本
     private Integer size;//大小
     private Integer color;//颜色
     private Integer leftIcoResId;//左边图片资源id
 
-    public FontBean(String text) {
+    public FontBean(CharSequence text) {
         this(text, 18);
     }
 
-    public FontBean(String text, Integer size) {
+    public FontBean(CharSequence text, Integer size) {
         this(text, size, Color.BLACK);
     }
 
-    public FontBean(String text, Integer size, Integer color) {
+    public FontBean(CharSequence text, Integer size, Integer color) {
         this(text, size, color, null);
     }
 
-    public FontBean(String text, Integer size, Integer color, @DrawableRes Integer leftIcoResId) {
+    public FontBean(CharSequence text, Integer size, Integer color, @DrawableRes Integer leftIcoResId) {
         this.text = text;
         this.size = size;
         this.color = color;
         this.leftIcoResId = leftIcoResId;
     }
 
-    public String getText() {
+    public CharSequence getText() {
         return text;
     }
 
