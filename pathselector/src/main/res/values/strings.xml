@@ -13,4 +13,5 @@
     <string name="filebeanitem_dir_detail_mlh">文件夹:%s  文件:%s</string>
     <string name="default_dialog_title_mlh">提示</string>
     <string name="tip_uri_authorization_permission_content_mlh">访问%s目录需要授予权限,\n是否进行授权?</string>
+    <string name="tip_dialog_get_special_permissions_mlh">软件运行需要授予全文件读写权限</string>
 </resources>

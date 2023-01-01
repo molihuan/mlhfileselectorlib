@@ -85,6 +85,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
     @Override
     public void initData() {
         super.initData();
+
         //初始化选择列表
         selectedFileList = new ArrayList<>();
         //获取路径管理者

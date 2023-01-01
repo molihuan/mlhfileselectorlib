@@ -13,4 +13,5 @@
     <string name="filebeanitem_dir_detail_mlh">dir:%s  file:%s</string>
     <string name="default_dialog_title_mlh">Reminder</string>
     <string name="tip_uri_authorization_permission_content_mlh">Access to the `%s` directory requires authorization.\nDo you want to authorize?</string>
+    <string name="tip_dialog_get_special_permissions_mlh">Full file read and write permissions are required to run the software</string>
 </resources>

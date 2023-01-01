@@ -7,6 +7,11 @@ import com.molihuan.pathselectdemo.R;
 import com.molihuan.pathselector.fragment.AbstractTitlebarFragment;
 import com.molihuan.pathselector.utils.Mtools;
 
+/**
+ * @ClassName CustomTitlebarFragment
+ * @Author molihuan
+ * @Date 2022/12/22 6:50
+ */
 public class CustomTitlebarFragment extends AbstractTitlebarFragment {
 
     private Button btn1;
@@ -35,5 +40,5 @@ public class CustomTitlebarFragment extends AbstractTitlebarFragment {
             }
         });
     }
-    
+
 }

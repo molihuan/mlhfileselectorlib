@@ -6,8 +6,11 @@ import android.content.Intent;
 
 import com.molihuan.pathselector.adapter.FileListAdapter;
 import com.molihuan.pathselector.adapter.TabbarListAdapter;
+import com.molihuan.pathselector.controller.AbstractFileBeanController;
+import com.molihuan.pathselector.dao.SelectConfigData;
 import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.TabbarFileBean;
+import com.molihuan.pathselector.service.impl.ConfigDataBuilderImpl;
 import com.molihuan.pathselector.utils.FileTools;
 import com.molihuan.pathselector.utils.MConstants;
 
@@ -29,6 +32,8 @@ public abstract class BaseFileManager implements IFileDataManager {
     public static final int TYPE_REFRESH_TABBAR = 2;
     public static final int TYPE_REFRESH_FILE_TABBAR = 3;
 
+    protected SelectConfigData mConfigData = ConfigDataBuilderImpl.getInstance().getSelectConfigData();
+    protected AbstractFileBeanController mFileBeanController = mConfigData.fileBeanController;
 
     @Override
     public List<FileBean> initFileList(String currentPath, List<FileBean> fileList) {
@@ -41,7 +46,15 @@ public abstract class BaseFileManager implements IFileDataManager {
         String parentPath = FileTools.getParentPath(currentPath);
         switch (fileList.size()) {
             case 0://如果列表个数为0则需要添加一个充当返回的FileBean item提供点击就可以返回到上一级目录这个FileBean.path应设置为上一级目录的路径
-                fileList.add(new FileBean(parentPath, "...", MConstants.FILEBEAN_BACK_FLAG));
+                FileBean fileBean = new FileBean(parentPath, "...", MConstants.FILEBEAN_BACK_FLAG);
+
+                fileBean.setFileIcoType(mFileBeanController.getFileBeanImageResource(
+                        true,
+                        "This is back filebean item",
+                        fileBean
+                ));
+
+                fileList.add(fileBean);
                 break;
             default://如果已经有了就修改,并且把0索引后面的实例都进行赋值null初始化
                 fileList.get(0).setPath(parentPath);
@@ -344,4 +357,6 @@ public abstract class BaseFileManager implements IFileDataManager {
         }
         return fileList;
     }
+
+
 }

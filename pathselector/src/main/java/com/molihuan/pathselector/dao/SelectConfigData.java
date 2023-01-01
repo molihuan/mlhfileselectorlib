@@ -2,11 +2,15 @@ package com.molihuan.pathselector.dao;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 
 import androidx.fragment.app.FragmentManager;
 
 import com.blankj.molihuan.utilcode.util.ScreenUtils;
+import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.controller.AbstractBuildController;
+import com.molihuan.pathselector.controller.AbstractFileBeanController;
+import com.molihuan.pathselector.controller.impl.FileBeanControllerImpl;
 import com.molihuan.pathselector.entity.FontBean;
 import com.molihuan.pathselector.fragment.AbstractFileShowFragment;
 import com.molihuan.pathselector.fragment.AbstractHandleFragment;
@@ -64,6 +68,7 @@ public class SelectConfigData {
     /******************   FileShowFragment   **************************/
     public AbstractFileShowFragment fileShowFragment;//文件显示列表Fragment
     public FileItemListener fileItemListener;//文件item监听器
+    public AbstractFileBeanController fileBeanController;//FileBean item控制器
 
     /******************   HandleFragment   **************************/
     public AbstractHandleFragment handleFragment;//最下方按钮Fragment
@@ -77,10 +82,10 @@ public class SelectConfigData {
     /**
      * 初始化默认配置
      */
-    public void initDefaultConfig() {
+    public void initDefaultConfig(Context context) {
 
         Mtools.log("默认配置SelectConfigData  init  start");
-        context = null;//必须要设置
+        this.context = context;//必须要设置
         buildType = null;//必须要设置
         //buildController = null;//buildType设置即可，会自动覆盖
         requestCode = null;//非必须(activity模式必须)
@@ -99,13 +104,23 @@ public class SelectConfigData {
         showTitlebarFragment = true;
         titlebarMainTitle = null;//没有标题
         titlebarSubtitleTitle = null;//没有副标题
-        titlebarBG = Color.rgb(255, 165, 0);//橙色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titlebarBG = context.getColor(R.color.orange_mlh);//橙色
+        } else {
+            titlebarBG = Color.rgb(255, 165, 0);
+        }
         morePopupItemListeners = null;//空即没有
         showTabbarFragment = true;
         fileItemListener = null;//空即没有
+        fileBeanController = null;
         showHandleFragment = true;
         alwaysShowHandleFragment = false;
         handleItemListeners = null;//空即没有
+
+        titlebarFragment = null;
+        tabbarFragment = null;
+        handleFragment = null;
+
         Mtools.log("默认配置SelectConfigData  init  end");
 
 
@@ -150,8 +165,8 @@ public class SelectConfigData {
 
         //使用自定义视图  或者  不需要显示则不创建
         if (showTitlebarFragment) {
-            
             if (titlebarFragment == null || titlebarFragment.getClass().isAssignableFrom(TitlebarFragment.class)) {
+                //使用默认的titlebar
                 titlebarFragment = new TitlebarFragment();
             } else {
                 titlebarFragment = titlebarFragment.getClass().newInstance();
@@ -175,5 +190,20 @@ public class SelectConfigData {
         }
         Mtools.log("各种Fragment  init  end");
     }
+
+    /**
+     * 初始化控制器
+     */
+    public void initController() throws IllegalAccessException, InstantiationException {
+        Mtools.log("控制器Controller  init  start");
+
+        if (fileBeanController == null) {
+            //没有设置就使用默认的fileBean控制器
+            fileBeanController = new FileBeanControllerImpl();
+        }
+
+        Mtools.log("控制器Controller  init  end");
+    }
+
 
 }

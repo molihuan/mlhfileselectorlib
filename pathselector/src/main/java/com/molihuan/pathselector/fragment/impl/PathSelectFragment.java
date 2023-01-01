@@ -51,7 +51,7 @@ public class PathSelectFragment extends BasePathSelectFragment {
     private AbstractTabbarFragment tabbarFragment;
     private AbstractFileShowFragment fileShowFragment;
     private AbstractHandleFragment handleFragment;
-    
+
     //路径管理者
     private IFileDataManager pathFileManager;
     //uri管理者
@@ -66,28 +66,9 @@ public class PathSelectFragment extends BasePathSelectFragment {
     public void getComponents(View view) {
 
     }
-
+    
     @Override
     public void initData() {
-
-        if (PathSelectorConfig.AUTO_GET_PERMISSION) {
-            //存储权限的申请
-            PermissionsTools.getStoragePermissions(
-                    mActivity,
-                    new OnPermissionCallback() {
-                        @Override
-                        public void onGranted(@NonNull List<String> permissions, boolean all) {
-
-                        }
-                    },
-                    new OnPermissionCallback() {
-                        @Override
-                        public void onGranted(@NonNull List<String> permissions, boolean all) {
-
-                        }
-                    }
-            );
-        }
 
         //获取Fragment
         titlebarFragment = mConfigData.titlebarFragment;
@@ -354,6 +335,29 @@ public class PathSelectFragment extends BasePathSelectFragment {
                     isShow
             );
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //是否需要自动申请权限
+        if (PathSelectorConfig.AUTO_GET_PERMISSION) {
+            //存储权限的申请
+            PermissionsTools.generalPermissionsOfStorage(mActivity, new OnPermissionCallback() {
+                @Override
+                public void onGranted(@NonNull List<String> permissions, boolean all) {
+                    updateFileList();
+                }
+            });
+
+            PermissionsTools.specialPermissionsOfStorageWithDialog(mActivity, true, new OnPermissionCallback() {
+                @Override
+                public void onGranted(@NonNull List<String> permissions, boolean all) {
+                    updateFileList();
+                }
+            });
+        }
+
     }
 
     @Override
