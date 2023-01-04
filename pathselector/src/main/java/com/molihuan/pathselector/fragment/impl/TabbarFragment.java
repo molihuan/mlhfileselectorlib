@@ -17,6 +17,8 @@ import com.molihuan.pathselector.entity.TabbarFileBean;
 import com.molihuan.pathselector.fragment.AbstractTabbarFragment;
 import com.molihuan.pathselector.service.IFileDataManager;
 import com.molihuan.pathselector.service.impl.PathFileManager;
+import com.molihuan.pathselector.utils.MConstants;
+import com.molihuan.pathselector.utils.Mtools;
 import com.xuexiang.xtask.XTask;
 import com.xuexiang.xtask.core.ITaskChainEngine;
 import com.xuexiang.xtask.core.param.ITaskResult;
@@ -121,14 +123,18 @@ public class TabbarFragment extends AbstractTabbarFragment implements View.OnCli
 
     @Override
     public List<TabbarFileBean> updateTabbarList() {
+        return updateTabbarList(psf.getCurrentPath());
+    }
 
+    @Override
+    public List<TabbarFileBean> updateTabbarList(String path) {
         //开始异步获取数据
         XTask.getTaskChain()
                 .addTask(XTask.getTask(new TaskCommand() {
                     @Override
                     public void run() throws Exception {
                         //TODO 开始异步处理数据
-                        tabbarList = pathFileManager.updateTabbarList(initPath, psf.getCurrentPath(), tabbarList, tabbarListAdapter);
+                        tabbarList = pathFileManager.updateTabbarList(initPath, path, tabbarList, tabbarListAdapter);
 
                     }
                 }))
@@ -156,8 +162,16 @@ public class TabbarFragment extends AbstractTabbarFragment implements View.OnCli
     public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View v, int position) {
         if (adapter instanceof TabbarListAdapter) {
             TabbarFileBean item = tabbarList.get(position);
-            psf.updateFileList(item.getPath());
-            updateTabbarList();
+            String path = item.getPath();
+
+            //如果当前路径比"/storage/emulated/0"还短则设置currentPath为"/storage/emulated/0"
+            if (path.length() <= MConstants.DEFAULT_ROOTPATH.length() && (!MConstants.DEFAULT_ROOTPATH.equals(path))) {
+                Mtools.toast(String.format(getString(R.string.tips_path_jump_error_exceeds_default_path_mlh), path, MConstants.DEFAULT_ROOTPATH));
+                path = MConstants.DEFAULT_ROOTPATH;
+            }
+
+            psf.updateFileList(path);
+            updateTabbarList(path);
         }
     }
 }

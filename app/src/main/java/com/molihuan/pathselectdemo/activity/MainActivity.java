@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -114,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         new CustomTitlebarFragment(),
                         "55"
                 );
+
                 break;
             case R.id.btn_custom_filebean_img_selector:
                 customFilebeanImgSelectShow();
@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void dialogSelectShow() {
         //获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
         selector = PathSelector.build(MainActivity.this, MConstants.BUILD_DIALOG)
+                .setRootPath("/storage/emulated/0/bilibili视频合并/")
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
@@ -378,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 break;
                             case "mp4":
                                 //也可以使用默认的图片资源id
-                                resourceId = com.molihuan.pathselector.R.mipmap.movie;
+                                resourceId = com.molihuan.pathselector.R.mipmap.movie_mlh;
                                 break;
                             default:
                                 if (isDir) {

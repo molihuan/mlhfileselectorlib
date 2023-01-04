@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="18dp"
-        android:text="@string/test_text"
+        android:text="@string/test_text_mlh"
         android:gravity="center"
         android:textSize="20sp" />
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="18dp"
             android:paddingHorizontal="30dp"
-            android:text="@string/test_text" />
+            android:text="@string/test_text_mlh" />
 
         <View
             android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingVertical="15dp"
-                android:text="@string/test_text"
+                android:text="@string/test_text_mlh"
                 android:gravity="center"
                 android:background="@drawable/style_click_r_rectangle_white_gray_mlh" />
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingVertical="15dp"
-                android:text="@string/test_text"
+                android:text="@string/test_text_mlh"
                 android:gravity="center"
                 android:background="@drawable/style_click_r_rectangle_white_gray_mlh" />
 

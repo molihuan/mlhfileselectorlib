@@ -26,7 +26,7 @@
                 android:id="@+id/imgv_item_file_ico"
                 android:layout_width="36dp"
                 android:layout_height="42dp"
-                android:src="@mipmap/folder"
+                android:src="@mipmap/folder_mlh"
                 android:layout_centerInParent="true" />
         </RelativeLayout>
 
@@ -80,7 +80,7 @@
                 android:layout_width="16dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_partition_tabbar_black" />
+                android:src="@drawable/ic_partition_tabbar_black_mlh" />
 
         </LinearLayout>
 

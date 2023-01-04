@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="no_data">No Data</string>
-    <string name="tip_denial_authorization">Permanently denied authorization, please manually grant read permission</string>
-    <string name="tip_permission_failed">Permission failed to be obtained</string>
-    <string name="internal_storage">storage</string>
-    <string name="test_text">Test text</string>
+    <string name="no_data_mlh">No Data</string>
+    <string name="tip_denial_authorization_mlh">Permanently denied authorization, please manually grant read permission</string>
+    <string name="tip_permission_failed_mlh">Permission failed to be obtained</string>
+    <string name="internal_storage_mlh">storage</string>
+    <string name="test_text_mlh">Test text</string>
     <string name="tip_dialog_title_select_memory_path_mlh">Select a memory path</string>
     <string name="option_confirm_mlh">Confirm</string>
     <string name="option_cancel_mlh">Cancel</string>
-    <string name="tip_filebeanitem_select_limit_exceeded">The number of selections exceeds the limit</string>
+    <string name="tip_filebeanitem_select_limit_exceeded_mlh">The number of selections exceeds the limit</string>
     <string name="tip_filebeanitem_select_error_type_mlh">Wrong selection type</string>
     <string name="filebeanitem_dir_detail_mlh">dir:%s  file:%s</string>
     <string name="default_dialog_title_mlh">Reminder</string>
     <string name="tip_uri_authorization_permission_content_mlh">Access to the `%s` directory requires authorization.\nDo you want to authorize?</string>
     <string name="tip_dialog_get_special_permissions_mlh">Full file read and write permissions are required to run the software</string>
+    <string name="tips_path_jump_error_exceeds_default_path_mlh">Cannot enter the %s path, has jumped to the %s path for you</string>
 </resources>

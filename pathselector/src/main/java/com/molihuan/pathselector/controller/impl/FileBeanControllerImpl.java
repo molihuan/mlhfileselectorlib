@@ -19,59 +19,59 @@ public class FileBeanControllerImpl extends AbstractFileBeanController {
         int resourceId;
         switch (extension) {
             case "apk":
-                resourceId = R.mipmap.apk;
+                resourceId = R.mipmap.apk_mlh;
                 break;
             case "avi":
-                resourceId = R.mipmap.avi;
+                resourceId = R.mipmap.avi_mlh;
                 break;
             case "doc":
             case "docx":
-                resourceId = R.mipmap.doc;
+                resourceId = R.mipmap.doc_mlh;
                 break;
             case "exe":
-                resourceId = R.mipmap.exe;
+                resourceId = R.mipmap.exe_mlh;
                 break;
             case "flv":
-                resourceId = R.mipmap.flv;
+                resourceId = R.mipmap.flv_mlh;
                 break;
             case "gif":
-                resourceId = R.mipmap.gif;
+                resourceId = R.mipmap.gif_mlh;
                 break;
             case "jpg":
             case "jpeg":
             case "png":
-                resourceId = R.mipmap.png;
+                resourceId = R.mipmap.png_mlh;
                 break;
             case "mp3":
-                resourceId = R.mipmap.mp3;
+                resourceId = R.mipmap.mp3_mlh;
                 break;
             case "mp4":
             case "f4v":
-                resourceId = R.mipmap.movie;
+                resourceId = R.mipmap.movie_mlh;
                 break;
             case "pdf":
-                resourceId = R.mipmap.pdf;
+                resourceId = R.mipmap.pdf_mlh;
                 break;
             case "ppt":
             case "pptx":
-                resourceId = R.mipmap.ppt;
+                resourceId = R.mipmap.ppt_mlh;
                 break;
             case "wav":
-                resourceId = R.mipmap.wav;
+                resourceId = R.mipmap.wav_mlh;
                 break;
             case "xls":
             case "xlsx":
-                resourceId = R.mipmap.xls;
+                resourceId = R.mipmap.xls_mlh;
                 break;
             case "zip":
-                resourceId = R.mipmap.zip;
+                resourceId = R.mipmap.zip_mlh;
                 break;
             case "ext":
             default:
                 if (isDir) {
-                    resourceId = R.mipmap.folder;
+                    resourceId = R.mipmap.folder_mlh;
                 } else {
-                    resourceId = R.mipmap.documents;
+                    resourceId = R.mipmap.documents_mlh;
                 }
                 break;
         }

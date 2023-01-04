@@ -136,11 +136,11 @@ public class PermissionsTools {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.make().show(R.string.tip_denial_authorization);
+                            ToastUtils.make().show(R.string.tip_denial_authorization_mlh);
                             //如果是被永久拒绝就跳转到应用权限系统设置页面
                             //XXPermissions.startPermissionActivity(context, permissions);
                         } else {
-                            ToastUtils.make().show(R.string.tip_permission_failed);
+                            ToastUtils.make().show(R.string.tip_permission_failed_mlh);
                         }
 
                         generalPermissionCallback.onDenied(permissions, never);
@@ -189,11 +189,11 @@ public class PermissionsTools {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.make().show(R.string.tip_denial_authorization);
+                            ToastUtils.make().show(R.string.tip_denial_authorization_mlh);
                             //如果是被永久拒绝就跳转到应用权限系统设置页面
                             XXPermissions.startPermissionActivity(context, permissions);
                         } else {
-                            ToastUtils.make().show(R.string.tip_permission_failed);
+                            ToastUtils.make().show(R.string.tip_permission_failed_mlh);
                         }
 
                         specialPermissionCallback.onDenied(permissions, never);
