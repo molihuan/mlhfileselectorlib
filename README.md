@@ -15,6 +15,10 @@
 
 
 
+## 语言(Language)
+
+#### **[中文](./README.md)** | [English](./README_EN.md)
+
 ## 为什么选择我
 
 自动申请存储权限，支持 Android4.4 ~ 13，再也不用为了适配各种版本而苦恼了，快速集成，一句代码搞定，完善的文档，支持无root权限访问和操作Android/data和Android/obb目录(适配Android 13)，支持SD卡，高度自定义UI满足你的所有需求，使用非常灵活，支持国际化，对于Android文件选择你只需要关注你的业务代码即可其他的都交给它。
@@ -28,12 +32,8 @@
 - [x] 高度自定义UI
 - [x] 国际化
 - [ ] 搜索功能
-- [ ] 自定义图标
+- [x] 自定义图标
 - [ ] 显示隐藏文件
-
-## 语言(Language)
-
-#### **[中文](./README.md)** | [English](./README_EN.md)
 
 ## 前言
 
@@ -234,7 +234,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .setShowFileTypes("", "mp3", "mp4")//只显示(没有后缀)或(后缀为mp3)或(后缀为mp4)的文件
         .setSelectFileTypes("", "mp3")//只能选择(没有后缀)或(后缀为mp3)的文件
         .setMaxCount(3)//最多可以选择3个文件,默认是-1不限制
-        .setRadio()//单选
+        .setRadio()//单选(如果需要单选文件夹请使用setMaxCount(0)来替换)
         .setSortType(MConstants.SORT_NAME_ASC)//按名称排序
         .setTitlebarMainTitle(new FontBean("My Selector"))//设置标题栏主标题,还可以设置字体大小,颜色等
         .setTitlebarBG(Color.GREEN)//设置标题栏颜色
@@ -412,34 +412,73 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .show();
 ```
 
+#### 3、自定义列表item图标
+
+```java
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        .setFileBeanController(new AbstractFileBeanController() {
+            @Override
+            public int getFileBeanImageResource(boolean isDir, String extension, FileBean fileBean) {
+                int resourceId;
+                switch (extension) {
+                    case "jpg":
+                    case "jpeg":
+                    case "png":
+                        //开发者自己的图片资源id
+                        resourceId = R.drawable.ic_launcher_foreground;
+                        break;
+                    case "mp3":
+                        resourceId = R.drawable.ic_launcher_foreground;
+                        break;
+                    case "mp4":
+                        //也可以使用默认的图片资源id
+                        resourceId = com.molihuan.pathselector.R.mipmap.movie;
+                        break;
+                    default:
+                        if (isDir) {
+                            //开发者自己的图片资源id
+                            resourceId = R.drawable.ml192;
+                        } else {
+                            resourceId = R.drawable.ic_launcher_background;
+                        }
+                        break;
+                }
+                return resourceId;
+            }
+        })
+        .show();
+```
+
+
+
 ## 四、接口与方法（尽量看源码，都写了注释，懒得写文档）
 
 ##### IConfigDataBuilder
 
 
-| 方法                                                         | 注释                         | 备注                                            |
-| ------------------------------------------------------------ | ---------------------------- | ----------------------------------------------- |
-| setFrameLayoutId(int id)                                     | 设置加载位置FrameLayoutID    | 当构建模式为MConstants.BUILD_FRAGMENT时必须设置 |
-| setRequestCode(int code)                                     | 设置请求码                   | 当构建模式为MConstants.BUILD_ACTIVITY时必须设置 |
-| setRootPath(String path)                                     | 设置开始默认路径             | 默认为内部存储根路径                            |
-| setMaxCount(int maxCount)                                    | 设置最大选择数量             | 不设置默认为-1 即无限                           |
-| setShowFileTypes(String... fileTypes)                        | 设置显示文件类型             | 没有后缀请用""                                  |
-| setSelectFileTypes(String... fileTypes)                      | 设置选择文件类型             | 没有后缀请用""                                  |
-| setSortType(int sortType)                                    | 设置排序规则                 | 类型请看MConstants                              |
-| setRadio()                                                   | 设置单选                     | 默认多选                                        |
-| setShowSelectStorageBtn(boolean var)                         | 设置是否显示内部存储选择按钮 | 默认true                                        |
-| setShowTitlebarFragment(boolean var)                         | 是否显示标题栏               | 默认true                                        |
-| setShowTabbarFragment(boolean var)                           | 是否显示面包屑               | 默认true                                        |
-| setAlwaysShowHandleFragment(boolean var)                     | 是否总是显示长按弹出选项     | 默认false                                       |
-| setTitlebarMainTitle(FontBean titlebarMainTitle)             | 设置标题栏主标题             | 还可以设置字体大小,颜色等                       |
-| setTitlebarBG(Integer titlebarBG)                            | 设置标题栏背景颜色           |                                                 |
-| setFileItemListener(FileItemListener fileItemListener)       | 设置文件item点击回调         | 点击是文件才会回调,如果点击是文件夹则不会       |
-| setMorePopupItemListeners(CommonItemListener... morePopupItemListener) | 设置右上角选项回调           |                                                 |
-| setHandleItemListeners(CommonItemListener... handleItemListener) | 设置长按弹出选项回调         |                                                 |
-| setTitlebarFragment(AbstractTitlebarFragment titlebarFragment) | 设置自定义标题栏UI           | 自己的Fragment必须继承AbstractTitlebarFragment  |
-| setHandleFragment(AbstractHandleFragment handleFragment)     | 设置长按弹出自定义UI         | 自己的Fragment必须继承AbstractHandleFragment    |
-| start()                                                      | 开始构建                     | 必须调用                                        |
-| ......                                                       | ......                       |                                                 |
+| 方法                                                         | 作用                                                   | 备注                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------- |
+| setFrameLayoutId(int id)                                     | 设置加载位置FrameLayoutID                              | 当构建模式为MConstants.BUILD_FRAGMENT时必须设置 |
+| setRequestCode(int code)                                     | 设置请求码                                             | 当构建模式为MConstants.BUILD_ACTIVITY时必须设置 |
+| setRootPath(String path)                                     | 设置开始默认路径                                       | 默认为内部存储根路径                            |
+| setMaxCount(int maxCount)                                    | 设置最大选择数量                                       | 不设置默认为-1 即无限                           |
+| setShowFileTypes(String... fileTypes)                        | 设置显示文件类型                                       | 没有后缀请用""                                  |
+| setSelectFileTypes(String... fileTypes)                      | 设置选择文件类型                                       | 没有后缀请用""                                  |
+| setSortType(int sortType)                                    | 设置排序规则                                           | 类型请看MConstants                              |
+| setRadio()                                                   | 设置单选(如果需要单选文件夹请使用setMaxCount(0)来替换) | 默认多选                                        |
+| setShowSelectStorageBtn(boolean var)                         | 设置是否显示内部存储选择按钮                           | 默认true                                        |
+| setShowTitlebarFragment(boolean var)                         | 是否显示标题栏                                         | 默认true                                        |
+| setShowTabbarFragment(boolean var)                           | 是否显示面包屑                                         | 默认true                                        |
+| setAlwaysShowHandleFragment(boolean var)                     | 是否总是显示长按弹出选项                               | 默认false                                       |
+| setTitlebarMainTitle(FontBean titlebarMainTitle)             | 设置标题栏主标题                                       | 还可以设置字体大小,颜色等                       |
+| setTitlebarBG(Integer titlebarBG)                            | 设置标题栏背景颜色                                     |                                                 |
+| setFileItemListener(FileItemListener fileItemListener)       | 设置文件item点击回调                                   | 点击是文件才会回调,如果点击是文件夹则不会       |
+| setMorePopupItemListeners(CommonItemListener... morePopupItemListener) | 设置右上角选项回调                                     |                                                 |
+| setHandleItemListeners(CommonItemListener... handleItemListener) | 设置长按弹出选项回调                                   |                                                 |
+| setTitlebarFragment(AbstractTitlebarFragment titlebarFragment) | 设置自定义标题栏UI                                     | 自己的Fragment必须继承AbstractTitlebarFragment  |
+| setHandleFragment(AbstractHandleFragment handleFragment)     | 设置长按弹出自定义UI                                   | 自己的Fragment必须继承AbstractHandleFragment    |
+| start()                                                      | 开始构建                                               | 必须调用                                        |
+| ......                                                       | ......                                                 |                                                 |
 
 ## 五、！！！特别注意 ！！！
 

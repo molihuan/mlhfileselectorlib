@@ -46,9 +46,9 @@ public class FragmentController extends AbstractBuildController {
         }
         mConfigData.fragmentManager = fragmentManager;
         Mtools.log("PathSelectFragment  new  start");
-//        if (pathSelectFragment == null) {
+
         pathSelectFragment = new PathSelectFragment();
-//        }
+
         Mtools.log("PathSelectFragment  new  end");
 
         Mtools.log("PathSelectFragment  show  start");

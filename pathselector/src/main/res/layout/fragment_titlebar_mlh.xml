@@ -27,7 +27,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_titlebar_back"
+                android:src="@drawable/ic_titlebar_back_mlh"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/style_click_round_transp_gray_mlh" />
@@ -37,7 +37,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_tabbar_storage"
+                android:src="@drawable/ic_tabbar_storage_mlh"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/style_click_round_transp_gray_mlh"
@@ -63,7 +63,7 @@
                     android:id="@+id/tv_main_title_titlebar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_text"
+                    android:text="@string/test_text_mlh"
                     android:textSize="21dp"
                     android:textColor="@color/white_mlh" />
                 <!--            TODO     副标题显示跑马灯-->
@@ -74,7 +74,7 @@
                     android:layout_below="@id/tv_main_title_titlebar"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/white_mlh"
-                    android:text="@string/test_text"
+                    android:text="@string/test_text_mlh"
                     android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>
@@ -94,7 +94,7 @@
                 android:adjustViewBounds="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_titlebar_search"
+                android:src="@drawable/ic_titlebar_search_mlh"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/style_click_round_transp_gray_mlh"
                 android:visibility="gone" />
@@ -106,7 +106,7 @@
                 android:adjustViewBounds="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_titlebar_options"
+                android:src="@drawable/ic_titlebar_options_mlh"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/style_click_round_transp_gray_mlh" />
 

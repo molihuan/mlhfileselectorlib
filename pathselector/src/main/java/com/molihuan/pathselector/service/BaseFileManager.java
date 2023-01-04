@@ -6,8 +6,11 @@ import android.content.Intent;
 
 import com.molihuan.pathselector.adapter.FileListAdapter;
 import com.molihuan.pathselector.adapter.TabbarListAdapter;
+import com.molihuan.pathselector.controller.AbstractFileBeanController;
+import com.molihuan.pathselector.dao.SelectConfigData;
 import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.TabbarFileBean;
+import com.molihuan.pathselector.service.impl.ConfigDataBuilderImpl;
 import com.molihuan.pathselector.utils.FileTools;
 import com.molihuan.pathselector.utils.MConstants;
 
@@ -29,6 +32,8 @@ public abstract class BaseFileManager implements IFileDataManager {
     public static final int TYPE_REFRESH_TABBAR = 2;
     public static final int TYPE_REFRESH_FILE_TABBAR = 3;
 
+    protected SelectConfigData mConfigData = ConfigDataBuilderImpl.getInstance().getSelectConfigData();
+    protected AbstractFileBeanController mFileBeanController = mConfigData.fileBeanController;
 
     @Override
     public List<FileBean> initFileList(String currentPath, List<FileBean> fileList) {
@@ -41,7 +46,15 @@ public abstract class BaseFileManager implements IFileDataManager {
         String parentPath = FileTools.getParentPath(currentPath);
         switch (fileList.size()) {
             case 0://如果列表个数为0则需要添加一个充当返回的FileBean item提供点击就可以返回到上一级目录这个FileBean.path应设置为上一级目录的路径
-                fileList.add(new FileBean(parentPath, "...", MConstants.FILEBEAN_BACK_FLAG));
+                FileBean fileBean = new FileBean(parentPath, "...", MConstants.FILEBEAN_BACK_FLAG);
+
+                fileBean.setFileIcoType(mFileBeanController.getFileBeanImageResource(
+                        true,
+                        "This is back filebean item",
+                        fileBean
+                ));
+
+                fileList.add(fileBean);
                 break;
             default://如果已经有了就修改,并且把0索引后面的实例都进行赋值null初始化
                 fileList.get(0).setPath(parentPath);
@@ -186,9 +199,8 @@ public abstract class BaseFileManager implements IFileDataManager {
                 //tabbarList.add(new TabbarFileBean(initPath, "Storage", MConstants.TABBARFILEBEAN_INIT_FLAG));
                 break;
             default://如果已经有了就修改,并且把0索引后面的实例都进行赋值null初始化
-                tabbarList.get(0).setPath(initPath);
-                for (int i = 1; i < tabbarList.size(); i++) {
-                    tabbarList.get(i).clear();
+                for (int i = tabbarList.size() - 1; i >= 0; i--) {
+                    tabbarList.remove(i);
                 }
         }
         return tabbarList;
@@ -207,49 +219,36 @@ public abstract class BaseFileManager implements IFileDataManager {
 
     @Override
     public List<TabbarFileBean> updateTabbarList(String initPath, String currentPath, List<TabbarFileBean> tabbarList, TabbarListAdapter tabbarAdapter) {
-        //currentPath = "/storage/emulated/0/Tencent/ams/mmm/rrr/ppp/qqqq";
-        tabbarList = initTabbarList(initPath, tabbarList);
-        //获取缓存的item数量
-        int cacheTabbarSize = tabbarList.size() - 1;
-        //去除当前路径中的原始路径: /Tencent/ams/mmm/rrr/ppp/qqqq
-        String noInitPath = currentPath.replaceFirst(initPath, "");
+        
+        //currentPath = "/storage/emulated/0";
+        tabbarList = initTabbarList(currentPath, tabbarList);
         //通过/分割
-        String[] parts = noInitPath.split(File.separator);
+        String[] parts = currentPath.split(File.separator);
         /**
          * (空)
-         * Tencent
-         * ams
-         * mmm
-         * rrr
-         * ppp
-         * qqqq
+         * storage
+         * emulated
+         * 0
          */
+
         if (parts.length == 0) {
             return tabbarList;
         }
 
         StringBuilder builder = new StringBuilder();
-        builder.append(initPath);
         /**组合成分级
-         *  args[0] = /storage/emulated/0
-         *  args[1] = /storage/emulated/0/Tencent
-         *  args[2] = /storage/emulated/0/Tencent/ams
-         *  args[3] = /storage/emulated/0/Tencent/ams/mmm
-         *  args[4] = /storage/emulated/0/Tencent/ams/mmm/rrr
-         *  args[5] = /storage/emulated/0/Tencent/ams/mmm/rrr/ppp
-         *  args[6] = /storage/emulated/0/Tencent/ams/mmm/rrr/ppp/qqqq
+         *  parts[0] = (null)
+         *  parts[1] = /storage
+         *  parts[2] = /storage/emulated
+         *  parts[3] = /storage/emulated/0
          */
-        for (int i = 0; i < parts.length; i++) {
-            if (i == 0) {
-                parts[i] = builder.append(parts[i]).toString();
-            } else {
-                parts[i] = builder.append(File.separator + parts[i]).toString();
-            }
+        for (int i = 1; i < parts.length; i++) {
+            parts[i] = builder.append(File.separator + parts[i]).toString();
         }
 
         TabbarFileBean tabbarBean;
-        for (int i = 0; i < parts.length; i++) {
-            if (i <= cacheTabbarSize) {
+        for (int i = 1; i < parts.length; i++) {
+            if (false) {
                 /**
                  * 如果还有缓存的FileBean就设置属性即可
                  * 0索引FileBean为返回按钮所以+1
@@ -344,4 +343,6 @@ public abstract class BaseFileManager implements IFileDataManager {
         }
         return fileList;
     }
+
+
 }

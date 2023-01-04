@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    //Please remove the next line when integrating offline(离线集成时请移除下一行)
     id 'com.kezong.fat-aar'
 }
 android {
@@ -32,11 +33,14 @@ android {
 dependencies {
     //TODO 精简工具包，去除不需要的工具类
     //精简https://github.com/Blankj/AndroidUtilCode工具
+
+    //For offline integration, please change the next line to implementation project(path: ':AndroidUtilCode') and copy the AndroidUtilCode folder to your project, because it depends on the AndroidUtilCode tool.
     embed project(path: ':AndroidUtilCode', configuration: 'default')
+    
     //embed(name: 'XXPermissions-16.2', ext: 'aar')
 
     //权限申请框架
-    implementation 'com.github.getActivity:XXPermissions:16.5'
+    implementation 'com.github.getActivity:XXPermissions:16.6'
     //万能适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11'
 
@@ -50,4 +54,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
 }
+//Please remove the next line when integrating offline(离线集成时请移除下一行)
 apply from: "${getRootDir().absolutePath}/gradles/publish-maven.gradle"

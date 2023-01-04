@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.fragment.app.FragmentManager;
 
 import com.molihuan.pathselector.controller.AbstractBuildController;
+import com.molihuan.pathselector.controller.AbstractFileBeanController;
 import com.molihuan.pathselector.controller.impl.ActivityController;
 import com.molihuan.pathselector.controller.impl.DialogController;
 import com.molihuan.pathselector.controller.impl.FragmentController;
@@ -38,14 +39,13 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
         return mConfigData;
     }
 
-    protected void init() {
-        mConfigData.initDefaultConfig();
+    protected void init(Context context) {
+        mConfigData.initDefaultConfig(context);
     }
 
     @Override
     public IConfigDataBuilder setContext(Context context) {
-        init();
-        mConfigData.context = context;
+        init(context);
         return this;
     }
 
@@ -235,6 +235,12 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
         return this;
     }
 
+    @Override
+    public IConfigDataBuilder setFileBeanController(AbstractFileBeanController fileBeanController) {
+        mConfigData.fileBeanController = fileBeanController;
+        return this;
+    }
+
     /******************   HandleFragment   **************************/
 
     @Override
@@ -267,14 +273,19 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
 
     @Override
     public PathSelectFragment show() {
-        //这里初始化各种fragment
+
         try {
+            //初始化各种fragment
             mConfigData.initAllFragment();
+            //初始化控制器
+            mConfigData.initController();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
+
+
         return mConfigData.buildController.show();
     }
 

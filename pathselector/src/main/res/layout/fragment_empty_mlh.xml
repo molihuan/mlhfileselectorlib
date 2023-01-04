@@ -16,7 +16,7 @@
             android:layout_height="120dp"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:background="@mipmap/ic_file_empty" />
+            android:background="@mipmap/ic_file_empty_mlh" />
 
         <TextView
             android:id="@+id/tv_empty"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="15dp"
-            android:text="@string/no_data"
+            android:text="@string/no_data_mlh"
             android:layout_below="@id/iv_empty"
             android:textColor="#000"
             android:textSize="18sp" />

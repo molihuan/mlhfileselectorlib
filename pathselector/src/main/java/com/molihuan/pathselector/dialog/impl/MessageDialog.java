@@ -74,7 +74,7 @@ public class MessageDialog extends BaseDialog {
 
     @Override
     public void initData() {
-        super.initData();
+        
 
     }
 

@@ -36,6 +36,8 @@ public class PathFileManager extends BaseFileManager {
         File[] subFiles = file.listFiles();
         String extension;
         int addNumber = 0;//添加的数量
+        FileBean fileBean;
+
         if (subFiles != null) {
             for (int i = 0; i < subFiles.length; i++) {
                 //获取后缀
@@ -48,34 +50,11 @@ public class PathFileManager extends BaseFileManager {
                          * 如果还有缓存的FileBean就设置属性即可
                          * 0索引FileBean为返回按钮所以+1
                          */
-                        fileList.get(addNumber + 1)
-                                .setPath(subFiles[i].getAbsolutePath())
-                                .setName(subFiles[i].getName())
-                                .setDir(subFiles[i].isDirectory())
-                                .setFileExtension(extension)
-                                .setFileIcoType(FileTools.getImageResourceByExtension(
-                                        subFiles[i].isDirectory(),
-                                        extension
-                                ))
-                                .setChildrenFileNumber(FileTools.getChildrenNumber(subFiles[i])[0])
-                                .setChildrenDirNumber(FileTools.getChildrenNumber(subFiles[i])[1])
-                                .setBoxVisible(false)
-                                .setBoxChecked(false)
-                                .setModifyTime(subFiles[i].lastModified())
-                                .setSize(subFiles[i].length())
-                                .setSizeString(FileTools.computeFileSize(subFiles[i]))
-                                .setUseUri(false);
-                    } else {
-                        //如果不够就new
-                        FileBean fileBean = new FileBean();
+                        fileBean = fileList.get(addNumber + 1);
                         fileBean.setPath(subFiles[i].getAbsolutePath())
                                 .setName(subFiles[i].getName())
                                 .setDir(subFiles[i].isDirectory())
                                 .setFileExtension(extension)
-                                .setFileIcoType(FileTools.getImageResourceByExtension(
-                                        subFiles[i].isDirectory(),
-                                        extension
-                                ))
                                 .setChildrenFileNumber(FileTools.getChildrenNumber(subFiles[i])[0])
                                 .setChildrenDirNumber(FileTools.getChildrenNumber(subFiles[i])[1])
                                 .setBoxVisible(false)
@@ -83,7 +62,34 @@ public class PathFileManager extends BaseFileManager {
                                 .setModifyTime(subFiles[i].lastModified())
                                 .setSize(subFiles[i].length())
                                 .setSizeString(FileTools.computeFileSize(subFiles[i]))
-                                .setUseUri(false);
+                                .setUseUri(false)
+                                //需要放在最后
+                                .setFileIcoType(mFileBeanController.getFileBeanImageResource(
+                                        subFiles[i].isDirectory(),
+                                        extension,
+                                        fileBean
+                                ));
+
+                    } else {
+                        //如果不够就new
+                        fileBean = new FileBean();
+                        fileBean.setPath(subFiles[i].getAbsolutePath())
+                                .setName(subFiles[i].getName())
+                                .setDir(subFiles[i].isDirectory())
+                                .setFileExtension(extension)
+                                .setChildrenFileNumber(FileTools.getChildrenNumber(subFiles[i])[0])
+                                .setChildrenDirNumber(FileTools.getChildrenNumber(subFiles[i])[1])
+                                .setBoxVisible(false)
+                                .setBoxChecked(false)
+                                .setModifyTime(subFiles[i].lastModified())
+                                .setSize(subFiles[i].length())
+                                .setSizeString(FileTools.computeFileSize(subFiles[i]))
+                                .setUseUri(false)
+                                .setFileIcoType(mFileBeanController.getFileBeanImageResource(
+                                        subFiles[i].isDirectory(),
+                                        extension,
+                                        fileBean
+                                ));
 
                         fileList.add(fileBean);
                     }

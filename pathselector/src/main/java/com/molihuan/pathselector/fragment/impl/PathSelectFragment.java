@@ -51,7 +51,7 @@ public class PathSelectFragment extends BasePathSelectFragment {
     private AbstractTabbarFragment tabbarFragment;
     private AbstractFileShowFragment fileShowFragment;
     private AbstractHandleFragment handleFragment;
-    
+
     //路径管理者
     private IFileDataManager pathFileManager;
     //uri管理者
@@ -70,25 +70,6 @@ public class PathSelectFragment extends BasePathSelectFragment {
     @Override
     public void initData() {
 
-        if (PathSelectorConfig.AUTO_GET_PERMISSION) {
-            //存储权限的申请
-            PermissionsTools.getStoragePermissions(
-                    mActivity,
-                    new OnPermissionCallback() {
-                        @Override
-                        public void onGranted(@NonNull List<String> permissions, boolean all) {
-
-                        }
-                    },
-                    new OnPermissionCallback() {
-                        @Override
-                        public void onGranted(@NonNull List<String> permissions, boolean all) {
-
-                        }
-                    }
-            );
-        }
-
         //获取Fragment
         titlebarFragment = mConfigData.titlebarFragment;
         tabbarFragment = mConfigData.tabbarFragment;
@@ -101,6 +82,7 @@ public class PathSelectFragment extends BasePathSelectFragment {
         uriFileManager = new UriFileManager();
 
     }
+
 
     @Override
     public void initView() {
@@ -206,18 +188,24 @@ public class PathSelectFragment extends BasePathSelectFragment {
 
     @Override
     public TabbarListAdapter getTabbarListAdapter() {
+        if (tabbarFragment == null) {
+            return null;
+        }
         return tabbarFragment.getTabbarListAdapter();
     }
 
     @Override
     public List<TabbarFileBean> getTabbarList() {
+        if (tabbarFragment == null) {
+            return null;
+        }
         return tabbarFragment.getTabbarList();
     }
 
     @Override
     public List<TabbarFileBean> updateTabbarList() {
         //设置了不显示TabbarFragment则返回null
-        if (mConfigData.showTabbarFragment) {
+        if (mConfigData.showTabbarFragment && tabbarFragment != null) {
             return tabbarFragment.updateTabbarList();
         } else {
             return null;
@@ -225,42 +213,75 @@ public class PathSelectFragment extends BasePathSelectFragment {
     }
 
     @Override
+    public List<TabbarFileBean> updateTabbarList(String path) {
+        if (mConfigData.showTabbarFragment && tabbarFragment != null) {
+            return tabbarFragment.updateTabbarList(path);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public void refreshTabbarList() {
+        if (tabbarFragment == null) {
+            return;
+        }
         tabbarFragment.refreshTabbarList();
     }
 
     @Override
     public List<CommonItemListener> getHandleItemListeners() {
+        if (handleFragment == null) {
+            return null;
+        }
         return handleFragment.getHandleItemListeners();
     }
 
     @Override
     public HandleListAdapter getHandleListAdapter() {
+        if (handleFragment == null) {
+            return null;
+        }
         return handleFragment.getHandleListAdapter();
     }
 
     @Override
     public void refreshHandleList() {
+        if (handleFragment == null) {
+            return;
+        }
         handleFragment.refreshHandleList();
     }
 
     @Override
     public MorePopupAdapter getMorePopupAdapter() {
+        if (titlebarFragment == null) {
+            return null;
+        }
         return titlebarFragment.getMorePopupAdapter();
     }
 
     @Override
     public List<CommonItemListener> getMorePopupItemListeners() {
+        if (titlebarFragment == null) {
+            return null;
+        }
         return titlebarFragment.getMorePopupItemListeners();
     }
 
     @Override
     public void refreshMorePopup() {
+        if (titlebarFragment == null) {
+            return;
+        }
         titlebarFragment.refreshMorePopup();
     }
 
     @Override
     public TextView getOnlyOneMorePopupTextView() {
+        if (titlebarFragment == null) {
+            return null;
+        }
         return titlebarFragment.getOnlyOneMorePopupTextView();
     }
 
@@ -286,15 +307,17 @@ public class PathSelectFragment extends BasePathSelectFragment {
         //保存这个uri目录的访问权限
         if (VersionTool.isAndroid11()) {
             if (requestCode == PermissionsTools.PERMISSION_REQUEST_CODE) {
-                Uri uri;
-                if ((uri = data.getData()) != null) {
-                    mActivity.getContentResolver()
-                            .takePersistableUriPermission(uri,
-                                    data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                            );
+                if (data != null) {
+                    Uri uri;
+                    if ((uri = data.getData()) != null) {
+                        mActivity.getContentResolver()
+                                .takePersistableUriPermission(uri,
+                                        data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                                );
+                    }
+                    //更新列表数据
+                    fileShowFragment.updateFileList();
                 }
-                //更新列表数据
-                fileShowFragment.updateFileList();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -354,6 +377,29 @@ public class PathSelectFragment extends BasePathSelectFragment {
                     isShow
             );
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //是否需要自动申请权限
+        if (PathSelectorConfig.AUTO_GET_PERMISSION) {
+            //存储权限的申请
+            PermissionsTools.generalPermissionsOfStorage(mActivity, new OnPermissionCallback() {
+                @Override
+                public void onGranted(@NonNull List<String> permissions, boolean all) {
+                    updateFileList();
+                }
+            });
+
+            PermissionsTools.specialPermissionsOfStorageWithDialog(mActivity, true, new OnPermissionCallback() {
+                @Override
+                public void onGranted(@NonNull List<String> permissions, boolean all) {
+                    updateFileList();
+                }
+            });
+        }
+
     }
 
     @Override

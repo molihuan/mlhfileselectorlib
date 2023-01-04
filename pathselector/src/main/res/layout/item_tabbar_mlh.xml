@@ -15,7 +15,7 @@
             android:id="@+id/imgv_item_tabbar_mlh"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_partition_tabbar_black"
+            android:src="@drawable/ic_partition_tabbar_black_mlh"
             android:clickable="false"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true" />
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="@string/test_text"
+            android:text="@string/test_text_mlh"
             android:textSize="20sp"
             android:minWidth="25dp"
             android:textColor="@color/black_mlh"

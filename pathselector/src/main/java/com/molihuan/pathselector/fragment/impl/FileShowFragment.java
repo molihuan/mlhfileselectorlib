@@ -19,6 +19,7 @@ import com.molihuan.pathselector.service.IFileDataManager;
 import com.molihuan.pathselector.service.impl.PathFileManager;
 import com.molihuan.pathselector.utils.CommonTools;
 import com.molihuan.pathselector.utils.FileTools;
+import com.molihuan.pathselector.utils.MConstants;
 import com.molihuan.pathselector.utils.Mtools;
 import com.xuexiang.xtask.XTask;
 import com.xuexiang.xtask.core.ITaskChainEngine;
@@ -85,6 +86,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
     @Override
     public void initData() {
         super.initData();
+
         //初始化选择列表
         selectedFileList = new ArrayList<>();
         //获取路径管理者
@@ -248,7 +250,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
                             selectedNumber++;
                         } else {
                             //超过选择的最大数量
-                            Mtools.toast(getString(R.string.tip_filebeanitem_select_limit_exceeded));
+                            Mtools.toast(getString(R.string.tip_filebeanitem_select_limit_exceeded_mlh));
 
                         }
 
@@ -264,9 +266,16 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
 
                 //如果是返回FileBean
                 if (position == 0) {
-                    updateFileList(item.getPath());//更新当前路径
+                    String path = item.getPath();
+                    //如果当前路径比"/storage/emulated/0"还短则设置currentPath为"/storage/emulated/0"
+                    if (path.length() <= MConstants.DEFAULT_ROOTPATH.length() && (!MConstants.DEFAULT_ROOTPATH.equals(path))) {
+                        Mtools.toast(String.format(getString(R.string.tips_path_jump_error_exceeds_default_path_mlh), path, MConstants.DEFAULT_ROOTPATH));
+                        path = MConstants.DEFAULT_ROOTPATH;
+                    }
+
+                    updateFileList(path);//更新当前路径
                     //刷新面包屑
-                    psf.updateTabbarList();
+                    psf.updateTabbarList(path);
                     return;
                 }
 

@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_tabbar_storage_black"
             android:background="@drawable/style_click_rectangle_transp_gray_mlh"
-            android:tooltipText="@string/internal_storage"
+            android:tooltipText="@string/internal_storage_mlh"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView

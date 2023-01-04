@@ -40,6 +40,12 @@
             android:layout_height="wrap_content"
             android:text="自定义toolbar选择器" />
 
+        <Button
+            android:id="@+id/btn_custom_filebean_img_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义file_bean_img选择器" />
+
 
         <FrameLayout
             android:id="@+id/fragment_select_show_area"

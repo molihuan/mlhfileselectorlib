@@ -7,6 +7,7 @@ import android.content.UriPermission;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,9 @@ import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.molihuan.pathselector.R;
+import com.molihuan.pathselector.dialog.BaseDialog;
+import com.molihuan.pathselector.dialog.impl.MessageDialog;
+import com.molihuan.pathselector.entity.FontBean;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +43,13 @@ public class PermissionsTools {
     public OnPermissionCallback specialPermissionCallback;
     public OnPermissionCallback generalPermissionCallback;
 
-
+    /**
+     * 获取存储权限
+     *
+     * @param context
+     * @param specialPermissionCallback
+     * @param generalPermissionCallback
+     */
     public static void getStoragePermissions(Context context, OnPermissionCallback specialPermissionCallback, OnPermissionCallback generalPermissionCallback) {
 
         //所有文件访问权限Android 11 +
@@ -50,10 +60,58 @@ public class PermissionsTools {
 
     }
 
+    /**
+     * 带弹窗的全文件读写权限申请
+     *
+     * @param context
+     * @param useDialog                 是否使用弹窗
+     * @param specialPermissionCallback 权限申请结果回调
+     */
+    public static void specialPermissionsOfStorageWithDialog(Context context, boolean useDialog, OnPermissionCallback specialPermissionCallback) {
+        if (useDialog) {
+
+            if (!VersionTool.isAndroid11()) {
+                return;
+            }
+
+            boolean isGet = XXPermissions.isGranted(context, Permission.MANAGE_EXTERNAL_STORAGE);
+            //已有权限则返回
+            if (isGet) {
+                Mtools.log("全文件读取权限------已获取");
+                return;
+            }
+
+            new MessageDialog(context)
+                    .setContent(new FontBean(context.getString(R.string.tip_dialog_get_special_permissions_mlh)))
+                    .setConfirm(new FontBean(context.getString(R.string.option_confirm_mlh)), new BaseDialog.IOnConfirmListener() {
+                        @Override
+                        public boolean onClick(View v, BaseDialog dialog) {
+                            PermissionsTools.specialPermissionsOfStorageNoCheck(context, specialPermissionCallback);
+                            dialog.dismiss();
+                            return false;
+                        }
+                    })
+                    .setCancel(new FontBean(context.getString(R.string.option_cancel_mlh)), new BaseDialog.IOnCancelListener() {
+                        @Override
+                        public boolean onClick(View v, BaseDialog dialog) {
+                            dialog.dismiss();
+                            return false;
+                        }
+                    })
+                    .show();
+
+        } else {
+            specialPermissionsOfStorage(context, specialPermissionCallback);
+        }
+    }
+
 
     /**
      * 获取一般读写权限
      * Android 11 -
+     *
+     * @param context
+     * @param generalPermissionCallback 权限申请结果回调
      */
     public static void generalPermissionsOfStorage(Context context, OnPermissionCallback generalPermissionCallback) {
 
@@ -78,11 +136,11 @@ public class PermissionsTools {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.make().show(R.string.tip_denial_authorization);
+                            ToastUtils.make().show(R.string.tip_denial_authorization_mlh);
                             //如果是被永久拒绝就跳转到应用权限系统设置页面
                             //XXPermissions.startPermissionActivity(context, permissions);
                         } else {
-                            ToastUtils.make().show(R.string.tip_permission_failed);
+                            ToastUtils.make().show(R.string.tip_permission_failed_mlh);
                         }
 
                         generalPermissionCallback.onDenied(permissions, never);
@@ -91,11 +149,13 @@ public class PermissionsTools {
                 });
     }
 
+
     /**
      * 获取全文件读取权限
      * Android 11 +
      *
      * @param context
+     * @param specialPermissionCallback 权限申请结果回调
      */
     public static void specialPermissionsOfStorage(Context context, OnPermissionCallback specialPermissionCallback) {
         if (!VersionTool.isAndroid11()) {
@@ -109,6 +169,11 @@ public class PermissionsTools {
             return;
         }
 
+        specialPermissionsOfStorageNoCheck(context, specialPermissionCallback);
+
+    }
+
+    public static void specialPermissionsOfStorageNoCheck(Context context, OnPermissionCallback specialPermissionCallback) {
         XXPermissions.with(context)
                 // 申请单个权限
                 .permission(Permission.MANAGE_EXTERNAL_STORAGE)
@@ -124,18 +189,16 @@ public class PermissionsTools {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.make().show(R.string.tip_denial_authorization);
+                            ToastUtils.make().show(R.string.tip_denial_authorization_mlh);
                             //如果是被永久拒绝就跳转到应用权限系统设置页面
                             XXPermissions.startPermissionActivity(context, permissions);
                         } else {
-                            ToastUtils.make().show(R.string.tip_permission_failed);
+                            ToastUtils.make().show(R.string.tip_permission_failed_mlh);
                         }
 
                         specialPermissionCallback.onDenied(permissions, never);
                     }
                 });
-
-
     }
 
     /**

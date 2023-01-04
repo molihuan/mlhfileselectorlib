@@ -64,6 +64,8 @@ public class UriFileManager extends BaseFileManager {
 
             String extension;
             int addNumber = 0;//添加的数量
+            FileBean fileBean;
+
             for (int i = 0; i < subFiles.size(); i++) {
                 tempSubFile = subFiles.get(i);
                 //获取后缀
@@ -76,15 +78,11 @@ public class UriFileManager extends BaseFileManager {
                          * 如果还有缓存的FileBean就设置属性即可
                          * 0索引FileBean为返回按钮所以+1
                          */
-                        fileList.get(addNumber + 1)
-                                .setPath(tempSubFile.getAbsolutePath())
+                        fileBean = fileList.get(addNumber + 1);
+                        fileBean.setPath(tempSubFile.getAbsolutePath())
                                 .setName(tempSubFile.getName())
                                 .setDir(tempSubFile.isDirectory())
                                 .setFileExtension(extension)
-                                .setFileIcoType(FileTools.getImageResourceByExtension(
-                                        tempSubFile.isDirectory(),
-                                        extension
-                                ))
                                 .setChildrenFileNumber(FileTools.getChildrenNumber(tempSubFile)[0])
                                 .setChildrenDirNumber(FileTools.getChildrenNumber(tempSubFile)[1])
                                 .setBoxVisible(false)
@@ -92,18 +90,19 @@ public class UriFileManager extends BaseFileManager {
                                 .setModifyTime(tempSubFile.lastModified())
                                 .setSize(tempSubFile.length())
                                 .setSizeString(FileTools.computeFileSize(tempSubFile))
-                                .setUseUri(false);
+                                .setUseUri(false)
+                                .setFileIcoType(mFileBeanController.getFileBeanImageResource(
+                                        tempSubFile.isDirectory(),
+                                        extension,
+                                        fileBean
+                                ));
                     } else {
                         //如果不够就new
-                        FileBean fileBean = new FileBean()
-                                .setPath(tempSubFile.getAbsolutePath())
+                        fileBean = new FileBean();
+                        fileBean.setPath(tempSubFile.getAbsolutePath())
                                 .setName(tempSubFile.getName())
                                 .setDir(tempSubFile.isDirectory())
                                 .setFileExtension(extension)
-                                .setFileIcoType(FileTools.getImageResourceByExtension(
-                                        tempSubFile.isDirectory(),
-                                        extension
-                                ))
                                 .setChildrenFileNumber(FileTools.getChildrenNumber(tempSubFile)[0])
                                 .setChildrenDirNumber(FileTools.getChildrenNumber(tempSubFile)[1])
                                 .setBoxVisible(false)
@@ -111,7 +110,12 @@ public class UriFileManager extends BaseFileManager {
                                 .setModifyTime(tempSubFile.lastModified())
                                 .setSize(tempSubFile.length())
                                 .setSizeString(FileTools.computeFileSize(tempSubFile))
-                                .setUseUri(false);
+                                .setUseUri(false)
+                                .setFileIcoType(mFileBeanController.getFileBeanImageResource(
+                                        tempSubFile.isDirectory(),
+                                        extension,
+                                        fileBean
+                                ));
 
                         fileList.add(fileBean);
                     }
@@ -181,6 +185,8 @@ public class UriFileManager extends BaseFileManager {
 
             String extension;
             int addNumber = 0;//添加的数量
+            FileBean fileBean;
+
             for (int i = 0; i < documentFiles.length; i++) {
                 //获取后缀
                 extension = FileTools.getFileExtension(documentFiles[i].getName());
@@ -192,15 +198,11 @@ public class UriFileManager extends BaseFileManager {
                          * 如果还有缓存的FileBean就设置属性即可
                          * 0索引FileBean为返回按钮所以+1
                          */
-                        fileList.get(addNumber + 1)
-                                .setPath(currentPath + File.separator + documentFiles[i].getName())
+                        fileBean = fileList.get(addNumber + 1);
+                        fileBean.setPath(currentPath + File.separator + documentFiles[i].getName())
                                 .setName(documentFiles[i].getName())
                                 .setDir(documentFiles[i].isDirectory())
                                 .setFileExtension(extension)
-                                .setFileIcoType(FileTools.getImageResourceByExtension(
-                                        documentFiles[i].isDirectory(),
-                                        extension
-                                ))
                                 .setChildrenFileNumber(FileTools.getChildrenNumber(documentFiles[i])[0])
                                 .setChildrenDirNumber(FileTools.getChildrenNumber(documentFiles[i])[1])
                                 .setBoxVisible(false)
@@ -209,19 +211,20 @@ public class UriFileManager extends BaseFileManager {
                                 .setSize(-1L)
                                 .setSizeString(FileTools.ERROR_GETTING_FILE_SIZE)
                                 .setUseUri(true)
-                                .setDocumentFile(documentFiles[i]);
+                                .setDocumentFile(documentFiles[i])
+                                .setFileIcoType(mFileBeanController.getFileBeanImageResource(
+                                        documentFiles[i].isDirectory(),
+                                        extension,
+                                        fileBean
+                                ));
 
                     } else {
                         //如果不够就new
-                        FileBean fileBean = new FileBean()
-                                .setPath(currentPath + File.separator + documentFiles[i].getName())
+                        fileBean = new FileBean();
+                        fileBean.setPath(currentPath + File.separator + documentFiles[i].getName())
                                 .setName(documentFiles[i].getName())
                                 .setDir(documentFiles[i].isDirectory())
                                 .setFileExtension(extension)
-                                .setFileIcoType(FileTools.getImageResourceByExtension(
-                                        documentFiles[i].isDirectory(),
-                                        extension
-                                ))
                                 .setChildrenFileNumber(FileTools.getChildrenNumber(documentFiles[i])[0])
                                 .setChildrenDirNumber(FileTools.getChildrenNumber(documentFiles[i])[1])
                                 .setBoxVisible(false)
@@ -230,7 +233,12 @@ public class UriFileManager extends BaseFileManager {
                                 .setSize(-1L)
                                 .setSizeString(FileTools.ERROR_GETTING_FILE_SIZE)
                                 .setUseUri(true)
-                                .setDocumentFile(documentFiles[i]);
+                                .setDocumentFile(documentFiles[i])
+                                .setFileIcoType(mFileBeanController.getFileBeanImageResource(
+                                        documentFiles[i].isDirectory(),
+                                        extension,
+                                        fileBean
+                                ));
 
                         fileList.add(fileBean);
                     }

@@ -57,7 +57,7 @@ public class FileListAdapter extends BaseQuickAdapter<FileBean, BaseViewHolder> 
         } else if (fileBean.getSize() == MConstants.FILEBEAN_BACK_FLAG) {
             linlContainer.setVisibility(View.VISIBLE);
             //说明是返回fileBean
-            imgvIco.setImageResource(R.mipmap.folder);
+            imgvIco.setImageResource(fileBean.getFileIcoType());
             imgvEnter.setVisibility(View.INVISIBLE);
             tvName.setText(fileBean.getName());
             tvDetail.setText("");

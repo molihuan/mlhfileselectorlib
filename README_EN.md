@@ -13,7 +13,9 @@
 <p align="center">support custom UI,support SD card.</p>
 <p align="center">(The Keyword:file selector operator android/data android 11 android 13)</p>
 
+## Language(语言)
 
+#### **[Chinese](./README.md)** | [English](./README_EN.md)
 
 ## Why choose me?
 
@@ -28,12 +30,8 @@ Automatically apply storage permission, support Android4.4 ~ 13, no longer need 
 - [x] Highly customizable UI
 - [x] Internationalization
 - [ ] Search function
-- [ ] Custom icon
+- [x] Custom icon
 - [ ] Show hidden files
-
-## Language(语言)
-
-#### **[Chinese](./README.md)** | [English](./README_EN.md)
 
 ## Preface
 
@@ -234,7 +232,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .setShowFileTypes("", "mp3", "mp4")//Show only files with (no suffix) or (mp3 suffix) or (mp4 suffix)
         .setSelectFileTypes("", "mp3")//Only files with (no suffix) or (mp3 suffix) can be selected
         .setMaxCount(3)//You can select up to 3 files. The default is - 1 unlimited
-        .setRadio()//Single choice
+        .setRadio()//Single choice(Use setMaxCount(0) to replace it if you need a single-selected folder)
         .setSortType(MConstants.SORT_NAME_ASC)//Sort by name
         .setTitlebarMainTitle(new FontBean("My Selector"))//Set the title bar main title, you can also set the font size, color, etc.
         .setTitlebarBG(Color.GREEN)//Set the title bar background color
@@ -412,6 +410,43 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
         .show();
 ```
 
+#### 3、Customize list item icons
+
+```java
+PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        .setFileBeanController(new AbstractFileBeanController() {
+            @Override
+            public int getFileBeanImageResource(boolean isDir, String extension, FileBean fileBean) {
+                int resourceId;
+                switch (extension) {
+                    case "jpg":
+                    case "jpeg":
+                    case "png":
+                        //Developer's own image resource id
+                        resourceId = R.drawable.ic_launcher_foreground;
+                        break;
+                    case "mp3":
+                        resourceId = R.drawable.ic_launcher_foreground;
+                        break;
+                    case "mp4":
+                        //You can also use the default image resource id
+                        resourceId = com.molihuan.pathselector.R.mipmap.movie;
+                        break;
+                    default:
+                        if (isDir) {
+                            //Developer's own image resource id
+                            resourceId = R.drawable.ml192;
+                        } else {
+                            resourceId = R.drawable.ic_launcher_background;
+                        }
+                        break;
+                }
+                return resourceId;
+            }
+        })
+        .show();
+```
+
 ## IV.Interface and methods (try to see the source code, are written comments, lazy to write the document)
 
 ##### IConfigDataBuilder
@@ -426,7 +461,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 | setShowFileTypes(String... fileTypes)                        | Set the display file type                                    | No suffix please use ""                                      |
 | setSelectFileTypes(String... fileTypes)                      | Set the selection file type                                  | No suffix please use ""                                      |
 | setSortType(int sortType)                                    | Set sorting rules                                            | See MConstants for types                                     |
-| setRadio()                                                   | Set radio selection                                          | Default Multiple Choice                                      |
+| setRadio()                                                   | Set radio selection(Use setMaxCount(0) to replace it if you need a single-selected folder) | Default Multiple Choice                                      |
 | setShowSelectStorageBtn(boolean var)                         | Set whether to display the internal storage selection button | Default true                                                 |
 | setShowTitlebarFragment(boolean var)                         | Whether to display the title bar                             | Default true                                                 |
 | setShowTabbarFragment(boolean var)                           | Whether to show breadcrumbs                                  | Default true                                                 |

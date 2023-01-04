@@ -24,4 +24,4 @@
 -keepattributes SourceFile,LineNumberTable
 # 不混淆指定类
 -keep public class com.molihuan.pathselector.utils.ReflectTools { *; }
-#-keep public class com.molihuan.pathselector.utils.FileTools { *; }
+-keep public class com.molihuan.pathselector.dao.SelectConfigData { *; }

@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.IdRes;
 import androidx.fragment.app.FragmentManager;
 
+import com.molihuan.pathselector.controller.AbstractFileBeanController;
 import com.molihuan.pathselector.entity.FontBean;
 import com.molihuan.pathselector.fragment.AbstractFileShowFragment;
 import com.molihuan.pathselector.fragment.AbstractHandleFragment;
@@ -81,6 +82,8 @@ public interface IConfigDataBuilder {
     IConfigDataBuilder setOnlyShowVideo();
 
     IConfigDataBuilder setFileItemListener(FileItemListener fileItemListener);
+
+    IConfigDataBuilder setFileBeanController(AbstractFileBeanController fileBeanController);
 
     /******************   HandleFragment   **************************/
 

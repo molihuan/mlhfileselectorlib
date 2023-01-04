@@ -14,6 +14,7 @@ import com.molihuan.pathselectdemo.R;
 import com.molihuan.pathselectdemo.fragments.CustomTitlebarFragment;
 import com.molihuan.pathselector.PathSelector;
 import com.molihuan.pathselector.configs.PathSelectorConfig;
+import com.molihuan.pathselector.controller.AbstractFileBeanController;
 import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.FontBean;
 import com.molihuan.pathselector.fragment.BasePathSelectFragment;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnDialogSelector;
     private Button btnCustomSelector;
     private Button btnTest;
+    private Button btnCustomImgSelector;
 
     private PathSelectFragment selector;
     private long firstBackTime;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDialogSelector = findViewById(R.id.btn_dialog_selector);
         btnCustomSelector = findViewById(R.id.btn_custom_toolbar_selector);
         btnTest = findViewById(R.id.btn_test);
+        btnCustomImgSelector = findViewById(R.id.btn_custom_filebean_img_selector);
     }
 
     private void initData() {
@@ -79,11 +82,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDialogSelector.setOnClickListener(this);
         btnCustomSelector.setOnClickListener(this);
         btnTest.setOnClickListener(this);
+        btnCustomImgSelector.setOnClickListener(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -102,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_custom_toolbar_selector:
                 customTitlebarSelectShow();
-//                t1();
                 break;
             case R.id.btn_test:
                 FragmentTools.fragmentReplace(
@@ -111,6 +113,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         new CustomTitlebarFragment(),
                         "55"
                 );
+
+                break;
+            case R.id.btn_custom_filebean_img_selector:
+                customFilebeanImgSelectShow();
                 break;
         }
     }
@@ -122,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void dialogSelectShow() {
         //获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
         selector = PathSelector.build(MainActivity.this, MConstants.BUILD_DIALOG)
+                .setRootPath("/storage/emulated/0/bilibili视频合并/")
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
@@ -275,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 自定义Toolbar方式
      */
     private void customTitlebarSelectShow() {
-        PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
                 .setTitlebarFragment(new CustomTitlebarFragment())
                 .show();
     }
@@ -285,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void CompleteConfiguration() {
 
-        PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+        selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
                 //.setBuildType(MConstants.BUILD_DIALOG)//已经在build中已经设置了
                 //.setContext(this)//已经在build中已经设置了
                 .setRootPath("/storage/emulated/0/")//初始路径
@@ -346,6 +353,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }
                 )
+                .show();
+
+    }
+
+
+    /**
+     * 自定义Filebean Img
+     */
+    private void customFilebeanImgSelectShow() {
+        PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
+                .setFileBeanController(new AbstractFileBeanController() {
+                    @Override
+                    public int getFileBeanImageResource(boolean isDir, String extension, FileBean fileBean) {
+                        int resourceId;
+                        switch (extension) {
+                            case "jpg":
+                            case "jpeg":
+                            case "png":
+                                //开发者自己的图片资源id
+                                resourceId = R.drawable.ic_launcher_foreground;
+                                break;
+                            case "mp3":
+                                resourceId = R.drawable.ic_launcher_foreground;
+                                break;
+                            case "mp4":
+                                //也可以使用默认的图片资源id
+                                resourceId = com.molihuan.pathselector.R.mipmap.movie_mlh;
+                                break;
+                            default:
+                                if (isDir) {
+                                    //开发者自己的图片资源id
+                                    resourceId = R.drawable.ml192;
+                                } else {
+                                    resourceId = R.drawable.ic_launcher_background;
+                                }
+                                break;
+                        }
+                        return resourceId;
+                    }
+                })
                 .show();
 
     }

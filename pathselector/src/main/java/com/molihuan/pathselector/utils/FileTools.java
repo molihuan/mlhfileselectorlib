@@ -4,7 +4,6 @@ import androidx.documentfile.provider.DocumentFile;
 
 import com.blankj.molihuan.utilcode.util.ConvertUtils;
 import com.blankj.molihuan.utilcode.util.FileUtils;
-import com.molihuan.pathselector.R;
 
 import java.io.File;
 import java.util.List;
@@ -225,74 +224,4 @@ public class FileTools {
         return s == null || s.trim().isEmpty();
     }
 
-    /**
-     * 根据后缀选择显示图片
-     *
-     * @param isDir
-     * @param extension
-     * @return
-     */
-
-    public static int getImageResourceByExtension(boolean isDir, String extension) {
-        int resourceId;
-        switch (extension) {
-            case "apk":
-                resourceId = R.mipmap.apk;
-                break;
-            case "avi":
-                resourceId = R.mipmap.avi;
-                break;
-            case "doc":
-            case "docx":
-                resourceId = R.mipmap.doc;
-                break;
-            case "exe":
-                resourceId = R.mipmap.exe;
-                break;
-            case "flv":
-                resourceId = R.mipmap.flv;
-                break;
-            case "gif":
-                resourceId = R.mipmap.gif;
-                break;
-            case "jpg":
-            case "jpeg":
-            case "png":
-                resourceId = R.mipmap.png;
-                break;
-            case "mp3":
-                resourceId = R.mipmap.mp3;
-                break;
-            case "mp4":
-            case "f4v":
-                resourceId = R.mipmap.movie;
-                break;
-            case "pdf":
-                resourceId = R.mipmap.pdf;
-                break;
-            case "ppt":
-            case "pptx":
-                resourceId = R.mipmap.ppt;
-                break;
-            case "wav":
-                resourceId = R.mipmap.wav;
-                break;
-            case "xls":
-            case "xlsx":
-                resourceId = R.mipmap.xls;
-                break;
-            case "zip":
-                resourceId = R.mipmap.zip;
-                break;
-            case "ext":
-            default:
-                if (isDir) {
-                    resourceId = R.mipmap.folder;
-                } else {
-                    resourceId = R.mipmap.documents;
-                }
-                break;
-        }
-        return resourceId;
-    }
 }

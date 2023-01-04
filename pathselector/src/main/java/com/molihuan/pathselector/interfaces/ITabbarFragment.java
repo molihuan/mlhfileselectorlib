@@ -19,6 +19,8 @@ public interface ITabbarFragment {
 
     List<TabbarFileBean> updateTabbarList();
 
+    List<TabbarFileBean> updateTabbarList(String path);
+
     /**
      * 刷新 TabbarList ui
      *
