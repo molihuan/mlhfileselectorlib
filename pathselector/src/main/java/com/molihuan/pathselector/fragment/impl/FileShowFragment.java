@@ -376,6 +376,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
         //如果当前是多选模式则先退出多选模式
         if (multipleSelectionMode) {
             openCloseMultipleMode(false);
+            selectedNumber = 0;
             return true;
         }
 
