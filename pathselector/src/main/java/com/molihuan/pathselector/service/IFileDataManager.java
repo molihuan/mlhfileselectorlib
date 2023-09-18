@@ -8,6 +8,7 @@ import com.molihuan.pathselector.adapter.FileListAdapter;
 import com.molihuan.pathselector.adapter.TabbarListAdapter;
 import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.TabbarFileBean;
+import com.molihuan.pathselector.utils.MConstants;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public interface IFileDataManager {
      * @param sortType
      * @return
      */
-    List<FileBean> sortFileList(List<FileBean> fileList, int sortType, String currentPath);
+    List<FileBean> sortFileList(List<FileBean> fileList, MConstants.SortRules sortType, String currentPath);
 
     List<TabbarFileBean> initTabbarList(String initPath, List<TabbarFileBean> tabbarList);
 

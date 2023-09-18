@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                                 /**取消dialog弹窗
-                                 * pathSelectFragment.dismiss();
+                                 * pathSelectFragment.close();
                                  */
                                 return false;
                             }
@@ -189,9 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         new CommonItemListener("SelectAll") {
                             @Override
                             public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
-
                                 pathSelectFragment.selectAllFile(true);
-
                                 return false;
                             }
                         },
@@ -236,12 +234,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Constants.BUILD_ACTIVITY为ACTIVITY模式
         selector = PathSelector.build(this, MConstants.BUILD_ACTIVITY)
                 .setRequestCode(635)
+                .setStatusBarColor("#000000")
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
                             public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
 
                                 pathSelectFragment.selectAllFile(true);
+                                pathSelectFragment.setSortType(MConstants.SortRules.SORT_TIME_ASC);
 
                                 return false;
                             }
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setSelectFileTypes("", "mp3")//只能选择(没有后缀)或(后缀为mp3)的文件
                 .setMaxCount(3)//最多可以选择3个文件,默认是-1不限制
                 .setRadio()//单选,默认多选
-                .setSortType(MConstants.SORT_NAME_ASC)//按名称排序
+                .setSortType(MConstants.SortRules.SORT_NAME_ASC)//按名称排序
                 .setTitlebarMainTitle(new FontBean("My Selector"))//设置标题栏主标题,还可以设置字体大小,颜色等
                 .setTitlebarBG(Color.GREEN)//设置标题栏背景颜色
                 .setFileItemListener(//设置文件item点击回调(点击是文件才会回调,如果点击是文件夹则不会)

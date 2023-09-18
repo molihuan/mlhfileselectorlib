@@ -38,14 +38,14 @@ public interface IFileShowFragment {
     List<FileBean> getFileList();
 
     /**
-     * 更新当前路径
+     * 通过当前路径更新数据(更新UI)
      *
      * @return
      */
     List<FileBean> updateFileList();
 
     /**
-     * 根据路径更新列表
+     * 根据路径更新列表(更新UI)
      *
      * @param currentPath
      * @return

@@ -1,6 +1,8 @@
 package com.molihuan.pathselector.activity.impl;
 
 
+import android.os.Bundle;
+
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.activity.AbstractActivity;
 import com.molihuan.pathselector.fragment.impl.PathSelectFragment;
@@ -15,28 +17,30 @@ import com.molihuan.pathselector.utils.MConstants;
  */
 public class PathSelectActivity extends AbstractActivity {
 
-    private PathSelectFragment pathSelectFragment;
 
     @Override
     public int setContentViewID() {
         return R.layout.activity_path_select_mlh;
     }
 
+
     @Override
     public void getComponents() {
+        
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
 
     }
 
     @Override
-    public void initData() {
+    public void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
 
-    }
-
-    @Override
-    public void initView() {
-        super.initView();
-        pathSelectFragment = new PathSelectFragment();
         mConfigData.fragmentManager = getSupportFragmentManager();
+
+        pathSelectFragment = new PathSelectFragment();
         ////加载 PathSelectFragment
         FragmentTools.fragmentShowHide(
                 mConfigData.fragmentManager,
@@ -45,6 +49,8 @@ public class PathSelectActivity extends AbstractActivity {
                 MConstants.TAG_ACTIVITY_FRAGMENT,
                 true
         );
+
+
     }
 
     @Override
@@ -56,8 +62,4 @@ public class PathSelectActivity extends AbstractActivity {
         super.onBackPressed();
     }
 
-    @Override
-    public void setListeners() {
-
-    }
 }

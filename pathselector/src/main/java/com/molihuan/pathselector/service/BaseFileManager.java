@@ -82,7 +82,7 @@ public abstract class BaseFileManager implements IFileDataManager {
     }
 
     @Override
-    public List<FileBean> sortFileList(List<FileBean> fileList, int sortType, String currentPath) {
+    public List<FileBean> sortFileList(List<FileBean> fileList, MConstants.SortRules sortType, String currentPath) {
         Collections.sort(fileList, new Comparator<FileBean>() {
             /**
              * 注意返回值
@@ -117,12 +117,13 @@ public abstract class BaseFileManager implements IFileDataManager {
                     return 1;
                 }
 
+
                 switch (sortType) {
-                    case MConstants.SORT_NAME_ASC:
+                    case SORT_NAME_ASC:
                         return o1.getName().compareToIgnoreCase(o2.getName());//根据名称字符串ASCLL码进行比较(忽略大小写)
-                    case MConstants.SORT_NAME_DESC:
+                    case SORT_NAME_DESC:
                         return o2.getName().compareToIgnoreCase(o1.getName());
-                    case MConstants.SORT_TIME_ASC:
+                    case SORT_TIME_ASC:
                         long diff = o1.getModifyTime() - o2.getModifyTime();
                         if (diff > 0)
                             return 1;
@@ -130,7 +131,7 @@ public abstract class BaseFileManager implements IFileDataManager {
                             return 0;
                         else
                             return -1;
-                    case MConstants.SORT_TIME_DESC:
+                    case SORT_TIME_DESC:
                         diff = o2.getModifyTime() - o1.getModifyTime();
                         if (diff > 0)
                             return 1;
@@ -138,7 +139,7 @@ public abstract class BaseFileManager implements IFileDataManager {
                             return 0;
                         else
                             return -1;
-                    case MConstants.SORT_SIZE_ASC:
+                    case SORT_SIZE_ASC:
                         diff = o1.getSize() - o2.getSize();
                         if (diff > 0)
                             return 1;
@@ -146,7 +147,7 @@ public abstract class BaseFileManager implements IFileDataManager {
                             return 0;
                         else
                             return -1;
-                    case MConstants.SORT_SIZE_DESC:
+                    case SORT_SIZE_DESC:
                         diff = o2.getSize() - o1.getSize();
                         if (diff > 0)
                             return 1;
@@ -162,6 +163,13 @@ public abstract class BaseFileManager implements IFileDataManager {
         return fileList;
     }
 
+    /**
+     * 刷新FileList和TabbarList的UI
+     *
+     * @param fileAdapter
+     * @param tabbarAdapter
+     * @param level         0 1 2 3
+     */
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void refreshFileTabbar(FileListAdapter fileAdapter, TabbarListAdapter tabbarAdapter, int level) {

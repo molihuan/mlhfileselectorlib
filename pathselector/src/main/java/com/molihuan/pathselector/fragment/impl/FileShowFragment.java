@@ -52,7 +52,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
     //单选
     private Boolean radio;
     //排序类型
-    private Integer sortType;
+    private MConstants.SortRules sortType;
     //文件显示类型
     private List<String> showFileTypes;
     //选择类型
@@ -177,12 +177,12 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
                         if (FileTools.needUseUri(path)) {
                             allFileList = uriFileManager.updateFileList(psf, initPath, path, allFileList, fileListAdapter, showFileTypes);
                             //排序
-                            allFileList = uriFileManager.sortFileList(allFileList, sortType, currentPath);
+                            allFileList = uriFileManager.sortFileList(allFileList, mConfigData.sortType, currentPath);
 
                         } else {
                             allFileList = pathFileManager.updateFileList(psf, initPath, path, allFileList, fileListAdapter, showFileTypes);
                             //排序
-                            allFileList = pathFileManager.sortFileList(allFileList, sortType, currentPath);
+                            allFileList = pathFileManager.sortFileList(allFileList, mConfigData.sortType, currentPath);
                         }
 
                     }
@@ -376,6 +376,7 @@ public class FileShowFragment extends AbstractFileShowFragment implements OnItem
         //如果当前是多选模式则先退出多选模式
         if (multipleSelectionMode) {
             openCloseMultipleMode(false);
+            selectedNumber = 0;
             return true;
         }
 

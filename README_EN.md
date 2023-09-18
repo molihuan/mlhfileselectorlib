@@ -89,7 +89,7 @@ dependencyResolutionManagement {
 dependencies {
     ...
     // We recommend using the latest release version, please see above for the latest release version
-    // Please replace "version" with a specific version number, e.g. 1.1.15
+    // Please replace "version" with a specific version number, e.g. 1.1.16
     implementation 'io.github.molihuan:pathselector:version'
 }
 ```

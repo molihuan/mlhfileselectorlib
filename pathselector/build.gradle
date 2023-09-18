@@ -51,7 +51,7 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
     //基础控件
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
 
 }
 //Please remove the next line when integrating offline(离线集成时请移除下一行)

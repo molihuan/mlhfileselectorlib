@@ -43,7 +43,7 @@ public class SelectConfigData {
     public AbstractBuildController buildController;//构建控制
     public Integer requestCode;//请求码
     public Integer frameLayoutId;//添加fragment地方
-    public Integer sortType;//排序类型
+    public MConstants.SortRules sortType;//排序类型
     public Boolean radio;//是否是单选非单选则是多选，多选必须设为false
     public Integer maxCount;//多选的个数
     public String rootPath;//默认目录
@@ -83,6 +83,8 @@ public class SelectConfigData {
 
     //生命周期钩子
     public AbstractLifeCycle lifeCycle;
+    //状态栏16进制颜色
+    public String statusBarHexColor;
 
     //TODO 构建顺序 需要优化，减少不必要类的创建和一些赋值操作，减少开销
 
@@ -98,7 +100,7 @@ public class SelectConfigData {
         requestCode = null;//非必须(activity模式必须)
         frameLayoutId = null;//非必须(fragment模式必须)
 
-        sortType = MConstants.SORT_NAME_ASC;
+        sortType = MConstants.SortRules.SORT_NAME_ASC;
         radio = false;//默认多选
         maxCount = -1;//不限制
         rootPath = MConstants.DEFAULT_ROOTPATH;
@@ -125,6 +127,11 @@ public class SelectConfigData {
         handleItemListeners = null;//空即没有
 
         lifeCycle = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int colorInt = context.getColor(R.color.orange_mlh);
+            statusBarHexColor = String.format("#%06X", (0xFFFFFF & colorInt));
+        }
 
         titlebarFragment = null;
         tabbarFragment = null;
