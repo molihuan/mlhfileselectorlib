@@ -105,7 +105,7 @@ PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog build mode
                     public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         
                         /**Dialog dismiss
- * pathSelectFragment.dismiss();
+ * pathSelectFragment.close();
  */
 
                         StringBuilder builder = new StringBuilder();
