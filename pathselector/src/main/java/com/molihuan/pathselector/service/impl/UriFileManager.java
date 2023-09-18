@@ -39,8 +39,9 @@ public class UriFileManager extends BaseFileManager {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public List<FileBean> updateFileList(Fragment fragment, String initPath, String currentPath, List<FileBean> fileList, FileListAdapter fileAdapter, List<String> fileTypeList) {
-        //获取上下文
+
         Context context = fragment.getContext();
+
         Objects.requireNonNull(context, "context is null");
 
         fileList = initFileList(currentPath, fileList);
@@ -255,7 +256,7 @@ public class UriFileManager extends BaseFileManager {
         }
 
         mLifeCycle.onAfterUpdateFileList(fileList, fileAdapter);
-        
+
         return fileList;
     }
 

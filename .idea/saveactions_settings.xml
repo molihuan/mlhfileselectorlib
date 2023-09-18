@@ -7,7 +7,6 @@
         <option value="activateOnShortcut" />
         <option value="organizeImports" />
         <option value="reformat" />
-        <option value="customUnqualifiedStaticMemberAccess" />
         <option value="missingOverrideAnnotation" />
         <option value="unnecessarySemicolon" />
       </set>

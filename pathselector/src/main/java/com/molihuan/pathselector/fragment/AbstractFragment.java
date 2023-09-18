@@ -33,11 +33,6 @@ public abstract class AbstractFragment extends DialogFragment {
     protected SelectConfigData mConfigData = ConfigDataBuilderImpl.getInstance().getSelectConfigData();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mFragmentView == null) {
             //获取Fragment布局
@@ -109,6 +104,8 @@ public abstract class AbstractFragment extends DialogFragment {
         if (mActivity == null) {
             mActivity = getActivity();
         }
+
+
         //获取与Activity通讯实例
 //        try {
 //            if (context instanceof IActivityAndFragment) {

@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.molihuan.pathselector.dao.SelectConfigData;
+import com.molihuan.pathselector.fragment.impl.PathSelectFragment;
 import com.molihuan.pathselector.interfaces.IActivityAndFragment;
 import com.molihuan.pathselector.service.impl.ConfigDataBuilderImpl;
 
@@ -25,6 +26,8 @@ public abstract class AbstractActivity extends AppCompatActivity implements IAct
 
     protected SelectConfigData mConfigData = ConfigDataBuilderImpl.getInstance().getSelectConfigData();
 
+    protected PathSelectFragment pathSelectFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +36,9 @@ public abstract class AbstractActivity extends AppCompatActivity implements IAct
         //获取组件
         getComponents();
         //初始化数据
-        initData();
+        initData(savedInstanceState);
         //初始化视图
-        initView();
+        initView(savedInstanceState);
         //设置监听
         setListeners();
     }
@@ -46,15 +49,18 @@ public abstract class AbstractActivity extends AppCompatActivity implements IAct
     public void getComponents() {
     }
 
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
+
     }
 
-    public void initView() {
+
+    public void initView(Bundle savedInstanceState) {
         hideActionBar();
     }
 
     public void setListeners() {
     }
+
 
     protected void hideActionBar() {
         ActionBar actionBar = getSupportActionBar();

@@ -91,7 +91,7 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
     }
 
     @Override
-    public IConfigDataBuilder setSortType(int sortType) {
+    public IConfigDataBuilder setSortType(MConstants.SortRules sortType) {
         mConfigData.sortType = sortType;
         return this;
     }
@@ -274,6 +274,12 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
     @Override
     public IConfigDataBuilder setLifeCycle(AbstractLifeCycle lifeCycle) {
         mConfigData.lifeCycle = lifeCycle;
+        return this;
+    }
+
+    @Override
+    public IConfigDataBuilder setStatusBarColor(String hexColor) {
+        mConfigData.statusBarHexColor = hexColor;
         return this;
     }
 

@@ -15,6 +15,7 @@ import com.molihuan.pathselector.fragment.impl.PathSelectFragment;
 import com.molihuan.pathselector.hooks.AbstractLifeCycle;
 import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.listener.FileItemListener;
+import com.molihuan.pathselector.utils.MConstants;
 
 public interface IConfigDataBuilder {
 
@@ -33,7 +34,7 @@ public interface IConfigDataBuilder {
 
     IConfigDataBuilder setFrameLayoutId(@IdRes int frameLayoutId);
 
-    IConfigDataBuilder setSortType(int sortType);
+    IConfigDataBuilder setSortType(MConstants.SortRules sortType);
 
     IConfigDataBuilder setRadio();
 
@@ -97,6 +98,14 @@ public interface IConfigDataBuilder {
     IConfigDataBuilder setHandleItemListeners(CommonItemListener... handleItemListener);
 
     IConfigDataBuilder setLifeCycle(AbstractLifeCycle lifeCycle);
+
+    /**
+     * 设置状态栏颜色()
+     *
+     * @param hexColor:16进制颜色字符串
+     * @return
+     */
+    IConfigDataBuilder setStatusBarColor(String hexColor);
 
     PathSelectFragment show();
 

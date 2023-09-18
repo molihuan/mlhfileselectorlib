@@ -11,7 +11,9 @@ import java.util.Map;
  * @Author molihuan
  * @Date 2022/6/22 0:59
  */
-public class MConstants {
+
+public final class MConstants {
+
 
     //在路径下类型
     public static final int TYPE_UNDERDIR_ANRROID_DATA = 114;
@@ -44,15 +46,18 @@ public class MConstants {
     }
 
     //**************************    排序相关    ****************************
-    //按名称排序
-    public static final int SORT_NAME_ASC = 0;
-    public static final int SORT_NAME_DESC = 1;
-    //按时间排序
-    public static final int SORT_TIME_ASC = 2;
-    public static final int SORT_TIME_DESC = 3;
-    //按大小排序
-    public static final int SORT_SIZE_ASC = 4;
-    public static final int SORT_SIZE_DESC = 5;
+    public enum SortRules {
+        //按名称排序
+        SORT_NAME_ASC,
+        SORT_NAME_DESC,
+        //按时间排序
+        SORT_TIME_ASC,
+        SORT_TIME_DESC,
+        //按大小排序
+        SORT_SIZE_ASC,
+        SORT_SIZE_DESC
+    }
+
 
     //**************************    Fragment Tag标志    ****************************
     public static final String TAG_ACTIVITY_FRAGMENT = "framelayout_show_body_mlh";

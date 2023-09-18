@@ -102,6 +102,7 @@ public class TitlebarFragment extends AbstractTitlebarFragment implements View.O
 
     @Override
     public void initView() {
+        super.initView();
         relParent.setBackgroundColor(mConfigData.titlebarBG);
         setViewSize();
         setTitleFont();
