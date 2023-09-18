@@ -39,7 +39,7 @@
 
 #### 在开始之前可以给项目一个Star吗？非常感谢，你的支持是我唯一的动力。欢迎Star和Issues!
 
-#### 欢迎Pr，请Pr提交到dev分支
+#### 我们需要你的Pr，注意(请提交到dev分支)
 
 #### 项目地址：
 ##### [Github地址](https://github.com/molihuan/mlhfileselectorlib)
@@ -90,7 +90,8 @@ dependencyResolutionManagement {
 ```java
 dependencies {
     ...
-    // 请将"版本"替换成具体的版本号，如 1.1.11
+    // 建议使用最新发布版，最新发布版请看上面
+    // 请将"版本"替换成具体的版本号，如 1.1.15
     implementation 'io.github.molihuan:pathselector:版本'
 }
 ```
@@ -477,6 +478,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 | setHandleItemListeners(CommonItemListener... handleItemListener) | 设置长按弹出选项回调                                   |                                                 |
 | setTitlebarFragment(AbstractTitlebarFragment titlebarFragment) | 设置自定义标题栏UI                                     | 自己的Fragment必须继承AbstractTitlebarFragment  |
 | setHandleFragment(AbstractHandleFragment handleFragment)     | 设置长按弹出自定义UI                                   | 自己的Fragment必须继承AbstractHandleFragment    |
+| setLifeCycle(AbstractLifeCycle lifeCycle)                    | 设置一些生命周期钩子                                   | 重写对应的方法即可                              |
 | start()                                                      | 开始构建                                               | 必须调用                                        |
 | ......                                                       | ......                                                 |                                                 |
 
@@ -550,18 +552,18 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 ### LICENSE 
 
 ```
-   Copyright [2020] molihuan
+Copyright [2020] molihuan
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
 

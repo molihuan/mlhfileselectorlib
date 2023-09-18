@@ -27,6 +27,7 @@ public class CustomTitlebarFragment extends AbstractTitlebarFragment {
         btn1 = view.findViewById(R.id.my_btn1);
         btn2 = view.findViewById(R.id.my_btn2);
 
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +40,7 @@ public class CustomTitlebarFragment extends AbstractTitlebarFragment {
                 psf.selectAllFile(true);
             }
         });
+
     }
 
 }

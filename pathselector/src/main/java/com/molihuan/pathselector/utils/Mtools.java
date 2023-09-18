@@ -35,7 +35,7 @@ public class Mtools {
     public static void toast(CharSequence text) {
         toast(text, Toast.LENGTH_SHORT);
     }
-    
+
     public static void toast(CharSequence text, int time) {
         toast(ReflectTools.getApplicationByReflect(), text, time);
     }
@@ -61,11 +61,11 @@ public class Mtools {
         try {
             s = obj.toString();
         } catch (Exception e1) {
-            Log.e("Mtools--->log--E", "未重写toString方法");
+            Log.e("PathSelector", "未重写toString方法");
             try {
                 s = String.valueOf(obj);
             } catch (Exception e2) {
-                Log.e("Mtools--->log--E", "无法打印");
+                Log.e("PathSelector", "无法打印");
             }
         }
         log(s, LOG_TYPE_E);
@@ -77,13 +77,13 @@ public class Mtools {
         }
         switch (type) {
             case LOG_TYPE_E:
-                Log.e("Mtools--->log--E", text);
+                Log.e("PathSelector", text);
                 break;
             case LOG_TYPE_D:
-                Log.d("Mtools--->log--d", text);
+                Log.d("PathSelector", text);
                 break;
             default:
-                Log.i("Mtools--->log--i", text);
+                Log.i("PathSelector", text);
         }
     }
 

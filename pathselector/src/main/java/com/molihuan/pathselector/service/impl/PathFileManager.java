@@ -24,6 +24,9 @@ public class PathFileManager extends BaseFileManager {
     public List<FileBean> updateFileList(@Nullable Fragment fragment, String initPath, String currentPath, List<FileBean> fileList, FileListAdapter fileAdapter, List<String> fileTypeList) {
 
         fileList = initFileList(currentPath, fileList);
+
+        mLifeCycle.onBeforeUpdateFileList(fileList, fileAdapter);
+
         //列表中存在但未初始化的FileBean个数，即列表中FileBean所有字段都为null的个数
         int cacheFileSize = fileList.size() - 1;
 
@@ -99,6 +102,8 @@ public class PathFileManager extends BaseFileManager {
 
             }
         }
+
+        mLifeCycle.onAfterUpdateFileList(fileList, fileAdapter);
 
         return fileList;
     }

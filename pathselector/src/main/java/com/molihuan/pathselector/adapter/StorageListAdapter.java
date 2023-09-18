@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.entity.StorageBean;
@@ -19,7 +20,7 @@ import java.util.List;
  * @Date: 2022/11/22/21:55
  * @Description:
  */
-public class StorageListAdapter extends BaseQuickAdapter<StorageBean, BaseViewHolder> {
+public class StorageListAdapter extends BaseQuickAdapter<StorageBean, BaseViewHolder> implements LoadMoreModule {
 
     public StorageListAdapter(int layoutResId, @Nullable List<StorageBean> data) {
         super(layoutResId, data);

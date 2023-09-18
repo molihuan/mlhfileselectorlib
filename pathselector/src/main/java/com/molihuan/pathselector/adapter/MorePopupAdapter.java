@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.molihuan.pathselector.R;
 import com.molihuan.pathselector.entity.FontBean;
@@ -21,7 +22,7 @@ import java.util.List;
  * @Date: 2022/11/22/21:55
  * @Description:
  */
-public class MorePopupAdapter extends BaseQuickAdapter<CommonItemListener, BaseViewHolder> {
+public class MorePopupAdapter extends BaseQuickAdapter<CommonItemListener, BaseViewHolder> implements LoadMoreModule {
 
 
     public MorePopupAdapter(int layoutResId, @Nullable List<CommonItemListener> data) {

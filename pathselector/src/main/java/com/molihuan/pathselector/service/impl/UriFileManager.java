@@ -44,6 +44,9 @@ public class UriFileManager extends BaseFileManager {
         Objects.requireNonNull(context, "context is null");
 
         fileList = initFileList(currentPath, fileList);
+
+        mLifeCycle.onBeforeUpdateFileList(fileList, fileAdapter);
+
         //列表中存在但未初始化的FileBean个数，即列表中FileBean所有字段都为null的个数
         int cacheFileSize = fileList.size() - 1;
 
@@ -122,6 +125,8 @@ public class UriFileManager extends BaseFileManager {
                     addNumber++;//添加数量增加
                 }
             }
+
+            mLifeCycle.onAfterUpdateFileList(fileList, fileAdapter);
 
             return fileList;
 
@@ -249,7 +254,8 @@ public class UriFileManager extends BaseFileManager {
 
         }
 
-
+        mLifeCycle.onAfterUpdateFileList(fileList, fileAdapter);
+        
         return fileList;
     }
 

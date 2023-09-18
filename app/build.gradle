@@ -10,17 +10,17 @@ android {
         applicationId "com.molihuan.demo01"
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled true      // 开启代码混淆
+            minifyEnabled false      // 开启代码混淆
             zipAlignEnabled false    // 开启Zip压缩优化
-            shrinkResources true    // 移除未被使用的资源
+            shrinkResources false    // 移除未被使用的资源
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -38,13 +38,13 @@ dependencies {
 
     //远程aar集成
 
-//    implementation 'io.github.molihuan:pathselector:1.1.1'
+//    implementation 'io.github.molihuan:pathselector:1.1.15'
 
     //本地aar集成
 
 //    implementation fileTree(dir: "../pathselector/build/outputs/aar/", includes: ["*-release.aar", "*.jar"])
 //    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11'
-    implementation 'com.github.getActivity:XXPermissions:16.5'
+    implementation 'com.github.getActivity:XXPermissions:18.3'
 
     //调试用
 

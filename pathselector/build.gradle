@@ -36,11 +36,11 @@ dependencies {
 
     //For offline integration, please change the next line to implementation project(path: ':AndroidUtilCode') and copy the AndroidUtilCode folder to your project, because it depends on the AndroidUtilCode tool.
     embed project(path: ':AndroidUtilCode', configuration: 'default')
-    
+
     //embed(name: 'XXPermissions-16.2', ext: 'aar')
 
     //权限申请框架
-    implementation 'com.github.getActivity:XXPermissions:16.6'
+    implementation 'com.github.getActivity:XXPermissions:18.3'
     //万能适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11'
 

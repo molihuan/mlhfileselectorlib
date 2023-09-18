@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.molihuan.pathselectdemo.R;
 import com.molihuan.pathselectdemo.fragments.CustomTitlebarFragment;
+import com.molihuan.pathselectdemo.fragments.TestFragment;
 import com.molihuan.pathselector.PathSelector;
 import com.molihuan.pathselector.configs.PathSelectorConfig;
 import com.molihuan.pathselector.controller.AbstractFileBeanController;
@@ -107,10 +108,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 customTitlebarSelectShow();
                 break;
             case R.id.btn_test:
+
                 FragmentTools.fragmentReplace(
                         getSupportFragmentManager(),
                         R.id.fragment_select_show_area,
-                        new CustomTitlebarFragment(),
+                        new TestFragment(),
                         "55"
                 );
 
@@ -128,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void dialogSelectShow() {
         //获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
         selector = PathSelector.build(MainActivity.this, MConstants.BUILD_DIALOG)
-                .setRootPath("/storage/emulated/0/bilibili视频合并/")
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override

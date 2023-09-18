@@ -16,6 +16,7 @@ import com.molihuan.pathselector.fragment.AbstractHandleFragment;
 import com.molihuan.pathselector.fragment.AbstractTabbarFragment;
 import com.molihuan.pathselector.fragment.AbstractTitlebarFragment;
 import com.molihuan.pathselector.fragment.impl.PathSelectFragment;
+import com.molihuan.pathselector.hooks.AbstractLifeCycle;
 import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.listener.FileItemListener;
 import com.molihuan.pathselector.service.IConfigDataBuilder;
@@ -270,6 +271,12 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
         return this;
     }
 
+    @Override
+    public IConfigDataBuilder setLifeCycle(AbstractLifeCycle lifeCycle) {
+        mConfigData.lifeCycle = lifeCycle;
+        return this;
+    }
+
 
     @Override
     public PathSelectFragment show() {
@@ -277,14 +284,17 @@ public class ConfigDataBuilderImpl implements IConfigDataBuilder {
         try {
             //初始化各种fragment
             mConfigData.initAllFragment();
-            //初始化控制器
-            mConfigData.initController();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
 
+        //初始化控制器
+        mConfigData.initController();
+
+        //初始化Hook
+        mConfigData.initHook();
 
         return mConfigData.buildController.show();
     }

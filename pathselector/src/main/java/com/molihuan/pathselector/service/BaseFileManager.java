@@ -10,6 +10,7 @@ import com.molihuan.pathselector.controller.AbstractFileBeanController;
 import com.molihuan.pathselector.dao.SelectConfigData;
 import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.TabbarFileBean;
+import com.molihuan.pathselector.hooks.AbstractLifeCycle;
 import com.molihuan.pathselector.service.impl.ConfigDataBuilderImpl;
 import com.molihuan.pathselector.utils.FileTools;
 import com.molihuan.pathselector.utils.MConstants;
@@ -33,7 +34,9 @@ public abstract class BaseFileManager implements IFileDataManager {
     public static final int TYPE_REFRESH_FILE_TABBAR = 3;
 
     protected SelectConfigData mConfigData = ConfigDataBuilderImpl.getInstance().getSelectConfigData();
+
     protected AbstractFileBeanController mFileBeanController = mConfigData.fileBeanController;
+    protected AbstractLifeCycle mLifeCycle = mConfigData.lifeCycle;
 
     @Override
     public List<FileBean> initFileList(String currentPath, List<FileBean> fileList) {
@@ -219,7 +222,7 @@ public abstract class BaseFileManager implements IFileDataManager {
 
     @Override
     public List<TabbarFileBean> updateTabbarList(String initPath, String currentPath, List<TabbarFileBean> tabbarList, TabbarListAdapter tabbarAdapter) {
-        
+
         //currentPath = "/storage/emulated/0";
         tabbarList = initTabbarList(currentPath, tabbarList);
         //通过/分割
