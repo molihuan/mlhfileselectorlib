@@ -12,6 +12,7 @@ import com.molihuan.pathselector.fragment.AbstractHandleFragment;
 import com.molihuan.pathselector.fragment.AbstractTabbarFragment;
 import com.molihuan.pathselector.fragment.AbstractTitlebarFragment;
 import com.molihuan.pathselector.fragment.impl.PathSelectFragment;
+import com.molihuan.pathselector.hooks.AbstractLifeCycle;
 import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.listener.FileItemListener;
 
@@ -94,6 +95,8 @@ public interface IConfigDataBuilder {
     IConfigDataBuilder setAlwaysShowHandleFragment(Boolean alwaysShowHandleFragment);
 
     IConfigDataBuilder setHandleItemListeners(CommonItemListener... handleItemListener);
+
+    IConfigDataBuilder setLifeCycle(AbstractLifeCycle lifeCycle);
 
     PathSelectFragment show();
 

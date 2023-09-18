@@ -37,7 +37,7 @@ Automatically apply storage permission, support Android4.4 ~ 13, no longer need 
 
 #### Can you give the project a Star before starting? Thank you very much, your support is the only thing that keeps me going. Welcome Star and Issues!
 
-#### Welcome to Pr, please submit to the dev branch
+#### We need your Pr. Note (please Pr to dev branch)
 
 #### Project Address：
 ##### [Github](https://github.com/molihuan/mlhfileselectorlib)
@@ -88,7 +88,8 @@ dependencyResolutionManagement {
 ```java
 dependencies {
     ...
-    // Please replace "version" with a specific version number, e.g. 1.1.11
+    // We recommend using the latest release version, please see above for the latest release version
+    // Please replace "version" with a specific version number, e.g. 1.1.15
     implementation 'io.github.molihuan:pathselector:version'
 }
 ```
@@ -473,6 +474,7 @@ PathSelectFragment selector = PathSelector.build(this, MConstants.BUILD_DIALOG)
 | setHandleItemListeners(CommonItemListener... handleItemListener) | Set long press popup option callback                         |                                                              |
 | setTitlebarFragment(AbstractTitlebarFragment titlebarFragment) | Set custom title bar UI                                      | Your own Fragment must extend AbstractTitlebarFragment       |
 | setHandleFragment(AbstractHandleFragment handleFragment)     | Set long press to pop up custom UI                           | Your own Fragment must extend AbstractHandleFragment         |
+| setLifeCycle(AbstractLifeCycle lifeCycle)                    | Set some life cycle hooks                                    | Just rewrite the corresponding method                        |
 | start()                                                      | Start building                                               | Must be called                                               |
 | ......                                                       | ......                                                       | ......                                                       |
 

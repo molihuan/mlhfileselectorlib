@@ -136,7 +136,8 @@ public class PermissionsTools {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.make().show(R.string.tip_denial_authorization_mlh);
+//                            ToastUtils.make().show(R.string.tip_denial_authorization_mlh);
+                            Mtools.toast("general" + context.getString(R.string.tip_denial_authorization_mlh));
                             //如果是被永久拒绝就跳转到应用权限系统设置页面
                             //XXPermissions.startPermissionActivity(context, permissions);
                         } else {
@@ -189,7 +190,8 @@ public class PermissionsTools {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.make().show(R.string.tip_denial_authorization_mlh);
+//                            ToastUtils.make().show(R.string.tip_denial_authorization_mlh);
+                            Mtools.toast("special" + context.getString(R.string.tip_denial_authorization_mlh));
                             //如果是被永久拒绝就跳转到应用权限系统设置页面
                             XXPermissions.startPermissionActivity(context, permissions);
                         } else {

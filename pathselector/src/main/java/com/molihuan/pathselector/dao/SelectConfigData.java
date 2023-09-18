@@ -8,9 +8,11 @@ import androidx.fragment.app.FragmentManager;
 
 import com.blankj.molihuan.utilcode.util.ScreenUtils;
 import com.molihuan.pathselector.R;
+import com.molihuan.pathselector.adapter.FileListAdapter;
 import com.molihuan.pathselector.controller.AbstractBuildController;
 import com.molihuan.pathselector.controller.AbstractFileBeanController;
 import com.molihuan.pathselector.controller.impl.FileBeanControllerImpl;
+import com.molihuan.pathselector.entity.FileBean;
 import com.molihuan.pathselector.entity.FontBean;
 import com.molihuan.pathselector.fragment.AbstractFileShowFragment;
 import com.molihuan.pathselector.fragment.AbstractHandleFragment;
@@ -20,10 +22,13 @@ import com.molihuan.pathselector.fragment.impl.FileShowFragment;
 import com.molihuan.pathselector.fragment.impl.HandleFragment;
 import com.molihuan.pathselector.fragment.impl.TabbarFragment;
 import com.molihuan.pathselector.fragment.impl.TitlebarFragment;
+import com.molihuan.pathselector.hooks.AbstractLifeCycle;
 import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.listener.FileItemListener;
 import com.molihuan.pathselector.utils.MConstants;
 import com.molihuan.pathselector.utils.Mtools;
+
+import java.util.List;
 
 /**
  * @ClassName: SelectConfigData
@@ -76,6 +81,8 @@ public class SelectConfigData {
     public Boolean alwaysShowHandleFragment;//总是显示HandleFragment
     public CommonItemListener[] handleItemListeners;//最下方按钮 Item监听器
 
+    //生命周期钩子
+    public AbstractLifeCycle lifeCycle;
 
     //TODO 构建顺序 需要优化，减少不必要类的创建和一些赋值操作，减少开销
 
@@ -116,6 +123,8 @@ public class SelectConfigData {
         showHandleFragment = true;
         alwaysShowHandleFragment = false;
         handleItemListeners = null;//空即没有
+
+        lifeCycle = null;
 
         titlebarFragment = null;
         tabbarFragment = null;
@@ -194,15 +203,28 @@ public class SelectConfigData {
     /**
      * 初始化控制器
      */
-    public void initController() throws IllegalAccessException, InstantiationException {
-        Mtools.log("控制器Controller  init  start");
+    public void initController() {
+        //Mtools.log("控制器Controller  init  start");
 
         if (fileBeanController == null) {
             //没有设置就使用默认的fileBean控制器
             fileBeanController = new FileBeanControllerImpl();
         }
 
-        Mtools.log("控制器Controller  init  end");
+        //Mtools.log("控制器Controller  init  end");
+    }
+
+    public void initHook() {
+        if (lifeCycle == null) {
+            //没有设置就使用默认的生命周期钩子
+            lifeCycle = new AbstractLifeCycle() {
+                @Override
+                public void onAfterUpdateFileList(List<FileBean> fileList, FileListAdapter fileAdapter) {
+
+                }
+            };
+        }
+
     }
 
 
