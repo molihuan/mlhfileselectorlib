@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.UriPermission;
 import android.net.Uri;
 import android.os.Build;
+import android.os.storage.StorageVolume;
 import android.provider.DocumentsContract;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
@@ -22,6 +24,7 @@ import com.molihuan.pathselector.dialog.BaseDialog;
 import com.molihuan.pathselector.dialog.impl.MessageDialog;
 import com.molihuan.pathselector.entity.FontBean;
 
+import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +38,8 @@ public class PermissionsTools {
 
 
     public static final int PERMISSION_REQUEST_CODE = 54111;
+
+    public static final int SDCARD_URI_PERMISSION_REQUEST_CODE = 54112;
 
     //默认的uri构建后缀
     public static final int DEFAULT_URI_BUILD_SUFFIX_ANDROID_DATA = 156;
@@ -211,32 +216,41 @@ public class PermissionsTools {
      * @param fragment
      * @return
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private static boolean isGrantedUriPermission(Uri uri, Activity activity, Fragment fragment) {
-        return existsGrantedUriPermission(uri, activity, fragment) != null;
+
+    private static boolean isGrantedUriPermission(Uri uri, boolean isSd, Activity activity, Fragment fragment) {
+        return existsGrantedUriPermission(uri, isSd, activity, fragment) != null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static String existsGrantedUriPermission(Uri uri, Fragment fragment) {
-        return existsGrantedUriPermission(uri, null, fragment);
+
+    public static String existsGrantedUriPermission(Uri uri, boolean isSd, Fragment fragment) {
+        return existsGrantedUriPermission(uri, isSd, null, fragment);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static String existsGrantedUriPermission(Uri uri, Activity activity) {
-        return existsGrantedUriPermission(uri, activity, null);
+
+    public static String existsGrantedUriPermission(Uri uri, boolean isSd, Activity activity) {
+        return existsGrantedUriPermission(uri, isSd, activity, null);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private static String existsGrantedUriPermission(Uri uri, Activity activity, Fragment fragment) {
+
+    public static String existsGrantedUriPermission(Uri uri, boolean isSd, Activity activity, Fragment fragment) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
+            return null;
+        }
+
         if (fragment != null) {
             activity = fragment.getActivity();
         } else if (activity == null) {
-            throw new NullPointerException("fragment and activity cannot both be null");
+            throw new IllegalArgumentException("fragment and activity cannot both be null");
         }
         Mtools.log("请求权限的原始uri是:" + uri);
         //请求权限的原始uri是:content://com.android.externalstorage.documents/document/primary%3AAndroid%2Fdata
         //获取需要授权uri的字符串，还不能匹配，还需要进行处理
-        String reqUri = uri.toString().replace("documents/document/primary", "documents/tree/primary");
+        String reqUri;
+        if (isSd) {
+            reqUri = uri.toString().replaceFirst(".documents/root/", ".documents/tree/");
+        } else {
+            reqUri = uri.toString().replace("documents/document/primary", "documents/tree/primary");
+        }
 
         Mtools.log("请求权限处理后的uri(为了进行判断是否已经授权)是:" + reqUri);
 
@@ -260,18 +274,19 @@ public class PermissionsTools {
         return null;
     }
 
-    //********************       通过默认请求权限uri后缀构建完整的uri再进行跳转       ***************************
+    //********************       通过默认请求权限uri后缀构建完整的uri再进行跳转(不推荐)       ***************************
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void applyUriPermissionByDefault(int defaultUriBuildSuf, Activity activity) throws Exception {
-        applyUriPermissionByDefault(defaultUriBuildSuf, activity, null);
+    public static void applyUriPermissionByDefault(int defaultUriBuildSuf, int requestCode, Activity activity) throws Exception {
+        applyUriPermissionByDefault(defaultUriBuildSuf, requestCode, activity, null);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void applyUriPermissionByDefault(int defaultUriBuildSuf, Fragment fragment) throws Exception {
-        applyUriPermissionByDefault(defaultUriBuildSuf, null, fragment);
+    public static void applyUriPermissionByDefault(int defaultUriBuildSuf, int requestCode, Fragment fragment) throws Exception {
+        applyUriPermissionByDefault(defaultUriBuildSuf, requestCode, null, fragment);
     }
 
     /**
+     * (不推荐)
      * 提供两个默认的uri请求跳转(Android13无效，请使用其他方法)
      * 分别是:Android/data目录和Android/obb目录
      * 注意：Android13无法获得Android/data目录的读写权限，只能获得子目录的读写权限。使用另一种重载方法来获得Android/data子目录的读写权限
@@ -281,7 +296,7 @@ public class PermissionsTools {
      * @param fragment
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static void applyUriPermissionByDefault(int defaultUriBuildSuf, Activity activity, Fragment fragment) throws Exception {
+    private static void applyUriPermissionByDefault(int defaultUriBuildSuf, int requestCode, Activity activity, Fragment fragment) throws Exception {
         if (VersionTool.isAndroid13()) {
             throw new Exception("Android13 cannot get read and write permissions for the Android/data or obb directory and can only get read and write permissions for subdirectories. Use another reload method to obtain read and write permissions for the Android/data or obb subdirectory");
         }
@@ -298,16 +313,16 @@ public class PermissionsTools {
         }
 
         if (fragment != null) {
-            goApplyUriPermissionPage(uriSuf, false, fragment);
+            goApplyUriPermissionPage(uriSuf, false, requestCode, fragment);
         } else if (activity != null) {
-            goApplyUriPermissionPage(uriSuf, false, activity);
+            goApplyUriPermissionPage(uriSuf, false, requestCode, activity);
         } else {
             throw new NullPointerException("fragment and activity cannot both be null");
         }
     }
 
     /**
-     * 推荐使用此方法来获取权限
+     * 推荐使用此方法来获取权限(推荐使用)
      * 申请权限的路径:/storage/emulated/0/Android/data/bin.mt.plus
      * 跳转SAF授权页面的uri:content://com.android.externalstorage.documents/document/primary%3AAndroid%2Fdata%2Fbin.mt.plus
      * 存储授权信息:UriPermission {uri=content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata%2Fbin.mt.plus, modeFlags=3, persistedTime=1670643363607}
@@ -325,17 +340,18 @@ public class PermissionsTools {
      * @param activity
      */
     //********************       通过自定义请求权限uri后缀构建完整的uri再进行跳转       ***************************
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void goApplyUriPermissionPage(String uriSuf, boolean tree, Activity activity) {
-        goApplyUriPermissionPage(uriSuf, tree, activity, null);
+    public static void goApplyUriPermissionPage(String uriSuf, boolean isSd, boolean tree, int requestCode, Activity activity) {
+        goApplyUriPermissionPage(uriSuf, isSd, tree, requestCode, activity, null);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void goApplyUriPermissionPage(String uriSuf, boolean tree, Fragment fragment) {
-        goApplyUriPermissionPage(uriSuf, tree, null, fragment);
+
+    public static void goApplyUriPermissionPage(String uriSuf, boolean isSd, boolean tree, int requestCode, Fragment fragment) {
+        goApplyUriPermissionPage(uriSuf, isSd, tree, requestCode, null, fragment);
     }
 
     /**
+     * (推荐使用)
+     *
      * @param uriSuf   请求目录权限：/storage/emulated/0/Android/data/
      *                 uriSuf = "primary:Android/data";
      *                 请求目录权限：/storage/emulated/0/Android/obb/
@@ -344,13 +360,17 @@ public class PermissionsTools {
      * @param activity
      * @param fragment
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static void goApplyUriPermissionPage(String uriSuf, boolean tree, Activity activity, Fragment fragment) {
+
+    private static void goApplyUriPermissionPage(String uriSuf, boolean isSd, boolean tree, int requestCode, Activity activity, Fragment fragment) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return;
+        }
         /**
          * DocumentsContract.buildTreeDocumentUri():
          * content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata
          * DocumentsContract.buildDocumentUri():
          * content://com.android.externalstorage.documents/document/primary%3AAndroid%2Fdata
+         * buildFullUri
          */
         Uri uri;
         if (tree) {
@@ -361,41 +381,49 @@ public class PermissionsTools {
 
 
         if (fragment != null) {
-            goApplyUriPermissionPage(uri, fragment);
+            goApplyUriPermissionPage(uri, isSd, requestCode, fragment);
         } else if (activity != null) {
-            goApplyUriPermissionPage(uri, activity);
+            goApplyUriPermissionPage(uri, isSd, requestCode, activity);
         } else {
             throw new NullPointerException("fragment and activity cannot both be null");
         }
     }
 
-    //********************       通过完整的权限请求uri进行跳转       ***************************
-    private static void goApplyUriPermissionPage(String completeUri, Fragment fragment) {
+    //********************       通过完整的权限请求uri进行跳转(推荐使用)       ***************************
+    private static void goApplyUriPermissionPage(String completeUri, boolean isSd, int requestCode, Fragment fragment) {
         Uri uri = Uri.parse(completeUri);
-        goApplyUriPermissionPage(uri, null, fragment);
+        goApplyUriPermissionPage(uri, isSd, requestCode, null, fragment);
+    }
+
+    public static void goApplyUriPermissionPage(Uri uri, boolean isSd, int requestCode, Fragment fragment) {
+        goApplyUriPermissionPage(uri, isSd, requestCode, null, fragment);
     }
 
     public static void goApplyUriPermissionPage(Uri uri, Fragment fragment) {
-        goApplyUriPermissionPage(uri, null, fragment);
+        goApplyUriPermissionPage(uri, false, PERMISSION_REQUEST_CODE, null, fragment);
     }
 
     /**
-     * 跳转请求权限SAF页面
+     * 跳转请求权限SAF页面(推荐使用)
      *
      * @param completeUri 完整的请求Uri字符串
      * @param activity
      */
-    private static void goApplyUriPermissionPage(String completeUri, Activity activity) {
+    private static void goApplyUriPermissionPage(String completeUri, boolean isSd, int requestCode, Activity activity) {
         Uri uri = Uri.parse(completeUri);
-        goApplyUriPermissionPage(uri, activity, null);
+        goApplyUriPermissionPage(uri, isSd, requestCode, activity, null);
+    }
+
+    public static void goApplyUriPermissionPage(Uri uri, boolean isSd, int requestCode, Activity activity) {
+        goApplyUriPermissionPage(uri, isSd, requestCode, activity, null);
     }
 
     public static void goApplyUriPermissionPage(Uri uri, Activity activity) {
-        goApplyUriPermissionPage(uri, activity, null);
+        goApplyUriPermissionPage(uri, false, PERMISSION_REQUEST_CODE, activity, null);
     }
 
     /**
-     * 跳转请求权限SAF页面
+     * 跳转请求权限SAF页面(推荐使用)
      * 注意Android 13对 Android/data目录进行了更加严格的限制已经无法获取其权限了
      * 但是可以获取其子目录权限，我们可以对其子目录进行权限申请，从而达到操作Android/data目录的目的
      * 其子目录可以通过Android/data+本机安装软件包名来获得
@@ -412,13 +440,13 @@ public class PermissionsTools {
      * @param activity
      * @param fragment
      */
-    private static void goApplyUriPermissionPage(Uri uri, Activity activity, Fragment fragment) {
-        if (!VersionTool.isAndroid11()) {
-            return;
-        }
+    private static void goApplyUriPermissionPage(Uri uri, boolean isSd, int requestCode, Activity activity, Fragment fragment) {
+//        if (!VersionTool.isAndroid11()) {
+//            return;
+//        }
 
         //获取所有已授权并存储的Uri列表，遍历并判断需要申请的uri是否在其中,在则说明已经授权了
-        boolean isGet = isGrantedUriPermission(uri, activity, fragment);//这里会对activity重新赋值
+        boolean isGet = isGrantedUriPermission(uri, isSd, activity, fragment);//这里会对activity重新赋值
         if (isGet) {
             return;
         }
@@ -435,17 +463,176 @@ public class PermissionsTools {
                 .putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri);
 
         if (fragment != null) {
-            fragment.startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+            fragment.startActivityForResult(intent, requestCode);
         } else {
-            activity.startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+            activity.startActivityForResult(intent, requestCode);
         }
+    }
+
+    /**
+     * 获取SD卡权限
+     *
+     * @param activity
+     * @param sdName      SD卡名称
+     *                    可以通过{@link com.molihuan.pathselector.utils.ReflectTools#getStorageVolumes(Context)}获取StorageVolume列表再通过StorageVolume获取需要的内存卡名称
+     * @param requestCode
+     */
+    public static void applyUriPermissionPageWithSDcard(Activity activity, Fragment fragment, @NonNull String sdName, int requestCode) {
+
+        Uri uri = UriTools.buildSdRootUri(sdName);
+        //获取所有已授权并存储的Uri列表，遍历并判断需要申请的uri是否在其中,在则说明已经授权了
+        boolean isGet = isGrantedUriPermission(uri, true, activity, fragment);//这里会对activity重新赋值
+        if (isGet) {
+            return;
+        }
+
+        if (activity != null) {
+            PermissionsTools.goApplyUriPermissionPage(uri, true, requestCode, activity);
+        } else if (fragment != null) {
+            PermissionsTools.goApplyUriPermissionPage(uri, true, requestCode, fragment);
+        } else {
+            throw new IllegalArgumentException("fragment and activity cannot both be null");
+        }
+    }
+
+    public static void applyUriPermissionPageWithSDcard(Activity activity, @NonNull String sdName, int requestCode) {
+        applyUriPermissionPageWithSDcard(activity, null, sdName, requestCode);
+    }
+
+    public static void applyUriPermissionPageWithSDcard(Fragment fragment, @NonNull String sdName, int requestCode) {
+        applyUriPermissionPageWithSDcard(null, fragment, sdName, requestCode);
+    }
+
+    /**
+     * 获取SD卡权限(请使用{@link com.molihuan.pathselector.utils.PermissionsTools#applyUriPermissionPageWithSDcard(Activity, Fragment, String, int)})
+     *
+     * @param activity
+     * @param sdRootPath  sd卡的路径.可以通过{@link com.molihuan.pathselector.utils.ReflectTools#getStorageVolumes(Context)}获取StorageVolume列表再通过StorageVolume的getDirectory获取文件再通过文件获取路径
+     *                    获取
+     * @param requestCode 请求码
+     */
+    @Deprecated
+    public static void goApplyUriPermissionPageWithSDcard(Activity activity, @NonNull String sdRootPath, int requestCode) {
+        goApplyUriPermissionPageWithSDcard(activity, null, sdRootPath, requestCode);
+    }
+
+    @Deprecated
+    public static void goApplyUriPermissionPageWithSDcard(Fragment fragment, @NonNull String sdRootPath, int requestCode) {
+        goApplyUriPermissionPageWithSDcard(null, fragment, sdRootPath, requestCode);
+    }
+
+    @Deprecated
+    public static void goApplyUriPermissionPageWithSDcard(Activity activity, @NonNull String sdRootPath) {
+        goApplyUriPermissionPageWithSDcard(activity, null, sdRootPath, SDCARD_URI_PERMISSION_REQUEST_CODE);
+    }
+
+    @Deprecated
+    public static void goApplyUriPermissionPageWithSDcard(Fragment fragment, @NonNull String sdRootPath) {
+        goApplyUriPermissionPageWithSDcard(null, fragment, sdRootPath, SDCARD_URI_PERMISSION_REQUEST_CODE);
+    }
+
+    /**
+     * @param activity
+     * @param sdStorageVolume sd卡的StorageVolume,所有的StorageVolume可以通过{@link com.molihuan.pathselector.utils.ReflectTools#getStorageVolumes(Context)}获取
+     * @param requestCode
+     */
+    @Deprecated
+    public static void goApplyUriPermissionPageWithSDcard(Activity activity, @NonNull StorageVolume sdStorageVolume, int requestCode) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) {
+            return;
+        }
+        File volumeDirectory = sdStorageVolume.getDirectory();
+        if (volumeDirectory == null) {
+            return;
+        }
+        goApplyUriPermissionPageWithSDcard(activity, null, volumeDirectory.getAbsolutePath(), requestCode);
+    }
+
+    @Deprecated
+    public static void goApplyUriPermissionPageWithSDcard(Fragment fragment, @NonNull StorageVolume sdStorageVolume, int requestCode) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) {
+            return;
+        }
+        File volumeDirectory = sdStorageVolume.getDirectory();
+        if (volumeDirectory == null) {
+            return;
+        }
+
+        goApplyUriPermissionPageWithSDcard(null, fragment, volumeDirectory.getAbsolutePath(), requestCode);
+    }
+
+    @Deprecated
+    public static void goApplyUriPermissionPageWithSDcard(Activity activity, @NonNull StorageVolume sdStorageVolume) {
+
+        goApplyUriPermissionPageWithSDcard(activity, sdStorageVolume, SDCARD_URI_PERMISSION_REQUEST_CODE);
+    }
+
+    @Deprecated
+    public static void goApplyUriPermissionPageWithSDcard(Fragment fragment, @NonNull StorageVolume sdStorageVolume) {
+
+        goApplyUriPermissionPageWithSDcard(fragment, sdStorageVolume, SDCARD_URI_PERMISSION_REQUEST_CODE);
+    }
+
+    /**
+     * TODO 设置钩子函数在申请权限之前调用
+     * 获取SD卡权限(只支持安卓10+)
+     *
+     * @param activity    上下文对象
+     * @param fragment    上下文对象
+     * @param sdRootPath  sd卡的路径.可以通过{@link ReflectTools#getStorageVolumes(Context)}获取StorageVolume列表再通过StorageVolume的getDirectory获取文件再通过文件获取路径
+     *                    获取
+     * @param requestCode 请求码
+     */
+    @Deprecated
+    private static void goApplyUriPermissionPageWithSDcard(Activity activity, Fragment fragment, @NonNull String sdRootPath, int requestCode) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            return;
+        }
+
+        Context context;
+        if (fragment != null) {
+            context = fragment.getContext();
+        } else if (activity != null) {
+            context = activity;
+        } else {
+            throw new NullPointerException("fragment and activity cannot both be null");
+        }
+
+        Objects.requireNonNull(context);
+
+        List<StorageVolume> volume = ReflectTools.getStorageVolumes(context);
+
+        for (int i = 0; i < volume.size(); i++) {
+            StorageVolume storageVolume = volume.get(i);
+            File volumeDirectory = storageVolume.getDirectory();
+            if (volumeDirectory == null) {
+                return;
+            }
+
+            String rootPath = volumeDirectory.getAbsolutePath();
+            //判断是否为申请权限的路径
+            if (sdRootPath.equals(rootPath)) {
+                Intent intent = storageVolume.createOpenDocumentTreeIntent();
+//                Bundle extras = intent.getExtras();
+//                content://com.android.externalstorage.documents/root/0BFD-0C17
+//                Uri parcelable = (Uri) extras.get(DocumentsContract.EXTRA_INITIAL_URI);
+//                Mtools.log(parcelable.toString());
+
+                if (fragment != null) {
+                    fragment.startActivityForResult(intent, requestCode);
+                } else {
+                    activity.startActivityForResult(intent, requestCode);
+                }
+            }
+        }
+
     }
 
 
     /**
      * TODO 这里好像解释有问题，大家自己辨别
      * 注意!!!!!:
-     * 这是旧版本不兼容安卓13，请用{@link #goApplyUriPermissionPage(Uri, Activity, Fragment)}替代
+     * 这是旧版本不兼容安卓13，请用{@link #goApplyUriPermissionPage(Uri, boolean, int Activity, Fragment)}替代
      * <p>
      * (注意)requestUri必须和savedUri配套使用，详情请看下面的解释
      *

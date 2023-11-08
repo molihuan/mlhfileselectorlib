@@ -1,5 +1,6 @@
 package com.molihuan.pathselector.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,7 +9,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
+import androidx.fragment.app.Fragment;
 
 import com.blankj.molihuan.utilcode.util.FileUtils;
 
@@ -45,6 +48,20 @@ public class UriTools {
     //uri路径分割符
     public static final String URI_SEPARATOR = "%2F";
 
+    public static boolean exists(String uriPath, Activity activity, Fragment fragment) {
+        if (fragment != null) {
+            activity = fragment.getActivity();
+        } else if (activity == null) {
+            throw new NullPointerException("fragment and activity cannot both be null");
+        }
+
+        Uri uri = UriTools.path2Uri(uriPath, false);
+        String existsPermission = PermissionsTools.existsGrantedUriPermission(uri, false, activity);
+        Uri targetUri = Uri.parse(existsPermission + uri.toString().replaceFirst(UriTools.URI_PERMISSION_REQUEST_COMPLETE_PREFIX, ""));
+
+        DocumentFile rootDocumentFile = DocumentFile.fromSingleUri(activity, targetUri);
+        return rootDocumentFile == null ? false : rootDocumentFile.exists();
+    }
 
     /**
      * 获取Android/Data下的软件包名
@@ -81,8 +98,10 @@ public class UriTools {
      * @param tree false
      * @return content://com.android.externalstorage.documents/document/primary%3AAndroid%2Fdata%2Fmoli%2Fm3d%2Fm5.txt
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static Uri path2Uri(String path, boolean tree) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return null;
+        }
         /**
          * DocumentsContract.buildTreeDocumentUri():
          * content://com.android.externalstorage.documents/tree/primary%3AAndroid%2Fdata
@@ -98,6 +117,19 @@ public class UriTools {
             uri = DocumentsContract.buildDocumentUri(URI_PERMISSION_REQUEST_PREFIX, uriSuf);
         }
         return uri;
+    }
+
+    /**
+     * 构建sd卡根目录的uri
+     *
+     * @param sdName 名称(如0BFD-0C17)
+     * @return (content : / / com.android.externalstorage.documents / root / 0BFD - 0C17)
+     */
+    public static @Nullable Uri buildSdRootUri(String sdName) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return null;
+        }
+        return DocumentsContract.buildRootUri(UriTools.URI_PERMISSION_REQUEST_PREFIX, sdName);
     }
 
 }

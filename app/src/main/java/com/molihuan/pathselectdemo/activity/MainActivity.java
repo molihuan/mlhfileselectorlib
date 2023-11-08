@@ -1,18 +1,21 @@
 package com.molihuan.pathselectdemo.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.molihuan.pathselectdemo.R;
 import com.molihuan.pathselectdemo.fragments.CustomTitlebarFragment;
-import com.molihuan.pathselectdemo.fragments.TestFragment;
 import com.molihuan.pathselector.PathSelector;
 import com.molihuan.pathselector.configs.PathSelectorConfig;
 import com.molihuan.pathselector.controller.AbstractFileBeanController;
@@ -22,9 +25,9 @@ import com.molihuan.pathselector.fragment.BasePathSelectFragment;
 import com.molihuan.pathselector.fragment.impl.PathSelectFragment;
 import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.listener.FileItemListener;
-import com.molihuan.pathselector.utils.FragmentTools;
 import com.molihuan.pathselector.utils.MConstants;
 import com.molihuan.pathselector.utils.Mtools;
+import com.molihuan.pathselector.utils.PermissionsTools;
 
 import java.util.List;
 
@@ -86,12 +89,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCustomImgSelector.setOnClickListener(this);
     }
 
+    @SuppressLint("WrongConstant")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //保存sd卡权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (requestCode == PermissionsTools.SDCARD_URI_PERMISSION_REQUEST_CODE) {
+                Mtools.log("88888888888");
+                if (data != null) {
+                    Uri uri;
+                    if ((uri = data.getData()) != null) {
+                        getContentResolver()
+                                .takePersistableUriPermission(uri,
+                                        data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                                );
+                    }
+                }
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -109,17 +129,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_test:
 
-                FragmentTools.fragmentReplace(
-                        getSupportFragmentManager(),
-                        R.id.fragment_select_show_area,
-                        new TestFragment(),
-                        "55"
-                );
+//                FragmentTools.fragmentReplace(
+//                        getSupportFragmentManager(),
+//                        R.id.fragment_select_show_area,
+//                        new TestFragment(),
+//                        "55"
+//                );
+                //content://com.android.externalstorage.documents/document/primary%3AAndroid%2Fdata%2Fcom.google.android.apps.maps
+//                String s = "1208-4102";
+//                PermissionsTools.applyUriPermissionPageWithSDcard(this, s, PermissionsTools.SDCARD_URI_PERMISSION_REQUEST_CODE);
+//                List<StorageVolume> volume = ReflectTools.getStorageVolumes(this);
+//
+//                for (int i = 0; i < volume.size(); i++) {
+//                    StorageVolume storageVolume = volume.get(i);
+//                    if (!storageVolume.isEmulated()) {
+//                        PermissionsTools.goApplyUriPermissionPageWithSDcard(this, storageVolume);
+//                    }
+//                }
+
+
+//                byte[] data = "你".getBytes();
+//                String path = "/storage/emulated/0/Android/data/bin.mt.plus";
+//                String path1 = "/storage/emulated/0/Android/data/bin.mt.plus/2.txt";
+//                String path2 = "/storage/emulated/0/Android/data/bin.mt.plus/files";
+//                String path3 = "/storage/emulated/0/Android/data/bin.mt.plus/xxxx";
+//                String path4 = "/storage/emulated/0/MT2/2.txt";
+//                String path5 = "/storage/emulated/0/Android/data/bin.mt.plus/temp";
+//                String path6 = "/storage/emulated/0/Android/data/bin.mt.plus/temp/2.txt";
+//                boolean exists = DocumentFileTools.exists(path1, this);
+//                Mtools.log("77777777" + exists);
+//                DocumentFileTools.createFile(path, MConstants.mimeTypeMap.get("txt"), "2.txt", this, data, true);
+//                DocumentFileTools.delete(path2, this);
+//                DocumentFileTools.createDirectory(path3, "xxxxx", this);
+//                DocumentFileTools.rename(path1, "xxxxx.txt", this);
+//                DocumentFileTools.copyFile2Uri(new File(path4), path2, this, false);
+//                DocumentFileTools.copyUri2Uri(path1, path5, this, false);
+//                DocumentFileTools.copyUri2File(path1, path4, this, false);
+
 
                 break;
             case R.id.btn_custom_filebean_img_selector:
                 customFilebeanImgSelectShow();
                 break;
+            default:
         }
     }
 
@@ -130,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void dialogSelectShow() {
         //获取PathSelectFragment实例onBackPressed中处理返回按钮点击事件
         selector = PathSelector.build(MainActivity.this, MConstants.BUILD_DIALOG)
+                .setAlwaysShowHandleFragment(true)
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
@@ -149,22 +202,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                 )
                 .setHandleItemListeners(
-                        new CommonItemListener("OK") {
+                        new CommonItemListener("选择文件夹") {
                             @Override
                             public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
-                                StringBuilder builder = new StringBuilder();
-                                builder.append("you selected:\n");
-                                for (FileBean fileBean : selectedFiles) {
-                                    builder.append(fileBean.getPath() + "\n");
+                                switch (selectedFiles.size()) {
+                                    case 0:
+                                        Mtools.toast("你选择的是：" + currentPath);
+                                        break;
+                                    case 1:
+                                        Mtools.toast("你选择的是：" + selectedFiles.get(0).getPath());
+                                        break;
+                                    default:
+                                        Mtools.toast("不能选择多个文件夹");
                                 }
-                                Mtools.toast(builder.toString());
                                 return false;
                             }
                         },
                         new CommonItemListener("cancel") {
                             @Override
                             public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
-                                pathSelectFragment.openCloseMultipleMode(false);
+
 
                                 return false;
                             }
@@ -234,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Constants.BUILD_ACTIVITY为ACTIVITY模式
         selector = PathSelector.build(this, MConstants.BUILD_ACTIVITY)
                 .setRequestCode(635)
-                .setStatusBarColor("#000000")
+                .setStatusBarColor("#ff0000")
                 .setMorePopupItemListeners(
                         new CommonItemListener("SelectAll") {
                             @Override
