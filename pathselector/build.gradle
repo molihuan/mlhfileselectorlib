@@ -48,7 +48,8 @@ dependencies {
     implementation 'com.github.xuexiangjys.XTask:xtask-core:1.0.2'
 
     //使用这个包遍历Android/data目录
-    implementation 'androidx.documentfile:documentfile:1.0.1'
+//    implementation 'androidx.documentfile:documentfile:1.0.1'
+    implementation 'androidx.documentfile:documentfile:1.1.0-alpha01'
     //基础控件
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.3.0'

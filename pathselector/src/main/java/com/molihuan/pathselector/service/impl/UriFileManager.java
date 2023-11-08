@@ -60,7 +60,7 @@ public class UriFileManager extends BaseFileManager {
             File tempSubFile;
             for (int i = 0; i < packageNames.size(); i++) {
                 tempSubFile = new File(currentPath, packageNames.get(i));
-                //不存在就不添加
+                //存在就添加
                 if (tempSubFile.exists()) {
                     subFiles.add(tempSubFile);
                 }
@@ -136,7 +136,7 @@ public class UriFileManager extends BaseFileManager {
 
             Uri uri = UriTools.path2Uri(currentPath, false);
             //获取权限,没有权限返回null有权限返回授权uri字符串
-            String existsPermission = PermissionsTools.existsGrantedUriPermission(uri, fragment);
+            String existsPermission = PermissionsTools.existsGrantedUriPermission(uri, false, fragment);
 
             if (existsPermission == null) {
                 //没有权限申请权限
@@ -184,7 +184,7 @@ public class UriFileManager extends BaseFileManager {
             Objects.requireNonNull(rootDocumentFile, "rootDocumentFile is null");
 
             //创建一个 DocumentFile表示以给定的 Uri根的文档树。其实就是获取子目录的权限
-            DocumentFile pickedDir = rootDocumentFile.fromTreeUri(context, targetUri);
+            DocumentFile pickedDir = DocumentFile.fromTreeUri(context, targetUri);
             Objects.requireNonNull(pickedDir, "pickedDir is null");
 
             DocumentFile[] documentFiles = pickedDir.listFiles();

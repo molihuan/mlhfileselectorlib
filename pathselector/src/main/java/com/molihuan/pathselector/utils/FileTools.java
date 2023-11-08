@@ -6,6 +6,8 @@ import com.blankj.molihuan.utilcode.util.ConvertUtils;
 import com.blankj.molihuan.utilcode.util.FileUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -69,6 +71,30 @@ public class FileTools {
         } else {
             int lastSep = filePath.lastIndexOf(File.separator);
             return lastSep == -1 ? "" : filePath.substring(0, lastSep);
+        }
+    }
+
+    /**
+     * 根据绝对路径获取文件夹名称
+     *
+     * @param directoryPath
+     * @return
+     */
+    public static String getDirectoryName(String directoryPath) {
+        // 去除末尾的斜杠
+        if (directoryPath.endsWith(File.separator)) {
+            directoryPath = directoryPath.substring(0, directoryPath.length() - 1);
+        }
+        // 获取最后一个斜杠的索引
+        int lastSlashIndex = directoryPath.lastIndexOf(File.separator);
+
+        if (lastSlashIndex >= 0 && lastSlashIndex < directoryPath.length() - 1) {
+            // 截取最后一个斜杠之后的部分
+            String directoryName = directoryPath.substring(lastSlashIndex + 1);
+
+            return directoryName;
+        } else {
+            return "";
         }
     }
 
@@ -218,6 +244,34 @@ public class FileTools {
             int lastSep = filePath.lastIndexOf(File.separator);
             return lastSep == -1 ? filePath : filePath.substring(lastSep + 1);
         }
+    }
+
+    public static byte[] fileToByteArray(File file) {
+        FileInputStream fis = null;
+        byte[] byteArray;
+
+        try {
+            // 创建 FileInputStream 对象
+            fis = new FileInputStream(file);
+
+            // 创建字节数组，长度为文件的长度
+            byteArray = new byte[(int) file.length()];
+
+            // 读取文件内容到字节数组
+            fis.read(byteArray);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return byteArray;
     }
 
     public static boolean stringIsEmpty(String s) {

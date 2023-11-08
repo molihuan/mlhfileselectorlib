@@ -3,6 +3,7 @@ package com.molihuan.pathselector.fragment.impl;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
@@ -320,6 +321,23 @@ public class PathSelectFragment extends BasePathSelectFragment {
                 }
             }
         }
+        //保存sd卡权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (requestCode == PermissionsTools.SDCARD_URI_PERMISSION_REQUEST_CODE) {
+                if (data != null) {
+                    Uri uri;
+                    if ((uri = data.getData()) != null) {
+                        mActivity.getContentResolver()
+                                .takePersistableUriPermission(uri,
+                                        data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                                );
+                    }
+                    //更新列表数据
+                    fileShowFragment.updateFileList();
+                }
+            }
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 

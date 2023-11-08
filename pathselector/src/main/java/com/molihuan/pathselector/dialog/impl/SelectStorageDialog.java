@@ -63,6 +63,10 @@ public class SelectStorageDialog extends BaseDialog implements OnItemClickListen
         storageList = new ArrayList<>();
         //通过反射的方式得到所有的存储路径（内部存储+外部存储）
         List<String> allStoragePath = ReflectTools.getAllStoragePath(mContext);
+//        List<StorageVolume> storageVolumes = ReflectTools.getStorageVolumes(mContext);
+//        String s = storageVolumes.get(0).getDirectory().getName();
+//        Mtools.log(s);
+
         for (String storagePath : allStoragePath) {
             storageList.add(new StorageBean(storagePath, false));
         }
@@ -95,6 +99,8 @@ public class SelectStorageDialog extends BaseDialog implements OnItemClickListen
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.confirm_general_title_recyview_btn_mlh) {
+
+
             //确定按钮
             if (selectedStorage != null) {
                 //改变初始路径

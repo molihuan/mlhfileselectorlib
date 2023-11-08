@@ -3,13 +3,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdk 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
+
         applicationId "com.molihuan.demo01"
         minSdkVersion 25
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 2
         versionName "1.1"
         multiDexEnabled true
@@ -34,11 +35,13 @@ android {
 }
 
 dependencies {
-//    implementation fileTree(dir: "libs", includes: ["*.aar", "*.jar"])
+    implementation fileTree(dir: "libs", includes: ["*.aar", "*.jar"])
+
+    implementation 'com.lazygeniouz:dfc:1.0.7'
 
     //远程aar集成
 
-//    implementation 'io.github.molihuan:pathselector:1.1.15'
+//    implementation 'io.github.molihuan:pathselector:1.1.16'
 
     //本地aar集成
 
@@ -47,20 +50,17 @@ dependencies {
     implementation 'com.github.getActivity:XXPermissions:18.3'
 
     //调试用
-
     implementation project(path: ':pathselector')
 
     //基础包
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
 
     //使用这个包遍历并操作Android/data目录
-    implementation 'androidx.documentfile:documentfile:1.0.1'
+    implementation 'androidx.documentfile:documentfile:1.1.0-alpha01'
 
-    //学习异步库
-    implementation 'com.github.xuexiangjys.XTask:xtask-core:1.0.2'
 //    implementation project(path: ':AndroidUtilCode')
 
     testImplementation 'junit:junit:4.12'
