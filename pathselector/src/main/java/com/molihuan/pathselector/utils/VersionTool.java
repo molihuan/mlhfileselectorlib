@@ -49,5 +49,19 @@ public class VersionTool {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
+    /**
+     * 是否是 Android 5.0 及以上版本
+     */
+    public static boolean isAndroid5() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    /**
+     * 是否是 Android 4.4 及以上版本
+     */
+    public static boolean isAndroid4() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    }
+
 
 }

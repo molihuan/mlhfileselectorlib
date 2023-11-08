@@ -107,7 +107,7 @@ PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog构建方式
                     public boolean onClick(View v, TextView tv, List<FileBean> selectedFiles, String currentPath, BasePathSelectFragment pathSelectFragment) {
                         
                         /**取消dialog弹窗
- * pathSelectFragment.dismiss();
+ * pathSelectFragment.close();
  */
 
                         StringBuilder builder = new StringBuilder();
