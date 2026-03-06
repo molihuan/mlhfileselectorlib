@@ -13,6 +13,19 @@
 <p align="center">support custom UI,support SD card.</p>
 <p align="center">(The Keyword:file selector operator android/data android 11 android 13)</p>
 
+# ⚠️ Project Status: Deprecated / 项目状态：已停止维护
+
+## English
+
+This repository is **no longer actively maintained**.
+
+* No new features will be added
+* Bug fixes are unlikely
+* Pull requests may not be reviewed
+
+#### There is a bug in this library. Please use another library instead
+
+
 ## Language(语言)
 
 #### **[Chinese](./README.md)** | [English](./README_EN.md)

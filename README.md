@@ -14,6 +14,29 @@
 <p align="center">(Library that provides file or path selection on Android, automatically apply for storage permission, support Android 4.4 to 13, support Android/data and Android/obb directory access, support custom UI,support SD card.The Keyword:file selector operator android/data android 11 android 13)</p>
 
 
+# ⚠️ Project Status: Deprecated / 项目状态：已停止维护
+
+## English
+
+This repository is **no longer actively maintained**.
+
+* No new features will be added
+* Bug fixes are unlikely
+* Pull requests may not be reviewed
+
+#### There is a bug in this library. Please use another library instead
+---
+## 中文
+
+该仓库 **已停止维护**。
+
+* 不再添加新功能
+* 不太可能修复 Bug
+* Pull Request 可能不会被审查
+
+#### 这个库有bug请使用其他库代替
+
+
 
 ## 语言(Language)
 
