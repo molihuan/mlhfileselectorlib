@@ -31,8 +31,8 @@ This repository is **no longer actively maintained**.
 该仓库 **已停止维护**。
 
 * 不再添加新功能
-* 不太可能修复 Bug
-* Pull Request 可能不会被审查
+* 不再修复 Bug
+* Pull Request 不会被审查
 
 #### 这个库有bug请使用其他库代替
 

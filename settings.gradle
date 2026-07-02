@@ -1,4 +1,0 @@
-include ':pathselector'
-include ':app'
-rootProject.name = "demo01"
-include ':AndroidUtilCode'
